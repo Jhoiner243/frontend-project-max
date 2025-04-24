@@ -1,0 +1,136 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.5rem;
+
+  /* Light theme (basado en shadcn pero con negro) */
+  --background: 0 0% 100%; /* Blanco puro */
+  --foreground: 0 0% 0%; /* Negro puro */
+
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 0%;
+
+  --primary: 0 0% 0%; /* Negro como color primario */
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 0 0% 96%; /* Gris muy claro */
+  --secondary-foreground: 0 0% 0%;
+
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%; /* Gris medio */
+
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 0%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 0 0% 90%; /* Gris claro para bordes */
+  --input: 0 0% 90%;
+  --ring: 0 0% 0%; /* Negro para el anillo de focus */
+
+  /* Colores para gráficos */
+  --chart-1: 0 0% 0%; /* Negro */
+  --chart-2: 0 0% 40%; /* Gris oscuro */
+  --chart-3: 0 0% 70%; /* Gris medio */
+  --chart-4: 0 0% 85%; /* Gris claro */
+  --chart-5: 0 0% 95%; /* Gris muy claro */
+}
+
+.dark {
+  /* Dark theme - Elegante esquema negro */
+  --background: 0 0% 5%; /* Negro casi puro */
+  --foreground: 0 0% 95%; /* Casi blanco */
+
+  --card: 0 0% 7%;
+  --card-foreground: 0 0% 95%;
+
+  --popover: 0 0% 8%;
+  --popover-foreground: 0 0% 95%;
+
+  --primary: 0 0% 95%; /* Blanco como primario en dark */
+  --primary-foreground: 0 0% 5%;
+
+  --secondary: 0 0% 15%;
+  --secondary-foreground: 0 0% 95%;
+
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 70%;
+
+  --accent: 0 0% 20%;
+  --accent-foreground: 0 0% 95%;
+
+  --destructive: 0 70% 50%;
+  --destructive-foreground: 0 0% 95%;
+
+  --border: 0 0% 20%; /* Bordes gris oscuro */
+  --input: 0 0% 20%;
+  --ring: 0 0% 60%; /* Anillo gris medio */
+
+  /* Colores para gráficos en dark mode */
+  --chart-1: 0 0% 95%; /* Blanco */
+  --chart-2: 0 0% 75%; /* Gris claro */
+  --chart-3: 0 0% 50%; /* Gris medio */
+  --chart-4: 0 0% 30%; /* Gris oscuro */
+  --chart-5: 0 0% 15%; /* Gris muy oscuro */
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    *:focus-visible {
+      @apply outline-ring outline-2 outline-offset-2;
+    }
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
