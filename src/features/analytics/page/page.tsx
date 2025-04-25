@@ -2,13 +2,9 @@ import { ChartAreaInteractive } from "@/components/app-sidebar/components/chart-
 import { ClientAnaliticComponent } from "../components/clientes-chart";
 import { PedidosAnaliticaComponent } from "../components/pedidos-chart";
 import { ProductAnaliticComponent } from "../components/productos-chart";
-import {
-  AnaliticsProvider,
-  useAnaliticsContext,
-} from "../context/profit.context";
+import { AnaliticsProvider } from "../context/profit.context";
 
 export default function AnaliticaPage() {
-  const { AnaliticsClient } = useAnaliticsContext();
   return (
     <AnaliticsProvider>
       <div className="container mx-auto px-4 py-8">
@@ -31,7 +27,7 @@ export default function AnaliticaPage() {
 
           <div className="space-y-6">
             <div className="bg-card rounded-xl shadow-sm">
-              <ClientAnaliticComponent clientes={AnaliticsClient} />
+              <ClientAnaliticComponent />
             </div>
           </div>
         </div>

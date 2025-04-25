@@ -36,8 +36,6 @@ export const useLoginHook = () => {
     try {
       // Validación completa del formulario
       const validatedData = loginSchema.parse(loginData);
-
-      console.log("Formulario válido:", validatedData);
       const result = await loginUser(validatedData).unwrap();
       localStorage.setItem("access_token", result.accessToken);
       if (result.message === "User not found") {

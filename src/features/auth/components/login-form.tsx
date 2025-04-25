@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
 import type React from "react";
 import { Link } from "react-router-dom";
 import { useLoginHook } from "../hooks/use-login";
@@ -17,7 +18,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const { handleChange, handleSubmit, error } = useLoginHook();
+  const { handleChange, handleSubmit, error, isLoading, loginData } =
+    useLoginHook();
   return (
     <div className={cn("flex flex-col gap-6 bg-black", className)} {...props}>
       <Card>
@@ -74,8 +76,19 @@ export function LoginForm({
                     required
                   />
                 </div>
-                <Button type="submit" className="w-full">
-                  Login
+                <Button
+                  type="submit"
+                  disabled={isLoading === true || loginData === undefined}
+                  className="w-full"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="animate-spin" />
+                      <p>Entrando...</p>
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
               </div>
               <div className="text-center text-sm">

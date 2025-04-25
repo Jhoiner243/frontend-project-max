@@ -16,7 +16,9 @@ import {
   ChartContainer,
   ChartTooltip,
 } from "@/components/ui/chart";
+import { useGetAnaliticsClientQuery } from "../service/api";
 import { ClientesAnalitica } from "../types/analitics.entity";
+import IsLoadingComponent from "./IsLoadingComponent";
 
 // Configuración del gráfico
 const chartConfig = {
@@ -45,11 +47,12 @@ const procesarDatosClientes = (datos: ClientesAnalitica[]) => {
     .sort((a, b) => b.pedidos - a.pedidos);
 };
 
-export function ClientAnaliticComponent({
-  clientes,
-}: {
-  clientes: ClientesAnalitica[];
-}) {
+export function ClientAnaliticComponent() {
+  const { data: clientes, isLoading } = useGetAnaliticsClientQuery();
+  if (isLoading) {
+    return <IsLoadingComponent />;
+  }
+  if (!clientes) return null;
   const datosProcesados = procesarDatosClientes(clientes);
 
   return (

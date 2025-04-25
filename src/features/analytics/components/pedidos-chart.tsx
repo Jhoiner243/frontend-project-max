@@ -1,8 +1,7 @@
-/* eslint-disable react/react-in-jsx-scope */
-"use client"
+"use client";
 
-import { TrendingUp } from "lucide-react"
-import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
+import { TrendingUp } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 import {
   Card,
@@ -10,35 +9,39 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle
-} from "@/components/ui/card"
+  CardTitle,
+} from "@/components/ui/card";
 import {
   ChartConfig,
   ChartContainer,
-  ChartTooltip
-} from "@/components/ui/chart"
-import { useAnaliticsContext } from "../context/profit.context"
+  ChartTooltip,
+} from "@/components/ui/chart";
+import { useGetAnaliticsPedidosQuery } from "../service/api";
+import IsLoadingComponent from "./IsLoadingComponent";
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "hsl(var(--chart-1))",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function PedidosAnaliticaComponent({
   title,
   description,
 }: {
-  title: string
-  description: string
+  title: string;
+  description: string;
 }) {
-  // Usamos el contexto para obtener los datos
-  const { AnaliticsPedidos } = useAnaliticsContext();
+  const { data: AnaliticsPedidos, isLoading } = useGetAnaliticsPedidosQuery();
+  if (isLoading) return <IsLoadingComponent />;
 
+  if (AnaliticsPedidos?.diario === undefined) return null;
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return `${date.toLocaleString('default', { month: 'short' })} ${date.getDate()}`;
+    return `${date.toLocaleString("default", {
+      month: "short",
+    })} ${date.getDate()}`;
   };
 
   return (
@@ -49,10 +52,7 @@ export function PedidosAnaliticaComponent({
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig}>
-          <BarChart
-            data={AnaliticsPedidos}
-            margin={{ top: 20 }}
-          >
+          <BarChart data={AnaliticsPedidos.diario} margin={{ top: 20 }}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="periodo"
@@ -61,28 +61,24 @@ export function PedidosAnaliticaComponent({
               tickMargin={10}
               axisLine={false}
             />
-            <ChartTooltip 
-              cursor={false} 
-              content={({ active, payload }) => (
+            <ChartTooltip
+              cursor={false}
+              content={({ active, payload }) =>
                 active && payload?.length ? (
                   <div className="bg-background p-2 border rounded">
                     <p>{formatDate(payload[0].payload.periodo)}</p>
                     <p>Pedidos: {payload[0].value}</p>
                   </div>
                 ) : null
-              )}
+              }
             />
-            <Bar 
-              dataKey="pedidos" 
-              fill="var(--color-desktop)" 
-              radius={8}
-            >
-              <LabelList 
+            <Bar dataKey="pedidos" fill="var(--color-desktop)" radius={8}>
+              <LabelList
                 dataKey="pedidos"
-                position="top" 
-                offset={12} 
-                className="fill-foreground" 
-                fontSize={12} 
+                position="top"
+                offset={12}
+                className="fill-foreground"
+                fontSize={12}
               />
             </Bar>
           </BarChart>
@@ -97,5 +93,5 @@ export function PedidosAnaliticaComponent({
         </div>
       </CardFooter>
     </Card>
-  )
+  );
 }

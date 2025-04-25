@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { apiAnalitics } from "../features/analytics/service/api";
 import { fetchBaseAuth } from "../features/auth/services/service";
 import { fetchApiInvoices } from "../features/invoices/service/api";
 import { fetchBaseApi } from "../features/notifications/service";
@@ -11,10 +12,12 @@ export const store = configureStore({
     [fetchBaseAuth.reducerPath]: fetchBaseAuth.reducer,
     [fetchApiCategories.reducerPath]: fetchApiCategories.reducer,
     [fetchApiInvoices.reducerPath]: fetchApiInvoices.reducer,
+    [apiAnalitics.reducerPath]: apiAnalitics.reducer,
     [api.reducerPath]: api.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
+      apiAnalitics.middleware,
       fetchBaseApi.middleware,
       fetchBaseAuth.middleware,
       fetchApiCategories.middleware,
