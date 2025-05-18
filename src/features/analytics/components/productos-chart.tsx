@@ -50,6 +50,7 @@ const chartConfig = {
 export function ProductAnaliticComponent() {
   const { data, isLoading, isError } = useGetAnaliticsProductsQuery();
 
+  console.log("DATAAA: ", data);
   if (isLoading) {
     return <IsLoadingComponent />;
   }
@@ -69,8 +70,8 @@ export function ProductAnaliticComponent() {
 
   // Prepara los datos de esa semana: nombre y cantidad vendida
   const dataProduct = latestWeek.productos.map((p) => ({
-    visitors: p.cantidad,
-    browser: p.nombre,
+    cantidad: p.cantidad,
+    browser: p.producto,
     fill: chartConfig.chrome.color,
   }));
 
@@ -93,13 +94,13 @@ export function ProductAnaliticComponent() {
               content={
                 <ChartTooltipContent
                   indicator="line"
-                  nameKey="visitors"
+                  nameKey="Cantidad"
                   hideLabel
                 />
               }
             />
             <Line
-              dataKey="visitors"
+              dataKey="cantidad"
               type="natural"
               stroke="var(--color-visitors)"
               strokeWidth={2}

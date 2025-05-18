@@ -10,7 +10,7 @@ export interface ProductosAnalitica {
 
 interface productos {
   cantidad: number;
-  nombre: string;
+  producto: string;
 }
 
 export interface ClientesAnalitica {

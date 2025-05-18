@@ -69,7 +69,7 @@ export default function ProductosPage() {
   const [expand, setExpand] = useState(false);
   const [id, setId] = useState("");
   const status = (stock: number) => {
-    if (stock === 10 && stock < 15) return "Pocas unidades";
+    if (stock >= 1 && stock < 15) return "Pocas unidades";
     if (stock === 0) return "Agotado";
     return "Disponible";
   };
