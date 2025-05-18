@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DataTable } from "@/features/invoices/components/data-table/table-factura";
+import { DataTable } from "@/components/ui/custom/table-component";
 import { useCategory } from "../../context/category.context";
 import CreateCategory from "../category/create-category";
 

@@ -1,12 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
 import { getFetchWithCancel } from "@/hooks/use-fetch-cancel";
+import { createContext, ReactNode, useContext, useState } from "react";
 import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+  useGetProductsQuery,
+  useLazyGetProductsQuery,
+} from "../../../store/productos/api";
 import type { ProductCreate, ProductoSeccion } from "../product.type";
 
 interface FacturaContext {
@@ -19,24 +17,10 @@ interface FacturaContext {
 const ProductoContext = createContext<FacturaContext | undefined>(undefined);
 
 export const ProductoProvider = ({ children }: { children: ReactNode }) => {
-  const [productos, setProductos] = useState<ProductoSeccion[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const { data } = useGetProductsQuery();
+  const [trigger] = useLazyGetProductsQuery();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errors, setError] = useState<string | null>(null);
-
-  const getProductos = async () => {
-    setIsLoading(true);
-    try {
-      const data = await getFetchWithCancel<ProductoSeccion[]>(
-        "/productos",
-        "GET"
-      );
-      if (data) setProductos(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error fetch productos");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const onSubmitProductos = async (factura: ProductCreate) => {
     try {
@@ -47,18 +31,15 @@ export const ProductoProvider = ({ children }: { children: ReactNode }) => {
     } catch (err) {
       setError(err instanceof Error ? err.message : "Error al crear producto");
     } finally {
+      trigger();
       setIsLoading(false);
     }
   };
 
-  useEffect(() => {
-    getProductos();
-  }, []);
-
   return (
     <ProductoContext.Provider
       value={{
-        productos,
+        productos: data ?? [],
         onSubmitProductos,
         isLoading,
         errors,
@@ -69,7 +50,7 @@ export const ProductoProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useProductos = () => {
+export const useProductosContext = () => {
   const context = useContext(ProductoContext);
   if (!context) {
     throw new Error("useProducto must be used within a ProductoProvider");

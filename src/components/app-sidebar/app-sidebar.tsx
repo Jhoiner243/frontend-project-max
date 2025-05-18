@@ -40,7 +40,7 @@ const data = {
   navMain: [
     {
       title: "Ask AI",
-      url: "#",
+      url: "/ask-llm",
       icon: Sparkles,
     },
     {

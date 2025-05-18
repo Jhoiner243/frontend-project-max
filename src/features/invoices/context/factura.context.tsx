@@ -3,6 +3,7 @@ import { getFetchWithCancel } from "@/hooks/use-fetch-cancel";
 import { SonnerToast } from "@/utils/sonner-toast";
 import { createContext, ReactNode, useContext, useReducer } from "react";
 import { toast } from "sonner";
+import { useGetProductsQuery } from "../../../store/productos/api";
 import {
   FacturaAction,
   facturaReducer,
@@ -28,6 +29,7 @@ const FacturaContext = createContext<FacturaContext | undefined>(undefined);
 
 export const FacturaProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(facturaReducer, initialValues);
+  const { refetch } = useGetProductsQuery();
   const clienteAdd = (id_cliente: string) => {
     dispatch({ type: FacturaAction.ADD_CLIENT, payload: { id_cliente } });
   };
@@ -78,15 +80,15 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
       SonnerToast({
         title: "Factura creada correctamente",
         description: "Puedes revisar factura enviada al cliente",
-        style: { backgroundColor: "transparent" },
       });
-    } catch (error) {
-      console.error("Error al enviar factura:", error);
+    } catch {
       SonnerToast({
         title: "Error",
         description: "No se pudo crear la factura",
-        style: { color: "red", backgroundColor: "transparent" },
+        style: { color: "red" },
       });
+    } finally {
+      refetch();
     }
   };
 

@@ -18,9 +18,9 @@ interface FacturaContext {
 const CategoryContext = createContext<FacturaContext | undefined>(undefined);
 
 export const CategoryProvider = ({ children }: { children: ReactNode }) => {
-  const [categoryProductos, setCategoryProductos] = useState<CategoryEntity[]>([
-    { id: "1", name: "Default Category" },
-  ]);
+  const [categoryProductos, setCategoryProductos] = useState<CategoryEntity[]>(
+    []
+  );
 
   const onSubmitCategory = async (category: CategoryCreate) => {
     const response = await getFetchWithCancel("/category", "POST", category);

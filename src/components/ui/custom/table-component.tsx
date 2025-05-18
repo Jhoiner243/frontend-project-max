@@ -9,22 +9,13 @@ import {
   ChevronsLeft,
   ChevronsRight,
   Download,
-  FileEdit,
-  MoreHorizontal,
   Search,
   SortAsc,
   SortDesc,
-  Trash2,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -41,9 +32,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { RowActions } from "./table-actions";
 
 type SortDirection = "asc" | "desc" | null;
 type Column = {
+  cod?: string;
   id: string;
   label: string;
   sortable?: boolean;
@@ -56,7 +49,7 @@ interface DataTableProps {
   data: any[];
   onAdd?: ReactNode;
   onEdit?: (item: any) => void;
-  onDelete?: (item: any) => void;
+  onDelete?: (item: string) => void;
   onExport?: () => void;
 }
 
@@ -193,32 +186,12 @@ export function DataTable({
                     </TableCell>
                   ))}
                   {(onEdit || onDelete) && (
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
-                            <MoreHorizontal className="h-4 w-4" />
-                            <span className="sr-only">Abrir menú</span>
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          {onEdit && (
-                            <DropdownMenuItem onClick={() => onEdit(item)}>
-                              <FileEdit className="mr-2 h-4 w-4" />
-                              Editar
-                            </DropdownMenuItem>
-                          )}
-                          {onDelete && (
-                            <DropdownMenuItem
-                              onClick={() => onDelete(item)}
-                              className="text-destructive focus:text-destructive"
-                            >
-                              <Trash2 className="mr-2 h-4 w-4" />
-                              Eliminar
-                            </DropdownMenuItem>
-                          )}
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                    <TableCell key={index}>
+                      <RowActions
+                        item={item}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                      />
                     </TableCell>
                   )}
                 </TableRow>

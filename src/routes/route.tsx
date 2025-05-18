@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AskPage from "../features/ai/page/ask-page";
 import { AnaliticsProvider } from "../features/analytics/context/profit.context";
 import AnaliticaPage from "../features/analytics/page/page";
 import LoginPage from "../features/auth/page/login/page-login";
@@ -41,6 +42,7 @@ export const RoutesApp = () => {
                         <Route path="/clientes" element={<ClientesPage />} />
                         <Route path="/categorias" element={<CategoryPage />} />
                         <Route path="/settings" element={<SettingsPage />} />
+                        <Route path="/ask-llm" element={<AskPage />} />
                       </Route>
                     </Routes>
                   </BrowserRouter>

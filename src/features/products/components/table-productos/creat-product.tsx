@@ -4,10 +4,10 @@
 import { EntitySheet } from "@/components/ui/create/create-component";
 import { type FieldDefinition } from "@/components/ui/create/entity-form";
 import { useCategory } from "../../context/category.context";
-import { useProductos } from "../../context/producto.context";
+import { useProductosContext } from "../../context/producto.context";
 
 export default function CreateProduct() {
-  const { onSubmitProductos } = useProductos();
+  const { onSubmitProductos } = useProductosContext();
   const { categoryProductos } = useCategory();
   // Ejemplo de campos para un formulario de clientes
   const clientFields: FieldDefinition[] = [
@@ -61,7 +61,7 @@ export default function CreateProduct() {
     <div className="flex flex-wrap gap-4 justify-center">
       <EntitySheet
         title="Agregar producto"
-        description="Ingresa los datos del nuevo cliente"
+        description="Ingresa los datos del nuevo producto"
         entityName="producto"
         fields={clientFields}
         onSubmit={handleClientSubmit}

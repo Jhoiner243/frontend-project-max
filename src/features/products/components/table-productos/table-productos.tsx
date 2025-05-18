@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DataTable } from "@/features/invoices/components/data-table/table-factura";
-import { useProductos } from "../../context/producto.context";
+import { DataTable } from "@/components/ui/custom/table-component";
+import { useState } from "react";
+import { AlertDelete } from "../../../../components/ui/custom/delete-alert";
+import {
+  useDeleteProductMutation,
+  useLazyGetProductsQuery,
+} from "../../../../store/productos/api";
+import { useProductosContext } from "../../context/producto.context";
 import CreateProduct from "./creat-product";
 
 // Definición de columnas para productos
@@ -57,25 +63,34 @@ const productColumns = [
 ];
 
 export default function ProductosPage() {
-  const { productos } = useProductos();
-
+  const { productos } = useProductosContext();
+  const [deleteProduct, { isSuccess, isLoading }] = useDeleteProductMutation();
+  const [trigger] = useLazyGetProductsQuery();
+  const [expand, setExpand] = useState(false);
+  const [id, setId] = useState("");
+  const status = (stock: number) => {
+    if (stock === 10 && stock < 15) return "Pocas unidades";
+    if (stock === 0) return "Agotado";
+    return "Disponible";
+  };
   const productosData = productos.map((producto) => {
     return {
-      id: producto.id.slice(3, 10).concat("-PROD"),
+      id: producto.id,
       name: producto.nombre,
       category: producto.categoryName,
       price: producto.precio_compra,
       stock: producto.stock,
       supplier: producto.categoryName,
-      status: "Pocas unidades",
+      status: status(producto.stock),
     };
   });
   const handleEditProduct = (product: any) => {
     console.log("Editar producto:", product);
   };
 
-  const handleDeleteProduct = (product: any) => {
-    console.log("Eliminar producto:", product);
+  const handleDeleteProduct = (id: string) => {
+    setId(id);
+    setExpand(true);
   };
 
   const handleExportProducts = () => {
@@ -83,16 +98,27 @@ export default function ProductosPage() {
   };
 
   return (
-    <main className="container mx-auto py-4">
-      <DataTable
-        title="Productos"
-        columns={productColumns}
-        data={productosData}
-        onAdd={<CreateProduct />}
-        onEdit={handleEditProduct}
-        onDelete={handleDeleteProduct}
-        onExport={handleExportProducts}
+    <div>
+      <AlertDelete
+        trigger={trigger}
+        expand={expand}
+        setExpand={setExpand}
+        id={id}
+        isLoading={isLoading}
+        isSuccess={isSuccess}
+        onDelete={deleteProduct}
       />
-    </main>
+      <main className="container mx-auto py-4">
+        <DataTable
+          title="Productos"
+          columns={productColumns}
+          data={productosData}
+          onAdd={<CreateProduct />}
+          onEdit={handleEditProduct}
+          onDelete={handleDeleteProduct}
+          onExport={handleExportProducts}
+        />
+      </main>
+    </div>
   );
 }

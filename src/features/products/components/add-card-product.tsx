@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/react-in-jsx-scope */
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -7,7 +5,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger
+  SheetTrigger,
 } from "@/components/ui/sheet";
 import { Plus } from "lucide-react";
 import { PropsWithChildren, useState } from "react";
@@ -17,11 +15,9 @@ interface CreateComponentProps {
   description: string;
 }
 
-export const CreateComponent: React.FC<PropsWithChildren<CreateComponentProps>> = ({
-  title,
-  description,
-  children
-}) => {
+export const CreateComponent: React.FC<
+  PropsWithChildren<CreateComponentProps>
+> = ({ title, description, children }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -39,9 +35,7 @@ export const CreateComponent: React.FC<PropsWithChildren<CreateComponentProps>> 
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
 
-        <div className="mt-4">
-          {children}
-        </div>
+        <div className="mt-4">{children}</div>
       </SheetContent>
     </Sheet>
   );

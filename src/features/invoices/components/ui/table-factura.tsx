@@ -8,14 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useProductos } from "@/features/products/context/producto.context";
+import { useProductosContext } from "@/features/products/context/producto.context";
 import { Trash2 } from "lucide-react";
 import { useFactura } from "../../context/factura.context";
 import { ToastDemo } from "./toast-factura";
 
 export function TableFactura() {
   const { factura, deleteProduct, clearInvoice } = useFactura();
-  const { productos } = useProductos();
+  const { productos } = useProductosContext();
 
   return (
     <>

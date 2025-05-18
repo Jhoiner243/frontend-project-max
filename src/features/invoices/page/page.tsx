@@ -1,11 +1,25 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DataTable } from "../components/data-table/table-factura";
+import { DataTable } from "../../../components/ui/custom/table-component";
+import {
+  DropEstadoInvoice,
+  FacturaStatus,
+} from "../components/ui/estado-invoice";
 import SkeletonTableFactura from "../components/ui/skeleton-table-factura";
 import { FacturaProvider } from "../context/factura.context";
 import { useGetInvoicesQuery } from "../service/api";
+import { FacturaSeccion } from "../types/factura.types";
 
 // Definición de columnas para facturas
+type InvoiceRow = {
+  id: string;
+  client: string;
+  date: string;
+  dueDate: string;
+  amount: number;
+  status: FacturaStatus;
+};
+
 export const invoiceColumns = [
   { id: "id", label: "Nº Factura", sortable: true },
   { id: "client", label: "Cliente", sortable: true },
@@ -31,20 +45,15 @@ export const invoiceColumns = [
     id: "status",
     label: "Estado",
     sortable: true,
-    render: (value: string) => {
-      let className = "px-2 py-1 rounded-full text-xs font-medium";
-      if (value === "Pagada") className += " bg-green-100 text-green-800";
-      if (value === "Pendiente") className += " bg-yellow-100 text-yellow-800";
-      if (value === "Vencida") className += " bg-red-100 text-red-800";
-      return <span className={className}>{value}</span>;
-    },
+    render: (value: FacturaStatus, row: FacturaSeccion) => (
+      <DropEstadoInvoice statusI={value} value={row} />
+    ),
   },
 ];
 
 export default function PageDataTableFactura() {
   const { data: facturasGet, isLoading } = useGetInvoicesQuery();
 
-  // Mientras carga, mostramos un table skeleton con 5 filas de placeholder
   if (isLoading) {
     return <SkeletonTableFactura />;
   }
@@ -60,18 +69,17 @@ export default function PageDataTableFactura() {
   }
 
   // Transformación de datos
-  const dataFacturas = facturasGet.map((factura) => ({
-    id: factura.id.slice(3, 10).concat(" -INV"),
+  const dataFacturas: InvoiceRow[] = facturasGet.map((factura) => ({
+    id: factura.id,
     client: factura.id_cliente,
-    date: factura.createdAt,
-    dueDate: factura.updatedAt,
+    date: new Date(factura.createdAt).toISOString(),
+    dueDate: new Date(factura.updatedAt).toISOString(),
     amount: factura.total,
-    status: factura.status,
+    status: factura.status as FacturaStatus,
   }));
 
-  // Handlers
   const handleEditInvoice = (item: any) => console.log("Editar factura:", item);
-  const handleDeleteInvoice = (invoice: any) =>
+  const handleDeleteInvoice = (invoice: string) =>
     console.log("Eliminar factura:", invoice);
   const handleExportInvoices = () => console.log("Exportar facturas");
 

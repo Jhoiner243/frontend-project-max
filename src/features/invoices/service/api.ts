@@ -1,32 +1,26 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../../config/config";
+import { prepareHeaders } from "../../../lib/headers";
+import { FacturaStatus } from "../components/ui/estado-invoice";
 import { FacturaSeccion } from "../types/factura.types";
 
 export const fetchApiInvoices = createApi({
   reducerPath: "invoicesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: VITE_API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: VITE_API_URL,
+    prepareHeaders: prepareHeaders,
+  }),
   endpoints: (builder) => ({
     getInvoices: builder.query<FacturaSeccion[], void>({
       query: () => ({
         credentials: "include",
-        prepareHeaders: (headers: Headers) => {
-          const token = localStorage.getItem("access_token");
-          if (!token) {
-            return headers;
-          }
-
-          if (token) {
-            headers.set("Authorization", `Bearer ${token}`);
-          }
-          return headers;
-        },
         url: "/facturas",
         method: "GET",
       }),
     }),
     createInvoice: builder.mutation({
       query: (newInvoice) => ({
-        url: "/invoices",
+        url: "/factura",
         method: "POST",
         body: newInvoice,
       }),
@@ -34,8 +28,18 @@ export const fetchApiInvoices = createApi({
     }),
     deleteInvoice: builder.mutation({
       query: (id: string) => ({
-        url: `/invoices/${id}`,
+        url: `/facturas/${id}`,
         method: "DELETE",
+      }),
+    }),
+    putInvoice: builder.mutation<
+      FacturaStatus,
+      { id: string; data: FacturaSeccion }
+    >({
+      query: ({ id, data }: { id: string; data: FacturaSeccion }) => ({
+        url: `/facturas/${id}`,
+        body: data,
+        method: "PUT",
       }),
     }),
   }),
@@ -45,4 +49,5 @@ export const {
   useGetInvoicesQuery,
   useCreateInvoiceMutation,
   useDeleteInvoiceMutation,
+  usePutInvoiceMutation,
 } = fetchApiInvoices;

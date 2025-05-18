@@ -5,12 +5,14 @@ import { prepareHeaders } from "../../lib/headers";
 
 export const fetchApiCategories = createApi({
   reducerPath: "categoriesApi",
-  baseQuery: fetchBaseQuery({ baseUrl: VITE_API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: VITE_API_URL,
+    prepareHeaders: prepareHeaders,
+  }),
   endpoints: (builder) => ({
     getCategories: builder.query<CategoryEntity[], void>({
       query: () => ({
         credentials: "include",
-        prepareHeaders: prepareHeaders,
         url: "/category",
         method: "GET",
       }),
