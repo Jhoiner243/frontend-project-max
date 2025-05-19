@@ -5,7 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AlertTriangle, Bell, Info, ShoppingBasket, X } from "lucide-react";
 import { JSX, useState } from "react";
-import { useGetNotificationsQuery } from "../../../features/notifications/service";
+import DeleteNotification from "../../../features/notifications/components/delete-notification";
+import {
+  useDeleteNotificationMutation,
+  useGetNotificationsQuery,
+} from "../../../features/notifications/service";
 
 interface NotificationState {
   id: string;
@@ -17,8 +21,12 @@ interface NotificationState {
 
 export function Notifications() {
   const [isOpen, setIsOpen] = useState(false);
-  const { data: notifications, isLoading } = useGetNotificationsQuery();
-
+  const {
+    data: notifications,
+    isLoading,
+    refetch,
+  } = useGetNotificationsQuery();
+  const [onDeleteNotification] = useDeleteNotificationMutation();
   const enrichedNotifications: NotificationState[] =
     notifications?.map((notification) => {
       const colorMapping: Record<string, string> = {
@@ -47,6 +55,10 @@ export function Notifications() {
       };
     }) || [];
 
+  const handleDeleteNotification = (id: string) => {
+    onDeleteNotification({ id: id });
+    refetch();
+  };
   return (
     <div className="relative">
       <Button
@@ -106,8 +118,14 @@ export function Notifications() {
                           <p className="text-sm font-medium leading-none">
                             Notification alert
                           </p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="flex text-sm text-muted-foreground mr-1">
                             {notification.message}
+                            <div className="m-auto">
+                              <DeleteNotification
+                                id={notification.id}
+                                onDelete={handleDeleteNotification}
+                              />
+                            </div>
                           </p>
                         </div>
                       </div>

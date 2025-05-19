@@ -81,6 +81,9 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
         title: "Factura creada correctamente",
         description: "Puedes revisar factura enviada al cliente",
       });
+
+      // Limpiar la factura después de enviarla
+      clearFactura();
     } catch {
       SonnerToast({
         title: "Error",

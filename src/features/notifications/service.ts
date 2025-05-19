@@ -18,6 +18,12 @@ export const fetchBaseApi = createApi({
     getNotifications: build.query<NotificationState[], void>({
       query: () => "/notifications",
     }),
+    deleteNotification: build.mutation<void, { id: string }>({
+      query: (id) => ({
+        url: `/notifications-delete/${id.id}`,
+        method: "DELETE",
+      }),
+    }),
     createNotification: build.mutation<
       NotificationsEnabledState,
       Partial<NotificationsEnabledState>
@@ -31,5 +37,8 @@ export const fetchBaseApi = createApi({
   }),
 });
 
-export const { useGetNotificationsQuery, useCreateNotificationMutation } =
-  fetchBaseApi;
+export const {
+  useGetNotificationsQuery,
+  useCreateNotificationMutation,
+  useDeleteNotificationMutation,
+} = fetchBaseApi;

@@ -25,15 +25,16 @@ export const invoiceColumns = [
   { id: "client", label: "Cliente", sortable: true },
   {
     id: "date",
-    label: "Fecha Emisión",
+    label: "Fecha emisión",
     sortable: true,
     render: (value: string) => new Date(value).toLocaleDateString(),
   },
   {
     id: "dueDate",
-    label: "Fecha Vencimiento",
+    label: "Hora emisión",
     sortable: true,
-    render: (value: string) => new Date(value).toLocaleDateString(),
+    render: (value: string) =>
+      new Date(value).toLocaleTimeString().split(" ")[0],
   },
   {
     id: "amount",
@@ -77,7 +78,7 @@ export default function PageDataTableFactura() {
     amount: factura.total,
     status: factura.status as FacturaStatus,
   }));
-
+  console.log(new Date(facturasGet[0].createdAt).toTimeString().split(" ")[0]);
   const handleEditInvoice = (item: any) => console.log("Editar factura:", item);
   const handleDeleteInvoice = (invoice: string) =>
     console.log("Eliminar factura:", invoice);

@@ -16,7 +16,6 @@ export default function useNotificationsHook() {
 
         if (currentToken) {
           console.log("✅ Token obtenido:", currentToken);
-          // Aquí lo mandás a tu backend
           await createNotification({
             token: currentToken,
           }).unwrap();
