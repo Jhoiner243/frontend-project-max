@@ -37,7 +37,7 @@ export function ComboboxClient() {
           className="w-[300px] "
         >
           {value
-            ? clients.find(() => clients[0].name === value)?.name
+            ? clients.find((client) => client.name === value)?.name
             : "Selecciona un cliente..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
