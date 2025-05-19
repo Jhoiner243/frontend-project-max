@@ -48,7 +48,7 @@ export default function FormPedido() {
 
   return (
     <form className="grid grid-cols-1" onSubmit={handleAgregar}>
-      <div className="flex flex-1 items-center gap-3 mb-2">
+      <div className="flex flex-1 items-center gap-3 ">
         {productos.map((producto) => (
           <ProductCard
             key={producto.id}
@@ -59,7 +59,7 @@ export default function FormPedido() {
         ))}
       </div>
       <div className="w-auto">
-        <div className="m-2 mt-2">
+        <div className="m-4">
           <Label className="mb-1 dark:bg-transparent p-1">Cantidad</Label>
           <Input
             type="text"
@@ -80,7 +80,7 @@ export default function FormPedido() {
         </div>
         <Button
           variant="outline"
-          className="flex mx-auto mt-10  hover:bg-amber-200 hover:cursor-pointer"
+          className="flex mx-auto mt-[50%]  hover:bg-amber-200 hover:cursor-pointer"
           type="submit"
           disabled={!selected || !cantidad || !precio}
         >

@@ -31,20 +31,20 @@ export function ComboboxClient() {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="secondary"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-[300px] "
         >
           {value
             ? clients.find(() => clients[0].name === value)?.name
-            : "Select client..."}
+            : "Selecciona un cliente..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[250px] p-0">
         <Command>
-          <CommandInput placeholder="Search client..." className="h-9" />
+          <CommandInput placeholder="Busca un cliente..." className="h-9" />
           <CommandList>
             <CommandEmpty>No clients found.</CommandEmpty>
             <CommandGroup>

@@ -67,7 +67,7 @@ export function DropEstadoInvoice({
           ) : (
             position
           )}
-          <ChevronDown size={2} className="justify-items-center" />
+          <ChevronDown size={2} />
         </Badge>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

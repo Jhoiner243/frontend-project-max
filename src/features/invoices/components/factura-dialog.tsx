@@ -36,7 +36,9 @@ export default function FacturaDialog({
                 </DialogHeader>
 
                 <div className="space-y-6">
-                  <ComboboxClient />
+                  <div className="px-[18%]">
+                    <ComboboxClient />
+                  </div>
                   <FormFactura />
                 </div>
               </div>
