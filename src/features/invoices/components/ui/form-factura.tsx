@@ -62,7 +62,17 @@ export default function FormPedido() {
         <div className="m-4">
           <Label className="mb-1 dark:bg-transparent p-1">Cantidad</Label>
           <Input
-            type="text"
+            className="hover:cursor-pointer"
+            min={1}
+            max={productos.reduce((acc, producto) => {
+              const stock =
+                typeof producto.stock === "number" ? producto.stock : 0;
+              if (selected === producto.id) {
+                return producto.stock;
+              }
+              return stock > acc ? stock : acc;
+            }, 0)}
+            type="number"
             placeholder="Ingresa cantidad"
             name="cantidad"
             value={cantidad ? cantidad : ""}
