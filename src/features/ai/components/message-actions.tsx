@@ -8,17 +8,18 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../../../components/ui/tooltip";
-import { BaseResponseApiLLM } from "../types/llm.types";
+import { formatLlmResponse } from "../../../utils/utils";
+import { LlmResponse } from "../types/llm.types";
 
 export function MessageActions({
   message,
   isLoading,
 }: {
-  message: BaseResponseApiLLM;
+  message: LlmResponse;
   isLoading: boolean;
 }) {
   const [_, copyToClipboard] = useCopyToClipboard();
-
+  const response = formatLlmResponse(message);
   if (isLoading) return null;
   return (
     <TooltipProvider>
@@ -29,7 +30,7 @@ export function MessageActions({
               className="py-1 px-2 h-fit text-muted-foreground"
               variant="outline"
               onClick={async () => {
-                await copyToClipboard(message.message as string);
+                await copyToClipboard(response);
                 toast.success("Copied to clipboard!");
               }}
             >
