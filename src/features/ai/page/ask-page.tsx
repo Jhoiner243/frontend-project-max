@@ -27,7 +27,7 @@ export default function AskPage() {
           className="flex flex-col min-w-0 gap-6 flex-1 overflow-y-auto pt-4"
         >
           {!documents && isLoading === false && (
-            <div className="py-[13%]">
+            <div className="max-w-3xl mx-auto md:mt-20 px-8 size-full flex flex-col justify-center">
               <SpotlightNewDemo />
             </div>
           )}
