@@ -47,32 +47,39 @@ export function ChartAreaInteractive() {
     }
   }, [isMobile]);
 
-  console.log(profit);
   const filteredData = profit
     .filter((item) => item.tipo_periodo === timeRange)
     .map((item) => ({
       ...item,
       fecha: item.createdAt, // Usar fecha_fin como punto de referencia
     }));
-
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
+
     switch (timeRange) {
       case "Diario":
-        return date.toLocaleDateString("es-ES", {
+        return date.toLocaleDateString("es-CO", {
           day: "numeric",
           month: "short",
+          timeZone: "UTC", // ← fuerza usar UTC
         });
       case "semanal":
-        return `Sem ${date.toLocaleDateString("es-ES", { week: "numeric" })}`;
+        return `Sem ${new Intl.DateTimeFormat("es-ES", {
+          week: "numeric",
+          timeZone: "UTC",
+        }).format(date)}`;
       case "mensual":
-        return date.toLocaleDateString("es-ES", { month: "short" });
+        return date.toLocaleDateString("es-ES", {
+          month: "short",
+          timeZone: "UTC",
+        });
       case "anual":
-        return date.getFullYear().toString();
+        return date.getUTCFullYear().toString(); // usa getUTC*
       default:
-        return date.toLocaleDateString("es-ES");
+        return date.toLocaleDateString("es-ES", { timeZone: "UTC" });
     }
   };
+
   return (
     <Card className="@container/card">
       <CardHeader className="relative">
@@ -160,7 +167,7 @@ export function ChartAreaInteractive() {
             />
             <YAxis
               tickFormatter={(value: number) =>
-                new Intl.NumberFormat("es-ES", {
+                new Intl.NumberFormat("es-CO", {
                   style: "currency",
                   currency: "COP",
                   maximumFractionDigits: 0,
@@ -172,14 +179,15 @@ export function ChartAreaInteractive() {
                 <ChartTooltipContent
                   labelFormatter={(value) => {
                     const date = new Date(value);
-                    return date.toLocaleDateString("es-ES", {
+                    return date.toLocaleDateString("es-CO", {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
+                      timeZone: "UTC",
                     });
                   }}
                   formatter={(value) => [
-                    new Intl.NumberFormat("es-ES", {
+                    new Intl.NumberFormat("es-CO", {
                       style: "currency",
                       currency: "COP",
                     }).format((value as number) || 0),

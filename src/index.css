@@ -36,7 +36,7 @@
   --ring: 0 0% 0%; /* Negro para el anillo de focus */
 
   /* Colores para gráficos */
-  --chart-1: 0 0% 0%; /* Negro */
+  --chart-1: 141.9 69.2% 58%; /* Negro */
   --chart-2: 0 0% 40%; /* Gris oscuro */
   --chart-3: 0 0% 70%; /* Gris medio */
   --chart-4: 0 0% 85%; /* Gris claro */
@@ -74,7 +74,7 @@
   --ring: 0 0% 60%; /* Anillo gris medio */
 
   /* Colores para gráficos en dark mode */
-  --chart-1: 0 0% 95%; /* Blanco */
+  --chart-1: 188.7 94.5% 42.7%; /* Blanco */
   --chart-2: 0 0% 75%; /* Gris claro */
   --chart-3: 0 0% 50%; /* Gris medio */
   --chart-4: 0 0% 30%; /* Gris oscuro */

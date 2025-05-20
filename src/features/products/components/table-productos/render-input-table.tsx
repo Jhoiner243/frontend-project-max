@@ -37,7 +37,7 @@ export function RenderInputTable({
       <Input
         min={producto.stock}
         onChange={(e) => setStockValue(Number(e.target.value))}
-        className="h-8 w-14 border-transparent dark:bg-transparent text-right shadow-none dark:hover:bg-input/40 focus-visible:border focus-visible:bg-background "
+        className="h-8 w-14 border-transparent dark:bg-transparent text-right shadow-none hover:bg-input/40 dark:hover:bg-input/40 focus-visible:border focus-visible:bg-background "
         defaultValue={stockValue}
         id={`${producto.id}-target`}
       />

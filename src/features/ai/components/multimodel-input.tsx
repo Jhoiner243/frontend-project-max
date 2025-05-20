@@ -47,14 +47,14 @@ export default function MultiModalInput({
 }) {
   return (
     <div className="relative w-full flex flex-col gap-4">
-      {messages.messages.length === 0 && (
+      {messages.messages.length === 0 && isLoading === false && (
         <div className="grid sm:grid-cols-2 gap-2 w-full">
           {suggestedActions.map((suggestedAction, index) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              transition={{ delay: 0.05 * index }}
+              transition={{ delay: 0.06 * index }}
               key={index}
               className={index > 1 ? "hidden sm:block" : "block"}
             >
