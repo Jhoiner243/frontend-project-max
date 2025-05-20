@@ -8,6 +8,7 @@ import {
 } from "../../../../store/productos/api";
 import { useProductosContext } from "../../context/producto.context";
 import CreateProduct from "./creat-product";
+import { RenderInputTable } from "./render-input-table";
 
 // Definición de columnas para productos
 const productColumns = [
@@ -36,7 +37,9 @@ const productColumns = [
     id: "stock",
     label: "Stock",
     sortable: true,
+    render: (producto: any) => <RenderInputTable producto={producto} />,
   },
+
   {
     id: "supplier",
     label: "Proveedor",
@@ -73,13 +76,14 @@ export default function ProductosPage() {
     if (stock === 0) return "Agotado";
     return "Disponible";
   };
+
   const productosData = productos.map((producto) => {
     return {
       id: producto.id,
       name: producto.nombre,
       category: producto.categoryName,
       price: producto.precio_compra,
-      stock: producto.stock,
+      stock: producto,
       supplier: producto.categoryName,
       status: status(producto.stock),
     };

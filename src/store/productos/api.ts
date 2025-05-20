@@ -1,6 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../config/config";
-import { ProductoSeccion } from "../../features/products/product.type";
+import {
+  ProductEntity,
+  ProductoSeccion,
+} from "../../features/products/product.type";
 import { prepareHeaders } from "../../lib/headers";
 
 export const productsApi = createApi({
@@ -25,6 +28,20 @@ export const productsApi = createApi({
             ]
           : [{ type: "Products", id: "LIST" }],
     }),
+    updateProduct: builder.mutation<
+      void,
+      { id: string; data: Partial<ProductEntity> }
+    >({
+      query: ({ id, data }) => ({
+        url: `/productos/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: "Products", id },
+        { type: "Products", id: "LIST" },
+      ],
+    }),
 
     deleteProduct: builder.mutation<void, string>({
       query: (id: string) => ({
@@ -40,6 +57,7 @@ export const productsApi = createApi({
 });
 
 export const {
+  useUpdateProductMutation,
   useGetProductsQuery,
   useDeleteProductMutation,
   useLazyGetProductsQuery,

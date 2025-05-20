@@ -38,15 +38,16 @@ export function ChartAreaInteractive() {
   const isMobile = useIsMobile();
   const { profit } = useProfit();
   const [timeRange, setTimeRange] = React.useState<
-    "diario" | "semanal" | "mensual" | "anual"
-  >("semanal");
+    "Diario" | "semanal" | "mensual" | "anual"
+  >("Diario");
 
   React.useEffect(() => {
     if (isMobile) {
-      setTimeRange("diario");
+      setTimeRange("Diario");
     }
   }, [isMobile]);
 
+  console.log(profit);
   const filteredData = profit
     .filter((item) => item.tipo_periodo === timeRange)
     .map((item) => ({
@@ -57,7 +58,7 @@ export function ChartAreaInteractive() {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     switch (timeRange) {
-      case "diario":
+      case "Diario":
         return date.toLocaleDateString("es-ES", {
           day: "numeric",
           month: "short",
@@ -72,7 +73,6 @@ export function ChartAreaInteractive() {
         return date.toLocaleDateString("es-ES");
     }
   };
-
   return (
     <Card className="@container/card">
       <CardHeader className="relative">
@@ -85,12 +85,12 @@ export function ChartAreaInteractive() {
             type="single"
             value={timeRange}
             onValueChange={(
-              value: "semanal" | "mensual" | "anual" | "diario"
+              value: "semanal" | "mensual" | "anual" | "Diario"
             ) => setTimeRange(value)}
             variant="outline"
             className="@[767px]/card:flex hidden"
           >
-            <ToggleGroupItem value="diario" className="h-8 px-2.5">
+            <ToggleGroupItem value="Diario" className="h-8 px-2.5">
               Diario
             </ToggleGroupItem>
             <ToggleGroupItem value="semanal" className="h-8 px-2.5">
@@ -106,7 +106,7 @@ export function ChartAreaInteractive() {
           <Select
             value={timeRange}
             onValueChange={(
-              value: "diario" | "semanal" | "mensual" | "anual"
+              value: "Diario" | "semanal" | "mensual" | "anual"
             ) => setTimeRange(value)}
           >
             <SelectTrigger
@@ -116,7 +116,7 @@ export function ChartAreaInteractive() {
               <SelectValue placeholder="Seleccionar periodo" />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
-              <SelectItem value="diario" className="rounded-lg">
+              <SelectItem value="Diario" className="rounded-lg">
                 Diario
               </SelectItem>
               <SelectItem value="semanal" className="rounded-lg">
