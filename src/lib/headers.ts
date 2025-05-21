@@ -1,5 +1,8 @@
-export const prepareHeaders = (headers: Headers) => {
-  const token = localStorage.getItem("access_token");
+import { Cookies } from "react-cookie";
+
+export const usePrepareHeaders = (headers: Headers) => {
+  const cookies = new Cookies();
+  const token = cookies.get("__session");
   if (!token) {
     return headers;
   }

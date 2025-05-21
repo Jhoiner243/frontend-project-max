@@ -88,17 +88,10 @@ export default function ProductosPage() {
       status: status(producto.stock),
     };
   });
-  const handleEditProduct = (product: any) => {
-    console.log("Editar producto:", product);
-  };
 
   const handleDeleteProduct = (id: string) => {
     setId(id);
     setExpand(true);
-  };
-
-  const handleExportProducts = () => {
-    console.log("Exportar productos");
   };
 
   return (
@@ -118,9 +111,7 @@ export default function ProductosPage() {
           columns={productColumns}
           data={productosData}
           onAdd={<CreateProduct />}
-          onEdit={handleEditProduct}
           onDelete={handleDeleteProduct}
-          onExport={handleExportProducts}
         />
       </main>
     </div>

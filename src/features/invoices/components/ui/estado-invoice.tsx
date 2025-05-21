@@ -31,7 +31,6 @@ export function DropEstadoInvoice({
   value: FacturaSeccion;
   statusI: FacturaStatus;
 }) {
-  console.log("DROP ESTADO ID", value);
   const [position, setPosition] = React.useState<FacturaStatus>(statusI);
   const [putInvoiceStatus] = usePutInvoiceMutation();
   const status = Object.values(StatusFactura) as FacturaStatus[];

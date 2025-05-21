@@ -1,6 +1,5 @@
+import { SignUp } from "@clerk/clerk-react";
 import { GalleryVerticalEnd } from "lucide-react";
-
-import { RegisterForm } from "../../components/register-form";
 
 export default function RegisterPage() {
   return (
@@ -10,9 +9,9 @@ export default function RegisterPage() {
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <GalleryVerticalEnd className="size-4" />
           </div>
-          Acme Inc.
+          FillStep
         </a>
-        <RegisterForm />
+        <SignUp />
       </div>
     </div>
   );

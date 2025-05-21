@@ -4,13 +4,13 @@ import {
   ProductEntity,
   ProductoSeccion,
 } from "../../features/products/product.type";
-import { prepareHeaders } from "../../lib/headers";
+import { usePrepareHeaders } from "../../lib/headers";
 
 export const productsApi = createApi({
   reducerPath: "productsApiState",
   baseQuery: fetchBaseQuery({
     baseUrl: VITE_API_URL,
-    prepareHeaders,
+    prepareHeaders: usePrepareHeaders,
     credentials: "include",
   }),
   tagTypes: ["Products"],

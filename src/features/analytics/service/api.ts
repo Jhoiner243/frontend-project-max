@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../../config/config";
-import { prepareHeaders } from "../../../lib/headers";
+import { usePrepareHeaders } from "../../../lib/headers";
 import {
   ClientesAnalitica,
   PedidosAnalitica,
@@ -12,7 +12,7 @@ export const apiAnalitics = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: VITE_API_URL,
     credentials: "include",
-    prepareHeaders,
+    prepareHeaders: usePrepareHeaders,
   }),
   endpoints: (builder) => ({
     getAnaliticsProducts: builder.query<ProductosAnalitica[], void>({

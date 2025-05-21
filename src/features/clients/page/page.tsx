@@ -60,17 +60,11 @@ export default function ClientesPage() {
     };
   });
 
-  const handleEditClient = (client: any) => {
-    console.log("Editar cliente:", client);
-  };
+  const handleEditClient = (client: any) => {};
 
-  const handleDeleteClient = (client: any) => {
-    console.log("Eliminar cliente:", client);
-  };
+  const handleDeleteClient = (client: any) => {};
 
-  const handleExportClients = () => {
-    console.log("Exportar clientes");
-  };
+  const handleExportClients = () => {};
 
   return (
     <main className="container mx-auto py-4">

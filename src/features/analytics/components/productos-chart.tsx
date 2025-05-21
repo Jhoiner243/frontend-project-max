@@ -50,7 +50,6 @@ const chartConfig = {
 export function ProductAnaliticComponent() {
   const { data, isLoading, isError } = useGetAnaliticsProductsQuery();
 
-  console.log("DATAAA: ", data);
   if (isLoading) {
     return <IsLoadingComponent />;
   }

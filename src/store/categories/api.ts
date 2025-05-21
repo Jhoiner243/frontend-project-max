@@ -1,18 +1,18 @@
 import { VITE_API_URL } from "@/config/config";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { CategoryEntity } from "../../features/products/product.type";
-import { prepareHeaders } from "../../lib/headers";
+import { usePrepareHeaders } from "../../lib/headers";
 
 export const fetchApiCategories = createApi({
   reducerPath: "categoriesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: VITE_API_URL,
-    prepareHeaders: prepareHeaders,
+    prepareHeaders: usePrepareHeaders,
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     getCategories: builder.query<CategoryEntity[], void>({
       query: () => ({
-        credentials: "include",
         url: "/category",
         method: "GET",
       }),

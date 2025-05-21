@@ -23,7 +23,6 @@ export const useRegisterHook = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Name:", name, "Value:", value); // Verifica el nombre y valor del input
     setNewUser((prev) => ({
       ...prev,
       [name]: value,
@@ -40,7 +39,6 @@ export const useRegisterHook = () => {
       // Validación completa del formulario
       const validatedData = registerSchema.parse(newUser);
 
-      console.log("Formulario válido:", validatedData);
       createUser(validatedData);
       navigate("/login"); // Redirigir a la página de login después de crear el usuario
     } catch (err) {

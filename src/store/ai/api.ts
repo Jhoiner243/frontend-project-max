@@ -5,14 +5,14 @@ import {
   LlmResponse,
   ToolsForLLM,
 } from "../../features/ai/types/llm.types";
-import { prepareHeaders } from "../../lib/headers";
+import { usePrepareHeaders } from "../../lib/headers";
 
 export const ApiLLM = createApi({
   reducerPath: "apiLlm",
   baseQuery: fetchBaseQuery({
     baseUrl: VITE_API_URL,
     credentials: "include",
-    prepareHeaders: prepareHeaders,
+    prepareHeaders: usePrepareHeaders,
   }),
   endpoints: (builder) => ({
     PostMutationLLM: builder.mutation<LlmResponse, IPrompt>({

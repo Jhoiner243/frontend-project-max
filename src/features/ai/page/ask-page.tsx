@@ -16,7 +16,6 @@ export default function AskPage() {
     documents,
   } = useChatLlm();
 
-  console.log("DOCUMENT: ", documents);
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
   return (

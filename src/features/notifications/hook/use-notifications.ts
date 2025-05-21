@@ -15,7 +15,6 @@ export default function useNotificationsHook() {
         });
 
         if (currentToken) {
-          console.log("✅ Token obtenido:", currentToken);
           await createNotification({
             token: currentToken,
           }).unwrap();

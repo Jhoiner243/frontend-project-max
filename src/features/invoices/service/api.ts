@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../../config/config";
-import { prepareHeaders } from "../../../lib/headers";
+import { usePrepareHeaders } from "../../../lib/headers";
 import { FacturaStatus } from "../components/ui/estado-invoice";
 import { FacturaSeccion } from "../types/factura.types";
 
@@ -8,12 +8,12 @@ export const fetchApiInvoices = createApi({
   reducerPath: "invoicesApi",
   baseQuery: fetchBaseQuery({
     baseUrl: VITE_API_URL,
-    prepareHeaders: prepareHeaders,
+    prepareHeaders: usePrepareHeaders,
+    credentials: "include",
   }),
   endpoints: (builder) => ({
     getInvoices: builder.query<FacturaSeccion[], void>({
       query: () => ({
-        credentials: "include",
         url: "/facturas",
         method: "GET",
       }),

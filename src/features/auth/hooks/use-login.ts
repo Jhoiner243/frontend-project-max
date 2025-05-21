@@ -20,7 +20,6 @@ export const useLoginHook = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log("Name:", name, "Value:", value); // Verifica el nombre y valor del input
     setLoginData((prev) => ({
       ...prev,
       [name]: value,

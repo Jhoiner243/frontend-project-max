@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { DataTable } from "../../../components/ui/custom/table-component";
 import {
   DropEstadoInvoice,
@@ -78,11 +78,6 @@ export default function PageDataTableFactura() {
     amount: factura.total,
     status: factura.status as FacturaStatus,
   }));
-  console.log(new Date(facturasGet[0].createdAt).toTimeString().split(" ")[0]);
-  const handleEditInvoice = (item: any) => console.log("Editar factura:", item);
-  const handleDeleteInvoice = (invoice: string) =>
-    console.log("Eliminar factura:", invoice);
-  const handleExportInvoices = () => console.log("Exportar facturas");
 
   return (
     <FacturaProvider>
@@ -91,9 +86,6 @@ export default function PageDataTableFactura() {
           title="Facturas"
           columns={invoiceColumns}
           data={dataFacturas}
-          onEdit={handleEditInvoice}
-          onDelete={handleDeleteInvoice}
-          onExport={handleExportInvoices}
         />
       </main>
     </FacturaProvider>

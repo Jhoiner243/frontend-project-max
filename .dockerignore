@@ -1,0 +1,14 @@
+*
+
+!/.env.development
+!/package.json
+!/pnpm-lock.yaml
+!/maxpollo.json
+!/prettier.config.mjs
+!/vite.config.ts
+!/tsconfig.json
+!/tsconfig.node.json
+!/src
+!/prisma
+!/.gitignore
+!/eslint.config.js

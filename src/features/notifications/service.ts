@@ -1,7 +1,7 @@
 // src/service/api.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../config/config";
-import { prepareHeaders } from "../../lib/headers";
+import { usePrepareHeaders } from "../../lib/headers";
 import {
   NotificationsEnabledState,
   NotificationState,
@@ -12,7 +12,7 @@ export const fetchBaseApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: VITE_API_URL,
     credentials: "include",
-    prepareHeaders,
+    prepareHeaders: usePrepareHeaders,
   }),
   endpoints: (build) => ({
     getNotifications: build.query<NotificationState[], void>({

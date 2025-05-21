@@ -27,9 +27,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { SignedIn, UserButton } from "@clerk/clerk-react";
+import { useWindowSize } from "usehooks-ts";
 import { NavDocuments } from "./components/nav-documents";
 import { NavMain } from "./components/nav-main";
-import { NavUser } from "./components/nav-users";
 
 const data = {
   user: {
@@ -143,6 +144,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { width } = useWindowSize();
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -165,7 +167,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavDocuments items={data.documents} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {width > 768 && (
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
+        )}
       </SidebarFooter>
     </Sidebar>
   );

@@ -76,11 +76,20 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
     const invoiceToSend: FacturasEntity = { ...state };
 
     try {
-      await getFetchWithCancel("/factura", "POST", invoiceToSend);
-      SonnerToast({
-        title: "Factura creada correctamente",
-        description: "Puedes revisar factura enviada al cliente",
-      });
+      toast.promise(
+        new Promise<void>((resolve, reject) => {
+          setTimeout(() => {
+            getFetchWithCancel("/factura", "POST", invoiceToSend)
+              .then(() => resolve())
+              .catch(reject);
+          }, 1000);
+        }),
+        {
+          loading: "Creando factura...",
+          success: "Factura creada correctamente.",
+          error: "Error al crear la factura.",
+        }
+      );
 
       // Limpiar la factura después de enviarla
       clearFactura();
