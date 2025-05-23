@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import FacturaDialog from "@/features/invoices/components/factura-dialog";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export function NavMain({
   items,
@@ -23,6 +23,7 @@ export function NavMain({
     icon?: LucideIcon;
   }[];
 }) {
+  const path = useLocation();
   const [open, setOpen] = useState(false);
   return (
     <SidebarGroup>
@@ -50,7 +51,10 @@ export function NavMain({
         </SidebarMenu>
         <SidebarMenu>
           {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
+            <SidebarMenuItem
+              className={`${item.url === path.pathname && "text-amber-200"}`}
+              key={item.title}
+            >
               <SidebarMenuButton tooltip={item.title}>
                 {item.icon && <item.icon />}
                 <Link to={item.url}>

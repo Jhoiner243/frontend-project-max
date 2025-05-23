@@ -14,9 +14,20 @@ export const fetchBaseApi = createApi({
     credentials: "include",
     prepareHeaders: usePrepareHeaders,
   }),
+  tagTypes: ["Notifications"],
   endpoints: (build) => ({
     getNotifications: build.query<NotificationState[], void>({
       query: () => "/notifications",
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({
+                type: "Notifications" as const,
+                id,
+              })),
+              { type: "Notifications", id: "LIST" },
+            ]
+          : [{ type: "Notifications", id: "LIST" }],
     }),
     deleteNotification: build.mutation<void, { id: string }>({
       query: (id) => ({

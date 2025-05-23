@@ -1,6 +1,9 @@
 import { VITE_API_URL } from "@/config/config";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { CategoryEntity } from "../../features/products/product.type";
+import {
+  CategoryCreate,
+  CategoryEntity,
+} from "../../features/products/product.type";
 import { usePrepareHeaders } from "../../lib/headers";
 
 export const fetchApiCategories = createApi({
@@ -17,13 +20,12 @@ export const fetchApiCategories = createApi({
         method: "GET",
       }),
     }),
-    createCategory: builder.mutation({
+    createCategory: builder.mutation<void, CategoryCreate>({
       query: (newCategory) => ({
-        url: "/categories",
+        url: "/category",
         method: "POST",
         body: newCategory,
       }),
-      transformResponse: (response) => response.json(),
     }),
     deleteCategory: builder.mutation({
       query: (id: string) => ({

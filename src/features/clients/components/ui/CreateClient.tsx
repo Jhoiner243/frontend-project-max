@@ -3,10 +3,10 @@
 
 import { EntitySheet } from "@/components/ui/create/create-component";
 import { type FieldDefinition } from "@/components/ui/create/entity-form";
-import { useClient } from "../../context/client-context";
+import { useCreateClientMutation } from "../../../../store/clients/api";
 
 export default function ClientCreate() {
-  const { createClient } = useClient();
+  const [createClient] = useCreateClientMutation();
   // Ejemplo de campos para un formulario de clientes
   const clientFields: FieldDefinition[] = [
     {

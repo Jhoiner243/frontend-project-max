@@ -1,7 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { DataTable } from "@/components/ui/data-table/table";
+import { DataTable } from "@/components/ui/custom/table-component";
+import { useState } from "react";
+import { AlertDelete } from "../../../components/ui/custom/delete-alert";
+import {
+  useDeleteClientMutation,
+  useGetClientsQuery,
+  useLazyGetClientsQuery,
+} from "../../../store/clients/api";
+import SkeletonTableFactura from "../../invoices/components/ui/skeleton-table-factura";
 import ClientCreate from "../components/ui/CreateClient";
-import { useClient } from "../context/client-context";
 
 // Definición de columnas para clientes
 const clientColumns = [
@@ -46,9 +52,13 @@ const clientColumns = [
 ];
 
 export default function ClientesPage() {
-  const { clients } = useClient();
-
-  const clientData = clients.map((cliente) => {
+  const { data: clients, isLoading } = useGetClientsQuery();
+  const [onDeleteClient, { isSuccess, isLoading: loading }] =
+    useDeleteClientMutation();
+  const [trigger] = useLazyGetClientsQuery();
+  const [id, setId] = useState("");
+  const [expand, setExpand] = useState(false);
+  const clientData = (clients ?? []).map((cliente) => {
     return {
       id: cliente.id.slice(3, 10).concat("-CLI"),
       name: cliente.name,
@@ -59,24 +69,40 @@ export default function ClientesPage() {
       status: "Inactivo",
     };
   });
+  if (isLoading) {
+    return <SkeletonTableFactura />;
+  }
+  const handleDeleteClient = (id: string) => {
+    setId(id);
+    setExpand(true);
+  };
 
-  const handleEditClient = (client: any) => {};
-
-  const handleDeleteClient = (client: any) => {};
+  const handleEditClient = () => {};
 
   const handleExportClients = () => {};
 
   return (
-    <main className="container mx-auto py-4">
-      <DataTable
-        title="Clientes"
-        columns={clientColumns}
-        data={clientData}
-        onAdd={<ClientCreate />}
-        onEdit={handleEditClient}
-        onDelete={handleDeleteClient}
-        onExport={handleExportClients}
+    <div>
+      <AlertDelete
+        trigger={trigger}
+        expand={expand}
+        setExpand={setExpand}
+        id={id}
+        isLoading={loading}
+        isSuccess={isSuccess}
+        onDelete={onDeleteClient}
       />
-    </main>
+      <main className="container mx-auto py-4">
+        <DataTable
+          title="Clientes"
+          columns={clientColumns}
+          data={clientData}
+          onAdd={<ClientCreate />}
+          onDelete={handleDeleteClient}
+          onEdit={handleEditClient}
+          onExport={handleExportClients}
+        />
+      </main>
+    </div>
   );
 }

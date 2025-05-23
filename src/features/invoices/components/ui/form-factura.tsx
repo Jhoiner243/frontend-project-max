@@ -1,19 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProductCard } from "@/features/products/components/card-products-factu";
-import { useProductosContext } from "@/features/products/context/producto.context";
 import { useState } from "react";
 import { useWindowSize } from "usehooks-ts";
 import { Label } from "../../../../components/ui/label";
+import { useGetProductsQuery } from "../../../../store/productos/api";
 import { useFactura } from "../../context/factura.context";
 
 export default function FormPedido() {
   const { addProducto } = useFactura();
-  const { productos } = useProductosContext();
+  const { data: productos } = useGetProductsQuery();
   const [selected, setSelected] = useState<string | undefined>(undefined);
   const [cantidad, setCantidad] = useState<number | undefined>(undefined);
   const [precio, setPrecio] = useState<number | undefined>(undefined);
   const { height } = useWindowSize();
+  if (!productos) return [];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

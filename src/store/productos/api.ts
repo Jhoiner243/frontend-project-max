@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../config/config";
 import {
+  ProductCreate,
   ProductEntity,
   ProductoSeccion,
 } from "../../features/products/product.type";
@@ -27,6 +28,17 @@ export const productsApi = createApi({
               { type: "Products", id: "LIST" },
             ]
           : [{ type: "Products", id: "LIST" }],
+    }),
+    createProduct: builder.mutation<void, ProductCreate>({
+      query: (newProduct) => ({
+        url: "/productos",
+        method: "POST",
+        body: newProduct,
+      }),
+      invalidatesTags: (result, error, { nombre }) => [
+        { type: "Products", nombre },
+        { type: "Products", id: "LIST" },
+      ],
     }),
     updateProduct: builder.mutation<
       void,
@@ -57,6 +69,7 @@ export const productsApi = createApi({
 });
 
 export const {
+  useCreateProductMutation,
   useUpdateProductMutation,
   useGetProductsQuery,
   useDeleteProductMutation,

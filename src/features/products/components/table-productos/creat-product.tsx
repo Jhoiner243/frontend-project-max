@@ -3,12 +3,12 @@
 
 import { EntitySheet } from "@/components/ui/create/create-component";
 import { type FieldDefinition } from "@/components/ui/create/entity-form";
-import { useCategory } from "../../context/category.context";
-import { useProductosContext } from "../../context/producto.context";
+import { useGetCategoriesQuery } from "../../../../store/categories/api";
+import { useCreateProductMutation } from "../../../../store/productos/api";
 
 export default function CreateProduct() {
-  const { onSubmitProductos } = useProductosContext();
-  const { categoryProductos } = useCategory();
+  const [onSubmitProductos] = useCreateProductMutation();
+  const { data: categoryProductos } = useGetCategoriesQuery();
   // Ejemplo de campos para un formulario de clientes
   const clientFields: FieldDefinition[] = [
     {
@@ -37,10 +37,12 @@ export default function CreateProduct() {
       label: "Categoria",
       type: "select",
       required: true,
-      options: categoryProductos.map((cat) => ({
-        value: cat.id,
-        label: cat.name,
-      })),
+      options: categoryProductos
+        ? categoryProductos.map((cat) => ({
+            value: cat.id,
+            label: cat.name,
+          }))
+        : [],
     },
   ];
 

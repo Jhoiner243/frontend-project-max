@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
-import { getFetchWithCancel } from "@/hooks/use-fetch-cancel";
 import { SonnerToast } from "@/utils/sonner-toast";
 import { createContext, ReactNode, useContext, useReducer } from "react";
 import { toast } from "sonner";
+import { useCreateFacturaMutation } from "../../../store/invoices/api";
 import { useGetProductsQuery } from "../../../store/productos/api";
 import {
   FacturaAction,
@@ -28,6 +28,7 @@ interface FacturaContext {
 const FacturaContext = createContext<FacturaContext | undefined>(undefined);
 
 export const FacturaProvider = ({ children }: { children: ReactNode }) => {
+  const [onSubmitInvoice] = useCreateFacturaMutation();
   const [state, dispatch] = useReducer(facturaReducer, initialValues);
   const { refetch } = useGetProductsQuery();
   const clienteAdd = (id_cliente: string) => {
@@ -79,7 +80,8 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
       toast.promise(
         new Promise<void>((resolve, reject) => {
           setTimeout(() => {
-            getFetchWithCancel("/factura", "POST", invoiceToSend)
+            onSubmitInvoice(invoiceToSend)
+              .unwrap()
               .then(() => resolve())
               .catch(reject);
           }, 1000);

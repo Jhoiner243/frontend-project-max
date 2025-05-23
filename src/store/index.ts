@@ -7,13 +7,17 @@ import { api } from "../hooks/use-fetch-cancelar";
 import { ApiLLM } from "./ai/api";
 import { aiSlice } from "./ai/slice";
 import { fetchApiCategories } from "./categories/api";
+import { ApiClients } from "./clients/api";
+import { apiInvoices } from "./invoices/api";
 import { productsApi } from "./productos/api";
-import { ApiProfit } from "./profit/api";
+import { apiProfit } from "./profit/api";
 
 export const store = configureStore({
   reducer: {
     ai: aiSlice.reducer,
-    [ApiProfit.reducerPath]: ApiProfit.reducer,
+    [apiInvoices.reducerPath]: apiInvoices.reducer,
+    [ApiClients.reducerPath]: ApiClients.reducer,
+    [apiProfit.reducerPath]: apiProfit.reducer,
     [fetchBaseApi.reducerPath]: fetchBaseApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [fetchBaseAuth.reducerPath]: fetchBaseAuth.reducer,
@@ -25,7 +29,9 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      ApiProfit.middleware,
+      apiInvoices.middleware,
+      ApiClients.middleware,
+      apiProfit.middleware,
       productsApi.middleware,
       ApiLLM.middleware,
       apiAnalitics.middleware,

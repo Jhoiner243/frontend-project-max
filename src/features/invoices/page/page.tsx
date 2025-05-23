@@ -78,7 +78,7 @@ export default function PageDataTableFactura() {
     amount: factura.total,
     status: factura.status as FacturaStatus,
   }));
-
+  const handleDelete = () => {};
   return (
     <FacturaProvider>
       <main className="container mx-auto py-4">
@@ -86,6 +86,7 @@ export default function PageDataTableFactura() {
           title="Facturas"
           columns={invoiceColumns}
           data={dataFacturas}
+          onEdit={handleDelete}
         />
       </main>
     </FacturaProvider>

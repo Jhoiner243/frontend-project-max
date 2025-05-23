@@ -3,10 +3,10 @@
 
 import { EntitySheet } from "@/components/ui/create/create-component";
 import { type FieldDefinition } from "@/components/ui/create/entity-form";
-import { useCategory } from "../../context/category.context";
+import { useCreateCategoryMutation } from "../../../../store/categories/api";
 
 export default function CreateCategory() {
-  const { onSubmitCategory } = useCategory();
+  const [onSubmitCategory] = useCreateCategoryMutation();
   // Ejemplo de campos para un formulario de clientes
   const clientFields: FieldDefinition[] = [
     {

@@ -33,7 +33,7 @@ export const AlertDelete = ({
     onDelete(id);
   };
   useEffect(() => {
-    if (isSuccess === true) {
+    if (isSuccess) {
       toast.success("Eliminado exitosamente");
       setExpand(false);
     }

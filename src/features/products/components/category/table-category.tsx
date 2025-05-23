@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { DataTable } from "@/components/ui/custom/table-component";
-import { useCategory } from "../../context/category.context";
+import { useGetCategoriesQuery } from "../../../../store/categories/api";
 import CreateCategory from "../category/create-category";
 
 // Definición de columnas para productos
@@ -18,9 +18,9 @@ const productColumns = [
 ];
 
 export default function CategoryPage() {
-  const { categoryProductos } = useCategory();
+  const { data: categoryProductos } = useGetCategoriesQuery();
 
-  const category = categoryProductos.map((category) => {
+  const category = (categoryProductos ?? []).map((category) => {
     return {
       id: category.id.slice(3, 10).concat("-CAT"),
       name: category.name,

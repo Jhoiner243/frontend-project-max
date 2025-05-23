@@ -59,8 +59,6 @@ export const getFetchWithCancel = async <ResponseType, RequestType = any>(
     ? setTimeout(() => controller.abort(), timeout)
     : null;
 
-  const token = localStorage.getItem("access_token");
-
   try {
     //* Perform fetch request
     const response = await fetch(`${VITE_API_URL}${url}`, {
@@ -68,7 +66,7 @@ export const getFetchWithCancel = async <ResponseType, RequestType = any>(
       body: data ? JSON.stringify(data) : null,
       headers: {
         "Content-Type": "application/json",
-        Authorization: token ? `Bearer ${token}` : "",
+
         ...headers,
       },
       credentials: "include",

@@ -4,9 +4,10 @@ import { useState } from "react";
 import { AlertDelete } from "../../../../components/ui/custom/delete-alert";
 import {
   useDeleteProductMutation,
+  useGetProductsQuery,
   useLazyGetProductsQuery,
 } from "../../../../store/productos/api";
-import { useProductosContext } from "../../context/producto.context";
+import SkeletonTableFactura from "../../../invoices/components/ui/skeleton-table-factura";
 import CreateProduct from "./creat-product";
 import { RenderInputTable } from "./render-input-table";
 
@@ -66,8 +67,9 @@ const productColumns = [
 ];
 
 export default function ProductosPage() {
-  const { productos } = useProductosContext();
-  const [deleteProduct, { isSuccess, isLoading }] = useDeleteProductMutation();
+  const { data: productos, isLoading } = useGetProductsQuery();
+  const [deleteProduct, { isSuccess, isLoading: loading }] =
+    useDeleteProductMutation();
   const [trigger] = useLazyGetProductsQuery();
   const [expand, setExpand] = useState(false);
   const [id, setId] = useState("");
@@ -77,7 +79,11 @@ export default function ProductosPage() {
     return "Disponible";
   };
 
-  const productosData = productos.map((producto) => {
+  if (isLoading) {
+    return <SkeletonTableFactura />;
+  }
+
+  const productosData = (productos ?? []).map((producto) => {
     return {
       id: producto.id,
       name: producto.nombre,
@@ -101,7 +107,7 @@ export default function ProductosPage() {
         expand={expand}
         setExpand={setExpand}
         id={id}
-        isLoading={isLoading}
+        isLoading={loading}
         isSuccess={isSuccess}
         onDelete={deleteProduct}
       />

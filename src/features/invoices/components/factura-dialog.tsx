@@ -1,6 +1,4 @@
 import { ComboboxClient } from "@/features/clients/components/ui/combobox-client";
-import { ClientsProvider } from "@/features/clients/context/client-context";
-import { ProductoProvider } from "@/features/products/context/producto.context";
 import { Dispatch, SetStateAction } from "react";
 import { FacturaProvider } from "../context/factura.context";
 import {
@@ -21,35 +19,31 @@ export default function FacturaDialog({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
-    <ProductoProvider>
-      <ClientsProvider>
-        <FacturaProvider>
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent className="flex max-h-[80vh] max-w-4xl">
-              <div className="flex flex-1 flex-col gap-4 pr-6">
-                <DialogHeader>
-                  <DialogTitle>Crea un pedido nuevo</DialogTitle>
-                  <DialogDescription className="mb-2">
-                    Para crear una factura necesitas haber realizado un proceso
-                    de pedido
-                  </DialogDescription>
-                </DialogHeader>
+    <FacturaProvider>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="flex max-h-[80vh] max-w-4xl">
+          <div className="flex flex-1 flex-col gap-4 pr-6">
+            <DialogHeader>
+              <DialogTitle>Crea un pedido nuevo</DialogTitle>
+              <DialogDescription className="mb-2">
+                Para crear una factura necesitas haber realizado un proceso de
+                pedido
+              </DialogDescription>
+            </DialogHeader>
 
-                <div className="space-y-6">
-                  <div className="px-[18%]">
-                    <ComboboxClient />
-                  </div>
-                  <FormFactura />
-                </div>
+            <div className="space-y-6">
+              <div className="px-[18%]">
+                <ComboboxClient />
               </div>
+              <FormFactura />
+            </div>
+          </div>
 
-              <div className="sticky top-0 h-[calc(80vh-2rem)] w-96 border-l pl-6">
-                <TableFactura />
-              </div>
-            </DialogContent>
-          </Dialog>
-        </FacturaProvider>
-      </ClientsProvider>
-    </ProductoProvider>
+          <div className="sticky top-0 h-[calc(80vh-2rem)] w-96 border-l pl-6">
+            <TableFactura />
+          </div>
+        </DialogContent>
+      </Dialog>
+    </FacturaProvider>
   );
 }

@@ -41,6 +41,7 @@ export function PedidosAnaliticaComponent({
     const date = new Date(dateString);
     return `${date.toLocaleString("default", {
       month: "short",
+      timeZone: "UTC",
     })} ${date.getDate()}`;
   };
 

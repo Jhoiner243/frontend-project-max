@@ -19,14 +19,14 @@ import {
 } from "@/components/ui/popover";
 import { useFactura } from "@/features/invoices/context/factura.context";
 import { cn } from "@/lib/utils";
-import { useClient } from "../../context/client-context";
+import { useGetClientsQuery } from "../../../../store/clients/api";
 
 export function ComboboxClient() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const { clients } = useClient();
+  const { data: clients } = useGetClientsQuery();
   const { addClient } = useFactura();
-
+  if (!clients) return [];
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

@@ -24,8 +24,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { useProfit } from "@/features/profit/context/profit.context";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useGetProfitQuery } from "../../../store/profit/api";
 
 const chartConfig = {
   ganancia_total: {
@@ -36,7 +36,7 @@ const chartConfig = {
 
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile();
-  const { profit } = useProfit();
+  const { data: profit } = useGetProfitQuery();
   const [timeRange, setTimeRange] = React.useState<
     "Diario" | "semanal" | "mensual" | "anual"
   >("Diario");
@@ -46,7 +46,7 @@ export function ChartAreaInteractive() {
       setTimeRange("Diario");
     }
   }, [isMobile]);
-
+  if (!profit) return null;
   const filteredData = profit
     .filter((item) => item.tipo_periodo === timeRange)
     .map((item) => ({

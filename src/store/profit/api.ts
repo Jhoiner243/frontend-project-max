@@ -3,7 +3,7 @@ import { VITE_API_URL } from "../../config/config";
 import { GananciasEntity } from "../../features/profit/types/profit.entity";
 import { usePrepareHeaders } from "../../lib/headers";
 
-export const ApiProfit = createApi({
+export const apiProfit = createApi({
   reducerPath: "apiProfit",
   baseQuery: fetchBaseQuery({
     baseUrl: VITE_API_URL,
@@ -20,4 +20,4 @@ export const ApiProfit = createApi({
   }),
 });
 
-export const { useGetProfitQuery } = ApiProfit;
+export const { useGetProfitQuery } = apiProfit;
