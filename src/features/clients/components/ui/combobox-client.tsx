@@ -37,7 +37,7 @@ export function ComboboxClient() {
           className="w-[300px] "
         >
           {value
-            ? clients.find((client) => client.name === value)?.name
+            ? clients.find((client) => client.id === value)?.name
             : "Selecciona un cliente..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
@@ -51,7 +51,7 @@ export function ComboboxClient() {
               {clients.map((cliente) => (
                 <CommandItem
                   key={cliente.id}
-                  value={cliente.name}
+                  value={cliente.id}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue);
                     addClient(cliente.id);
