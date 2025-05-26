@@ -12,6 +12,7 @@ import {
   Search,
   SortAsc,
   SortDesc,
+  User,
 } from "lucide-react";
 import { ReactNode, useState } from "react";
 
@@ -32,6 +33,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from "../card";
 import { RowActions } from "./table-actions";
 
 type SortDirection = "asc" | "desc" | null;
@@ -51,6 +54,7 @@ interface DataTableProps {
   onEdit?: (item: any) => void;
   onDelete?: (item: string) => void;
   onExport?: () => void;
+  rute: string;
 }
 
 export function DataTable({
@@ -61,12 +65,14 @@ export function DataTable({
   onEdit,
   onDelete,
   onExport,
+  rute,
 }: DataTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const navigate = useNavigate();
 
   // Filter data based on search term
   const filteredData = data.filter((item) => {
@@ -98,6 +104,7 @@ export function DataTable({
     currentPage * pageSize
   );
 
+  const handleClickForLink = (id: string) => navigate(`${rute}/${id}`);
   // Handle sort
   const handleSort = (columnId: string) => {
     if (sortColumn === columnId) {
@@ -175,9 +182,12 @@ export function DataTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedData.length > 0 ? (
+            {paginatedData.length > 0 &&
               paginatedData.map((item, index) => (
-                <TableRow key={index}>
+                <TableRow
+                  key={index}
+                  onDoubleClick={() => handleClickForLink(item.id)}
+                >
                   {columns.map((column) => (
                     <TableCell key={column.id} className="whitespace-nowrap">
                       {column.render
@@ -195,19 +205,26 @@ export function DataTable({
                     </TableCell>
                   )}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length + (onEdit || onDelete ? 1 : 0)}
-                  className="h-24 text-center"
-                >
-                  No se encontraron resultados.
-                </TableCell>
-              </TableRow>
-            )}
+              ))}
           </TableBody>
         </Table>
+        {paginatedData.length === 0 && (
+          <Card className="w-full items-center border-dashed bg-muted/30 border-muted-foreground/20">
+            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+              <div className="rounded-full bg-primary/10 p-3 mb-3">
+                <User className="h-6 w-6 text-primary" />
+              </div>
+              <p className="font-medium text-muted-foreground">
+                No hay datos registrados
+              </p>
+              <p className="text-sm text-muted-foreground/70 max-w-xs mt-1">
+                {`
+                    Utilice el botón "Agregar" para comenzar a registrar sus datos
+                  `}
+              </p>
+            </CardContent>
+          </Card>
+        )}
       </div>
 
       {totalPages > 0 && (

@@ -4,6 +4,7 @@ import AnaliticaPage from "../features/analytics/page/page";
 import LoginPage from "../features/auth/page/login/page-login";
 import RegisterPage from "../features/auth/page/register/page";
 import ClientesPage from "../features/clients/page/page";
+import { EditDataFact } from "../features/invoices/components/ui/edit-data";
 import { FacturaProvider } from "../features/invoices/context/factura.context";
 import PageDataTableFactura from "../features/invoices/page/page";
 import CategoryPage from "../features/products/components/category/table-category";
@@ -27,11 +28,14 @@ export const RoutesApp = () => {
                 <Route index element={<DashboardPage />} />
                 <Route path="/productos" element={<ProductosPage />} />
                 <Route path="/analitics" element={<AnaliticaPage />} />
-                <Route path="/reportes" element={<PageDataTableFactura />} />
+                <Route path="/reportes" element={<PageDataTableFactura />}>
+                  <Route path="edit-data/:id" element={<EditDataFact />} />
+                </Route>
                 <Route path="/clientes" element={<ClientesPage />} />
                 <Route path="/categorias" element={<CategoryPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/ask-llm" element={<AskPage />} />
+                <Route path="/edit-data/:id" element={<EditDataFact />} />
               </Route>
             </Routes>
           </BrowserRouter>

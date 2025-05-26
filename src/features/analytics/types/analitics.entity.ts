@@ -1,3 +1,5 @@
+import { TipoPeriodo } from "./profit.entity";
+
 export interface PedidosAnalitica {
   periodo: string;
   pedidos: number;
@@ -24,4 +26,11 @@ export interface ClientesAnalitica {
 export interface Diario {
   periodo: string;
   pedidos: number;
+}
+
+export interface IResultRate {
+  periodo: TipoPeriodo;
+  fechaActual: string;
+  fechaAnterior: string;
+  porcentaje: number;
 }

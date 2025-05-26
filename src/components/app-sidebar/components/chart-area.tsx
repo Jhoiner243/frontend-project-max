@@ -47,6 +47,7 @@ export function ChartAreaInteractive() {
     }
   }, [isMobile]);
   if (!profit) return null;
+
   const filteredData = profit
     .filter((item) => item.tipo_periodo === timeRange)
     .map((item) => ({
@@ -61,7 +62,6 @@ export function ChartAreaInteractive() {
         return date.toLocaleDateString("es-CO", {
           day: "numeric",
           month: "short",
-          timeZone: "UTC", // ← fuerza usar UTC
         });
       case "semanal":
         return `Sem ${new Intl.DateTimeFormat("es-ES", {
@@ -183,7 +183,6 @@ export function ChartAreaInteractive() {
                       day: "numeric",
                       month: "long",
                       year: "numeric",
-                      timeZone: "UTC",
                     });
                   }}
                   formatter={(value) => [
