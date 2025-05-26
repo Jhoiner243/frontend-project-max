@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useEffect } from "react";
+import { createContext, useContext } from "react";
 import { useGetProfitQuery } from "../../../store/profit/api";
 import { GananciasEntity } from "../types/profit.entity";
 
@@ -11,11 +11,7 @@ interface GananciasContext {
 const ProfitContext = createContext<GananciasContext | null>(null);
 
 export const ProfitProvider = ({ children }: { children: React.ReactNode }) => {
-  const { data, isLoading, refetch } = useGetProfitQuery();
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  const { data, isLoading } = useGetProfitQuery();
 
   return (
     <ProfitContext.Provider

@@ -3,6 +3,7 @@ import { VITE_API_URL } from "../../../config/config";
 import { usePrepareHeaders } from "../../../lib/headers";
 import {
   ClientesAnalitica,
+  IResultRate,
   PedidosAnalitica,
   ProductosAnalitica,
 } from "../types/analitics.entity";
@@ -27,6 +28,9 @@ export const apiAnalitics = createApi({
         method: "GET",
       }),
     }),
+    getGrowtRate: builder.query<IResultRate, void>({
+      query: () => "/analitics/growt-rate",
+    }),
   }),
 });
 
@@ -34,4 +38,5 @@ export const {
   useGetAnaliticsClientQuery,
   useGetAnaliticsPedidosQuery,
   useGetAnaliticsProductsQuery,
+  useGetGrowtRateQuery,
 } = apiAnalitics;

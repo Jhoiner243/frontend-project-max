@@ -6,9 +6,9 @@ export interface GananciasEntity {
   createdAt: Date;
 }
 
-enum TipoPeriodo {
-  Diario = 'diario',
-  Mensual = 'mensual',
-  Semanal = 'semanal',
-  Anual = 'anual'
+export enum TipoPeriodo {
+  Diario = "diario",
+  Mensual = "mensual",
+  Semanal = "semanal",
+  Anual = "anual",
 }

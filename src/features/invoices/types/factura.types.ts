@@ -25,3 +25,30 @@ export enum StatusFactura {
   Fiada = "Fiada",
   Vencida = "Vencida",
 }
+
+// Para el edit de las facturas y visualización de detalles
+// ----------------------------------------------------------------
+export interface DetailsItem {
+  cantidad: number;
+  createdAt: Date;
+  precio: number;
+  producto: {
+    id: string;
+    nombre: string;
+  };
+}
+
+export interface EditDataFactProps {
+  id: string;
+  clienteId: string;
+  status: string;
+  total: number;
+  createdAt: Date;
+  cliente: {
+    name: string;
+    email: string;
+    phone: string;
+    address: string;
+  };
+  detalles?: DetailsItem[];
+}

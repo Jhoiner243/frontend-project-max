@@ -13,7 +13,7 @@ export const ApiClients = createApi({
     prepareHeaders: usePrepareHeaders,
     credentials: "include",
   }),
-  tagTypes: ["Clients"],
+  tagTypes: ["Clients"] as const,
   endpoints: (builder) => ({
     getClients: builder.query<ClientEntity[], void>({
       query: () => ({
@@ -34,10 +34,7 @@ export const ApiClients = createApi({
         method: "POST",
         body: newClient,
       }),
-      invalidatesTags: (result, error, { name }) => [
-        { type: "Clients", name },
-        { type: "Clients", id: "LIST" },
-      ],
+      invalidatesTags: [{ type: "Clients", id: "LIST" }],
     }),
     deleteClient: builder.mutation<void, string>({
       query: (id) => ({

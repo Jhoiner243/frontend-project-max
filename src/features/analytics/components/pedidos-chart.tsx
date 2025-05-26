@@ -36,13 +36,10 @@ export function PedidosAnaliticaComponent({
   const { data: AnaliticsPedidos, isLoading } = useGetAnaliticsPedidosQuery();
   if (isLoading) return <IsLoadingComponent />;
 
-  if (AnaliticsPedidos?.diario === undefined) return null;
+  if (AnaliticsPedidos?.diario === undefined) return [];
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return `${date.toLocaleString("default", {
-      month: "short",
-      timeZone: "UTC",
-    })} ${date.getDate()}`;
+    return `${date.toISOString().slice(5, 10)}`;
   };
 
   return (

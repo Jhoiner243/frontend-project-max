@@ -34,7 +34,12 @@ export const invoiceColumns = [
     label: "Hora emisión",
     sortable: true,
     render: (value: string) =>
-      new Date(value).toLocaleTimeString().split(" ")[0],
+      new Date(value)
+        .toLocaleTimeString()
+        .split("  ")
+        .toString()
+        .toUpperCase()
+        .slice(0, 13),
   },
   {
     id: "amount",
@@ -78,12 +83,13 @@ export default function PageDataTableFactura() {
     amount: factura.total,
     status: factura.status as FacturaStatus,
   }));
+
   const handleDelete = () => {};
   return (
     <FacturaProvider>
       <main className="container mx-auto py-4">
         <DataTable
-          title="Facturas"
+          rute="/edit-data"
           columns={invoiceColumns}
           data={dataFacturas}
           onEdit={handleDelete}

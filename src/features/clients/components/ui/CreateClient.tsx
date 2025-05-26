@@ -3,10 +3,16 @@
 
 import { EntitySheet } from "@/components/ui/create/create-component";
 import { type FieldDefinition } from "@/components/ui/create/entity-form";
-import { useCreateClientMutation } from "../../../../store/clients/api";
+import {
+  useCreateClientMutation,
+  useGetClientsQuery,
+  useLazyGetClientsQuery,
+} from "../../../../store/clients/api";
 
 export default function ClientCreate() {
   const [createClient] = useCreateClientMutation();
+  const { data } = useGetClientsQuery();
+  const [trigger] = useLazyGetClientsQuery();
   // Ejemplo de campos para un formulario de clientes
   const clientFields: FieldDefinition[] = [
     {
@@ -44,7 +50,8 @@ export default function ClientCreate() {
   // Función para manejar el envío del formulario de clientes
   const handleClientSubmit = async (data: any) => {
     try {
-      await createClient(data);
+      createClient(data);
+      trigger();
       return { success: true };
     } catch (error: any) {
       return {
@@ -57,7 +64,8 @@ export default function ClientCreate() {
   return (
     <div className="flex flex-wrap gap-4 justify-center">
       <EntitySheet
-        title="Agregar Cliente"
+        data={data}
+        title="Agregar cliente"
         description="Ingresa los datos del nuevo cliente"
         entityName="Cliente"
         fields={clientFields}

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../config/config";
 import {
+  EditDataFactProps,
   FacturaSeccion,
   FacturasEntity,
 } from "../../features/invoices/types/factura.types";
@@ -30,7 +31,7 @@ export const apiInvoices = createApi({
     }),
     createFactura: builder.mutation<void, FacturasEntity>({
       query: (newFactura) => ({
-        url: "/facturas",
+        url: "/factura",
         method: "POST",
         body: newFactura,
       }),
@@ -39,7 +40,21 @@ export const apiInvoices = createApi({
         { type: "Facturas", id: "LIST" },
       ],
     }),
+    getFacturaById: builder.query<EditDataFactProps, string>({
+      query: (id) => ({
+        url: `/factura/${id}`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [
+        { type: "Facturas", id },
+        { type: "Facturas", id: "LIST" },
+      ],
+    }),
   }),
 });
 
-export const { useCreateFacturaMutation, useGetFacturasQuery } = apiInvoices;
+export const {
+  useCreateFacturaMutation,
+  useGetFacturasQuery,
+  useGetFacturaByIdQuery,
+} = apiInvoices;

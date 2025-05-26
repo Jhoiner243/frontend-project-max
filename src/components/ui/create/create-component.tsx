@@ -23,6 +23,7 @@ interface EntitySheetProps {
   onSubmit: (data: any) => Promise<{ success: boolean; message?: string }>;
   triggerButtonText?: string;
   submitButtonText?: string;
+  data: any;
   side?: "top" | "right" | "bottom" | "left";
   size?: "sm" | "default" | "lg" | "xl" | "full" | "content";
 }

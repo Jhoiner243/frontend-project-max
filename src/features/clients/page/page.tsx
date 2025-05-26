@@ -60,7 +60,7 @@ export default function ClientesPage() {
   const [expand, setExpand] = useState(false);
   const clientData = (clients ?? []).map((cliente) => {
     return {
-      id: cliente.id.slice(3, 10).concat("-CLI"),
+      id: cliente.id,
       name: cliente.name,
       contact: cliente.name,
       email: cliente.email,

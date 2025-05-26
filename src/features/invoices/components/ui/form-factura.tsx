@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ProductCard } from "@/features/products/components/card-products-factu";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
 import { Label } from "../../../../components/ui/label";
 import { useGetProductsQuery } from "../../../../store/productos/api";
@@ -14,7 +15,16 @@ export default function FormPedido() {
   const [cantidad, setCantidad] = useState<number | undefined>(undefined);
   const [precio, setPrecio] = useState<number | undefined>(undefined);
   const { height } = useWindowSize();
-  if (!productos) return [];
+  if (!productos)
+    return (
+      <Link
+        to={"/productos"}
+        className="text-destructive rounded-full p-4 hover:bg-primary/20"
+      >
+        {" "}
+        !Agrega un producto para empezar¡
+      </Link>
+    );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

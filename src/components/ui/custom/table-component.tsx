@@ -47,7 +47,7 @@ type Column = {
 };
 
 interface DataTableProps {
-  title: string;
+  title?: string;
   columns: Column[];
   data: any[];
   onAdd?: ReactNode;

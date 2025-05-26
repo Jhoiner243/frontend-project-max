@@ -1,16 +1,18 @@
 import { ChartAreaInteractive } from "@/components/app-sidebar/components/chart-area";
-import { SectionCards } from "@/components/app-sidebar/section-card";
+import { SectionCards } from "@/components/app-sidebar/components/sections-card/sections-card";
+import { useGetGrowtRateQuery } from "../../features/analytics/service/api";
 
 export default function DashboardPage() {
+  const { data } = useGetGrowtRateQuery();
+
+  if (!data) return [];
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="@container/main flex flex-1 flex-col gap-2">
-        <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-          <SectionCards />
-          <div className="px-4 lg:px-6">
-            <ChartAreaInteractive />
-          </div>
-        </div>
+    <div>
+      <div className="mx-auto">
+        <SectionCards resultGrowtRate={data} />
+      </div>
+      <div className="px-4 lg:px-6 mt-10">
+        <ChartAreaInteractive />
       </div>
     </div>
   );
