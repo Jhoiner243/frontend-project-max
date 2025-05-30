@@ -14,7 +14,7 @@ import {
   SortDesc,
   User,
 } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,7 +33,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { setLimit } from "../../../store/pagination/slice";
 import { Card, CardContent } from "../card";
 import { RowActions } from "./table-actions";
 
@@ -71,8 +73,29 @@ export function DataTable({
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
   const navigate = useNavigate();
+
+  const limitValue = useSelector((state: any) => state.limit);
+  const dispatch = useDispatch();
+  const [searchParams, setSearchParam] = useSearchParams();
+
+  // Función para actualizar los parámetros de URL
+  const updateSearchParams = useCallback(
+    (updates: Record<string, string | number>) => {
+      const params = new URLSearchParams(searchParams.toString());
+
+      Object.entries(updates).forEach(([key, value]) => {
+        if (value) {
+          params.set(key, value.toString());
+        } else {
+          params.delete(key);
+        }
+      });
+
+      setSearchParam(`?${params.toString()}`);
+    },
+    [setSearchParam, searchParams]
+  );
 
   // Filter data based on search term
   const filteredData = data.filter((item) => {
@@ -84,24 +107,21 @@ export function DataTable({
   });
 
   // Sort data based on sort column and direction
-  const sortedData = [...filteredData].sort((a, b) => {
-    if (!sortColumn || !sortDirection) return 0;
-
-    const aValue = a[sortColumn];
-    const bValue = b[sortColumn];
-
-    if (sortDirection === "asc") {
-      return aValue > bValue ? 1 : -1;
-    } else {
+  const sortedData = useMemo(() => {
+    return [...filteredData].sort((a, b) => {
+      if (!sortColumn || !sortDirection) return 0;
+      const aValue = a[sortColumn];
+      const bValue = b[sortColumn];
+      if (sortDirection === "asc") return aValue > bValue ? 1 : -1;
       return aValue < bValue ? 1 : -1;
-    }
-  });
+    });
+  }, [filteredData, sortColumn, sortDirection]);
 
   // Paginate data
-  const totalPages = Math.ceil(sortedData.length / pageSize);
+  const totalPages = Math.ceil(sortedData.length / Number(limitValue));
   const paginatedData = sortedData.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
+    (currentPage - 1) * Number(limitValue),
+    currentPage * Number(limitValue)
   );
 
   const handleClickForLink = (id: string) => navigate(`${rute}/${id}`);
@@ -120,6 +140,19 @@ export function DataTable({
     }
   };
 
+  const handleItemsPerPageChange = (value: string) => {
+    const newItemsPerPage = Number.parseInt(value);
+    const newTotalPages = Math.ceil(sortedData.length / newItemsPerPage);
+
+    dispatch(setLimit(newItemsPerPage));
+    // Si la página actual es mayor que el nuevo total de páginas, ir a la última página
+    const newPage = currentPage > newTotalPages ? newTotalPages : currentPage;
+
+    updateSearchParams({
+      ["limit"]: newItemsPerPage,
+      ["page"]: newPage,
+    });
+  };
   return (
     <div className="w-full space-y-4">
       <div className="flex items-center justify-between">
@@ -182,30 +215,29 @@ export function DataTable({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {paginatedData.length > 0 &&
-              paginatedData.map((item, index) => (
-                <TableRow
-                  key={index}
-                  onDoubleClick={() => handleClickForLink(item.id)}
-                >
-                  {columns.map((column) => (
-                    <TableCell key={column.id} className="whitespace-nowrap">
-                      {column.render
-                        ? column.render(item[column.id], item)
-                        : item[column.id]}
-                    </TableCell>
-                  ))}
-                  {(onEdit || onDelete) && (
-                    <TableCell key={index}>
-                      <RowActions
-                        item={item}
-                        onEdit={onEdit}
-                        onDelete={onDelete}
-                      />
-                    </TableCell>
-                  )}
-                </TableRow>
-              ))}
+            {paginatedData.map((item, index) => (
+              <TableRow
+                key={index}
+                onDoubleClick={() => handleClickForLink(item.id)}
+              >
+                {columns.map((column) => (
+                  <TableCell key={column.id} className="whitespace-nowrap">
+                    {column.render
+                      ? column.render(item[column.id], item)
+                      : item[column.id]}
+                  </TableCell>
+                ))}
+                {(onEdit || onDelete) && (
+                  <TableCell key={index}>
+                    <RowActions
+                      item={item}
+                      onEdit={onEdit}
+                      onDelete={onDelete}
+                    />
+                  </TableCell>
+                )}
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
         {paginatedData.length === 0 && (
@@ -234,11 +266,8 @@ export function DataTable({
           </div>
           <div className="flex items-center gap-2">
             <Select
-              value={pageSize.toString()}
-              onValueChange={(value) => {
-                setPageSize(Number(value));
-                setCurrentPage(1); // Reset to first page when changing page size
-              }}
+              value={limitValue.toString()}
+              onValueChange={handleItemsPerPageChange}
             >
               <SelectTrigger className="h-8 w-[70px]">
                 <SelectValue placeholder="10" />

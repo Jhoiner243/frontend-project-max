@@ -139,7 +139,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
           {/* Información de empresas */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Empresa emisora */}
-            <Card className="border-0 ">
+            <Card>
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-3 ">
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center">
@@ -173,7 +173,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
             </Card>
 
             {/* Cliente */}
-            <Card className="border-0  ">
+            <Card>
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-3 ">
                   <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
@@ -216,7 +216,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
           </div>
 
           {/* Información de fechas y pago */}
-          <Card className="border-0 ">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3 ">
                 <div className="w-10 h-10  rounded-lg flex items-center justify-center">

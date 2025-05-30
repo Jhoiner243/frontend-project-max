@@ -62,21 +62,25 @@ export function ChartAreaInteractive() {
         return date.toLocaleDateString("es-CO", {
           day: "numeric",
           month: "short",
+          timeZone: "America/Bogota",
         });
-      case "semanal":
-        return `Sem ${new Intl.DateTimeFormat("es-ES", {
-          week: "numeric",
-          timeZone: "UTC",
-        }).format(date)}`;
+      case "semanal": {
+        const week = date.toLocaleDateString("America/Bogota");
+        return `Sem ${week}`;
+      }
       case "mensual":
-        return date.toLocaleDateString("es-ES", {
+        return date.toLocaleDateString("es-CO", {
           month: "short",
-          timeZone: "UTC",
+          timeZone: "America/Bogota",
         });
       case "anual":
-        return date.getUTCFullYear().toString(); // usa getUTC*
+        return new Date(
+          date.toLocaleString("en-US", { timeZone: "America/Bogota" })
+        )
+          .getFullYear()
+          .toString();
       default:
-        return date.toLocaleDateString("es-ES", { timeZone: "UTC" });
+        return date.toLocaleDateString("es-CO", { timeZone: "America/Bogota" });
     }
   };
 

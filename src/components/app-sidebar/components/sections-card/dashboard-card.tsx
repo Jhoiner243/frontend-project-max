@@ -68,15 +68,9 @@ export function DashboardCard({
         ${className} 
         @container/card 
         relative overflow-hidden
-        ${
-          isPositive
-            ? "bg-gradient-to-br from-green-100/20 to-emerald-50/50 "
-            : "bg-gradient-to-br from-red-50/50 to-rose-50/50 "
-        }
       `}
     >
       {/* Glassmorphism overlay */}
-      <div className="absolute inset-0 bg-white/20 backdrop-blur-sm" />
 
       <CardHeader className="relative z-10">
         <CardDescription className="text-muted-foreground">
