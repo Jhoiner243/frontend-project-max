@@ -9,11 +9,13 @@ import { aiSlice } from "./ai/slice";
 import { fetchApiCategories } from "./categories/api";
 import { ApiClients } from "./clients/api";
 import { apiInvoices } from "./invoices/api";
+import SelectLimit from "./pagination/slice";
 import { productsApi } from "./productos/api";
 import { apiProfit } from "./profit/api";
 
 export const store = configureStore({
   reducer: {
+    limit: SelectLimit,
     ai: aiSlice.reducer,
     [apiInvoices.reducerPath]: apiInvoices.reducer,
     [ApiClients.reducerPath]: ApiClients.reducer,

@@ -5,6 +5,7 @@ import LoginPage from "../features/auth/page/login/page-login";
 import RegisterPage from "../features/auth/page/register/page";
 import ClientesPage from "../features/clients/page/page";
 import EditPageInvoices from "../features/invoices/components/ui/principal-edit";
+import { InvoiceSkeleton } from "../features/invoices/components/ui/skeleton-visualizer";
 import { FacturaProvider } from "../features/invoices/context/factura.context";
 import PageDataTableFactura from "../features/invoices/page/page";
 import CategoryPage from "../features/products/components/category/table-category";
@@ -29,13 +30,21 @@ export const RoutesApp = () => {
                 <Route path="/productos" element={<ProductosPage />} />
                 <Route path="/analitics" element={<AnaliticaPage />} />
                 <Route path="/reportes" element={<PageDataTableFactura />}>
-                  <Route path="edit-data/:id" element={<EditPageInvoices />} />
+                  <Route
+                    path="edit-data/:id"
+                    element={<EditPageInvoices />}
+                    loader={() => InvoiceSkeleton()}
+                  />
                 </Route>
                 <Route path="/clientes" element={<ClientesPage />} />
                 <Route path="/categorias" element={<CategoryPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/ask-llm" element={<AskPage />} />
-                <Route path="/edit-data/:id" element={<EditPageInvoices />} />
+                <Route
+                  path="/edit-data/:id"
+                  element={<EditPageInvoices />}
+                  loader={InvoiceSkeleton}
+                />
               </Route>
             </Routes>
           </BrowserRouter>

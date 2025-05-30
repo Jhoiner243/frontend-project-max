@@ -17,6 +17,7 @@ export interface FacturaSeccion extends FacturasEntity {
   updatedAt: Date;
   createdAt: Date;
   status: FacturaStatus;
+  lastPages: number;
 }
 
 export enum StatusFactura {

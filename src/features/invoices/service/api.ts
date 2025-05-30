@@ -11,36 +11,70 @@ export const fetchApiInvoices = createApi({
     prepareHeaders: usePrepareHeaders,
     credentials: "include",
   }),
+  tagTypes: ["Facturas"],
   endpoints: (builder) => ({
-    getInvoices: builder.query<FacturaSeccion[], void>({
-      query: () => ({
-        url: "/facturas",
-        method: "GET",
-      }),
+    getInvoices: builder.query<
+      {
+        facturas: FacturaSeccion[];
+        lastPages: number;
+        totalFact: number;
+      },
+      { page: number; limit: number }
+    >({
+      query: ({ limit, page }) => {
+        return {
+          url: `/facturas?page=${page}&limit=${limit}`,
+          method: "GET",
+        };
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.facturas.map((factura) => ({
+                type: "Facturas" as const,
+                id: factura.id,
+              })),
+              { type: "Facturas", id: "PARTIAL-LIST" },
+            ]
+          : [{ type: "Facturas", id: "PARTIAL-LIST" }],
     }),
+
     createInvoice: builder.mutation({
       query: (newInvoice) => ({
         url: "/factura",
         method: "POST",
         body: newInvoice,
       }),
-      transformResponse: (response) => response.json(),
+      invalidatesTags: [
+        { type: "Facturas" },
+        { type: "Facturas", id: "PARTIAL-LIST" },
+      ],
     }),
+
     deleteInvoice: builder.mutation({
       query: (id: string) => ({
         url: `/facturas/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: (_result, _error, id) => [
+        { type: "Facturas", id },
+        { type: "Facturas", id: "PARTIAL-LIST" },
+      ],
     }),
+
     putInvoice: builder.mutation<
       FacturaStatus,
       { id: string; data: FacturaSeccion }
     >({
-      query: ({ id, data }: { id: string; data: FacturaSeccion }) => ({
+      query: ({ id, data }) => ({
         url: `/facturas/${id}`,
-        body: data,
         method: "PUT",
+        body: data,
       }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "Facturas", id },
+        { type: "Facturas", id: "PARTIAL-LIST" },
+      ],
     }),
   }),
 });
