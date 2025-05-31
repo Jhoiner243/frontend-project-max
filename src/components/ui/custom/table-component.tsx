@@ -3,17 +3,7 @@
 
 import type React from "react";
 
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  Download,
-  Search,
-  SortAsc,
-  SortDesc,
-  User,
-} from "lucide-react";
+import { Download, Search, SortAsc, SortDesc, User } from "lucide-react";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -37,6 +27,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { setLimit } from "../../../store/pagination/slice";
 import { Card, CardContent } from "../card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "../pagination";
 import { RowActions } from "./table-actions";
 
 type SortDirection = "asc" | "desc" | null;
@@ -57,6 +56,8 @@ interface DataTableProps {
   onDelete?: (item: string) => void;
   onExport?: () => void;
   rute: string;
+  totalItems: number;
+  lastPages: number;
 }
 
 export function DataTable({
@@ -65,9 +66,11 @@ export function DataTable({
   data,
   onAdd,
   onEdit,
+  totalItems,
   onDelete,
   onExport,
   rute,
+  lastPages,
 }: DataTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -118,10 +121,9 @@ export function DataTable({
   }, [filteredData, sortColumn, sortDirection]);
 
   // Paginate data
-  const totalPages = Math.ceil(sortedData.length / Number(limitValue));
   const paginatedData = sortedData.slice(
-    (currentPage - 1) * Number(limitValue),
-    currentPage * Number(limitValue)
+    (currentPage - 1) * limitValue,
+    currentPage * limitValue
   );
 
   const handleClickForLink = (id: string) => navigate(`${rute}/${id}`);
@@ -140,6 +142,18 @@ export function DataTable({
     }
   };
 
+  const handlePrevious = () => {
+    if (currentPage > 1) {
+      updateSearchParams({ ["page"]: currentPage - 1 });
+    }
+  };
+
+  const handleNext = () => {
+    if (currentPage < lastPages) {
+      updateSearchParams({ ["page"]: currentPage + 1 });
+    }
+  };
+
   const handleItemsPerPageChange = (value: string) => {
     const newItemsPerPage = Number.parseInt(value);
     const newTotalPages = Math.ceil(sortedData.length / newItemsPerPage);
@@ -152,6 +166,45 @@ export function DataTable({
       ["limit"]: newItemsPerPage,
       ["page"]: newPage,
     });
+  };
+
+  const handlePageClick = (page: number) => {
+    updateSearchParams({ ["page"]: page });
+  };
+
+  const getPageNumbers = () => {
+    const pages: (number | string)[] = [];
+    const maxVisiblePages = 5;
+
+    if (lastPages <= maxVisiblePages) {
+      for (let i = 1; i <= lastPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) {
+          pages.push(i);
+        }
+        pages.push("ellipsis");
+        pages.push(lastPages);
+      } else if (currentPage >= lastPages - 2) {
+        pages.push(1);
+        pages.push("ellipsis");
+        for (let i = lastPages - 3; i <= lastPages; i++) {
+          pages.push(i);
+        }
+      } else {
+        pages.push(1);
+        pages.push("ellipsis");
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+          pages.push(i);
+        }
+        pages.push("ellipsis");
+        pages.push(lastPages);
+      }
+    }
+
+    return pages;
   };
   return (
     <div className="w-full space-y-4">
@@ -259,10 +312,10 @@ export function DataTable({
         )}
       </div>
 
-      {totalPages > 0 && (
+      {lastPages > 0 && (
         <div className="flex items-center justify-between">
           <div className="text-sm text-muted-foreground">
-            Mostrando {paginatedData.length} de {filteredData.length} registros
+            Mostrando {paginatedData.length} de {totalItems} registros
           </div>
           <div className="flex items-center gap-2">
             <Select
@@ -281,51 +334,48 @@ export function DataTable({
               </SelectContent>
             </Select>
 
-            <div className="flex items-center gap-1">
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setCurrentPage(1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronsLeft className="h-4 w-4" />
-                <span className="sr-only">Primera página</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                <ChevronLeft className="h-4 w-4" />
-                <span className="sr-only">Página anterior</span>
-              </Button>
-              <span className="text-sm">
-                Página {currentPage} de {totalPages}
-              </span>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronRight className="h-4 w-4" />
-                <span className="sr-only">Página siguiente</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                className="h-8 w-8"
-                onClick={() => setCurrentPage(totalPages)}
-                disabled={currentPage === totalPages}
-              >
-                <ChevronsRight className="h-4 w-4" />
-                <span className="sr-only">Última página</span>
-              </Button>
-            </div>
+            {/* Controles de paginación */}
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    onClick={handlePrevious}
+                    className={
+                      currentPage === 1
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
+                  />
+                </PaginationItem>
+
+                {getPageNumbers().map((page, index) => (
+                  <PaginationItem key={index}>
+                    {page === "ellipsis" ? (
+                      <PaginationEllipsis />
+                    ) : (
+                      <PaginationLink
+                        onClick={() => handlePageClick(page as number)}
+                        isActive={currentPage === page}
+                        className="cursor-pointer"
+                      >
+                        {page}
+                      </PaginationLink>
+                    )}
+                  </PaginationItem>
+                ))}
+
+                <PaginationItem>
+                  <PaginationNext
+                    onClick={handleNext}
+                    className={
+                      currentPage === lastPages
+                        ? "pointer-events-none opacity-50"
+                        : "cursor-pointer"
+                    }
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </div>
       )}

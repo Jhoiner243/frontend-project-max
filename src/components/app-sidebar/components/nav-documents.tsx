@@ -22,7 +22,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export function NavDocuments({
   items,
@@ -34,13 +34,18 @@ export function NavDocuments({
   }[];
 }) {
   const { isMobile } = useSidebar();
-
+  const path = useLocation();
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Documents</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <SidebarMenuItem key={item.name}>
+          <SidebarMenuItem
+            className={`${
+              item.url === path.pathname && "text-amber-200 rounded-2xl"
+            }`}
+            key={item.name}
+          >
             <SidebarMenuButton asChild>
               <Link to={item.url}>
                 <item.icon />

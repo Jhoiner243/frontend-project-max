@@ -25,7 +25,9 @@ import {
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useGetProfitQuery } from "../../../store/profit/api";
+import { useUser } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { useLazyGetProfitQuery } from "../../../store/profit/api";
 
 const chartConfig = {
   ganancia_total: {
@@ -36,7 +38,13 @@ const chartConfig = {
 
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile();
-  const { data: profit } = useGetProfitQuery();
+  const [triggerGetProfit, { data: profit }] = useLazyGetProfitQuery();
+  const { isLoaded } = useUser();
+  useEffect(() => {
+    if (isLoaded) {
+      triggerGetProfit();
+    }
+  }, [triggerGetProfit, isLoaded]);
   const [timeRange, setTimeRange] = React.useState<
     "Diario" | "semanal" | "mensual" | "anual"
   >("Diario");
