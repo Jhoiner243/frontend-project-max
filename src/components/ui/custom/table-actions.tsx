@@ -21,6 +21,11 @@ export function RowActions({
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const handleEdit = () => {
+    setMenuOpen(false);
+    onEdit?.(item.id);
+  };
+
   const handleDelete = () => {
     // 1) Cierra el menú para quitar el foco
     setMenuOpen(false);
@@ -38,12 +43,7 @@ export function RowActions({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         {onEdit && (
-          <DropdownMenuItem
-            onClick={() => {
-              setMenuOpen(false);
-              onEdit(item);
-            }}
-          >
+          <DropdownMenuItem onClick={handleEdit}>
             <FileEdit className="mr-2 h-4 w-4" />
             Editar
           </DropdownMenuItem>

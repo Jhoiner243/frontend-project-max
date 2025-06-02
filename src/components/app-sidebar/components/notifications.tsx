@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuth } from "@clerk/clerk-react";
 import { AlertTriangle, Bell, Info, ShoppingBasket, X } from "lucide-react";
 import { JSX, useState } from "react";
 import DeleteNotification from "../../../features/notifications/components/delete-notification";
@@ -21,11 +22,13 @@ interface NotificationState {
 
 export function Notifications() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isSignedIn } = useAuth();
+  const skip = !isSignedIn;
   const {
     data: notifications,
     isLoading,
     refetch,
-  } = useGetNotificationsQuery();
+  } = useGetNotificationsQuery(undefined, { skip });
   const [onDeleteNotification] = useDeleteNotificationMutation();
   const enrichedNotifications: NotificationState[] =
     notifications?.map((notification) => {

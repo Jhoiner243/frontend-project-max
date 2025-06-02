@@ -4,7 +4,7 @@
 import type React from "react";
 
 import { Download, Search, SortAsc, SortDesc, User } from "lucide-react";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,13 +16,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { setLimit } from "../../../store/pagination/slice";
@@ -45,6 +45,7 @@ type Column = {
   label: string;
   sortable?: boolean;
   render?: (value: any, item: any) => React.ReactNode;
+  hideOnMobile?: boolean;
 };
 
 interface DataTableProps {
@@ -55,9 +56,9 @@ interface DataTableProps {
   onEdit?: (item: any) => void;
   onDelete?: (item: string) => void;
   onExport?: () => void;
-  rute: string;
-  totalItems: number;
-  lastPages: number;
+  rute?: string;
+  totalItems?: number;
+  lastPages?: number;
 }
 
 export function DataTable({
@@ -70,7 +71,7 @@ export function DataTable({
   onDelete,
   onExport,
   rute,
-  lastPages,
+  lastPages = 1,
 }: DataTableProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState<string | null>(null);
@@ -126,7 +127,12 @@ export function DataTable({
     currentPage * limitValue
   );
 
-  const handleClickForLink = (id: string) => navigate(`${rute}/${id}`);
+  const handleClickForLink = (id: string) => {
+    if (rute !== undefined && id) {
+      navigate(`${rute}/${id}`);
+    }
+  };
+
   // Handle sort
   const handleSort = (columnId: string) => {
     if (sortColumn === columnId) {
@@ -206,118 +212,198 @@ export function DataTable({
 
     return pages;
   };
-  return (
-    <div className="w-full space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">{title}</h2>
-        <div className="flex items-center gap-2">
-          {onExport && (
-            <Button variant="outline" size="sm" onClick={onExport}>
-              <Download className="mr-2 h-4 w-4" />
-              Exportar
-            </Button>
-          )}
-          {onAdd}
-        </div>
-      </div>
 
-      <div className="flex items-center">
-        <div className="relative flex-1">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder="Buscar..."
-            className="pl-8"
-            value={searchTerm}
-            onChange={(e) => {
-              setSearchTerm(e.target.value);
-              setCurrentPage(1); // Reset to first page on search
-            }}
-          />
-        </div>
-      </div>
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.03,
+      },
+    },
+  };
 
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              {columns.map((column) => (
-                <TableHead key={column.id} className="whitespace-nowrap">
-                  {column.sortable ? (
-                    <button
-                      className="flex items-center gap-1"
-                      onClick={() => handleSort(column.id)}
-                    >
-                      {column.label}
-                      {sortColumn === column.id ? (
-                        sortDirection === "asc" ? (
-                          <SortAsc className="h-4 w-4" />
-                        ) : (
-                          <SortDesc className="h-4 w-4" />
-                        )
-                      ) : null}
-                    </button>
-                  ) : (
-                    column.label
-                  )}
-                </TableHead>
-              ))}
-              {(onEdit || onDelete) && (
-                <TableHead className="w-[100px]">Acciones</TableHead>
-              )}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paginatedData.map((item, index) => (
-              <TableRow
-                key={index}
-                onDoubleClick={() => handleClickForLink(item.id)}
-              >
-                {columns.map((column) => (
-                  <TableCell key={column.id} className="whitespace-nowrap">
-                    {column.render
-                      ? column.render(item[column.id], item)
-                      : item[column.id]}
-                  </TableCell>
-                ))}
-                {(onEdit || onDelete) && (
-                  <TableCell key={index}>
-                    <RowActions
-                      item={item}
-                      onEdit={onEdit}
-                      onDelete={onDelete}
-                    />
-                  </TableCell>
-                )}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        {paginatedData.length === 0 && (
-          <Card className="w-full items-center border-dashed bg-muted/30 border-muted-foreground/20">
-            <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-              <div className="rounded-full bg-primary/10 p-3 mb-3">
-                <User className="h-6 w-6 text-primary" />
-              </div>
-              <p className="font-medium text-muted-foreground">
-                No hay datos registrados
-              </p>
-              <p className="text-sm text-muted-foreground/70 max-w-xs mt-1">
-                {`
-                    Utilice el botón "Agregar" para comenzar a registrar sus datos
-                  `}
-              </p>
-            </CardContent>
-          </Card>
+  const itemDelay = {
+    hidden: { opacity: 0 },
+    show: { opacity: 1 },
+  };
+
+  // Mobile card view for better responsiveness
+  const MobileCard = ({ item }: { item: any }) => (
+    <Card className="mb-4 p-4">
+      <div className="space-y-2">
+        {columns.map((column) => (
+          <div key={column.id} className="flex justify-between items-center">
+            <span className="text-sm font-medium text-muted-foreground">
+              {column.label}:
+            </span>
+            <span className="text-sm">
+              {column.render
+                ? column.render(item[column.id], item)
+                : item[column.id]}
+            </span>
+          </div>
+        ))}
+        {(onEdit || onDelete) && (
+          <div className="flex gap-2 pt-2 border-t">
+            <RowActions item={item} onEdit={onEdit} onDelete={onDelete} />
+          </div>
         )}
       </div>
+    </Card>
+  );
 
+  return (
+    <div className="w-full space-y-4">
+      {/* Header - Responsive layout */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h2 className="text-xl sm:text-2xl font-semibold ">{title}</h2>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+          {onExport && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onExport}
+              className="w-full sm:w-auto"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              <span className="sm:inline">Exportar</span>
+            </Button>
+          )}
+          <div className="w-full sm:w-auto">{onAdd}</div>
+        </div>
+      </div>
+
+      {/* Search - Responsive layout */}
+      <div className="flex justify-start ">
+        <div className="w-full sm:w-80 md:w-64 lg:w-72">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Buscar..."
+              className="pl-10 h-9 text-sm border-0"
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1); // Reset to first page on search
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Table - Hidden on mobile, shown on larger screens */}
+      <div className="hidden md:block">
+        <div className="rounded-md border overflow-x-auto">
+          <motion.table
+            className="w-full"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
+            <TableHeader>
+              <TableRow>
+                {columns.map((column) => (
+                  <TableHead
+                    key={column.id}
+                    className={
+                      column.hideOnMobile ? "hidden lg:table-cell" : ""
+                    }
+                  >
+                    {column.sortable ? (
+                      <button
+                        className="flex items-center gap-1"
+                        onClick={() => handleSort(column.id)}
+                      >
+                        {column.label}
+                        {sortColumn === column.id ? (
+                          sortDirection === "asc" ? (
+                            <SortAsc className="h-4 w-4" />
+                          ) : (
+                            <SortDesc className="h-4 w-4" />
+                          )
+                        ) : null}
+                      </button>
+                    ) : (
+                      column.label
+                    )}
+                  </TableHead>
+                ))}
+                {(onEdit || onDelete) && (
+                  <TableHead className="w-[100px]">Acciones</TableHead>
+                )}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {paginatedData.map((item, index) => (
+                <motion.tr
+                  className="border-1 hover:bg-background/20  dark:hover:bg-black/60 focus-visible:bg-background"
+                  key={index}
+                  variants={itemDelay}
+                  onDoubleClick={() => handleClickForLink(item.id)}
+                >
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      className={
+                        column.hideOnMobile ? "hidden lg:table-cell" : ""
+                      }
+                    >
+                      {column.render
+                        ? column.render(item[column.id], item)
+                        : item[column.id]}
+                    </TableCell>
+                  ))}
+                  {(onEdit || onDelete) && (
+                    <TableCell>
+                      <RowActions
+                        item={item}
+                        onEdit={onEdit}
+                        onDelete={onDelete}
+                      />
+                    </TableCell>
+                  )}
+                </motion.tr>
+              ))}
+            </TableBody>
+          </motion.table>
+        </div>
+      </div>
+
+      {/* Mobile Card View - Shown only on mobile */}
+      <div className="md:hidden">
+        {paginatedData.map((item, index) => (
+          <MobileCard key={index} item={item} />
+        ))}
+      </div>
+
+      {/* Empty state */}
+      {paginatedData.length === 0 && (
+        <Card className="w-full items-center border-dashed bg-muted/30 border-muted-foreground/20">
+          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="rounded-full bg-primary/10 p-3 mb-3">
+              <User className="h-6 w-6 text-primary" />
+            </div>
+            <p className="font-medium text-muted-foreground">
+              No hay datos registrados
+            </p>
+            <p className="text-sm text-muted-foreground/70 max-w-xs mt-1">
+              {`
+                    Utilice el botón "Agregar" para comenzar a registrar sus datos
+                  `}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Pagination - Responsive layout */}
       {lastPages > 0 && (
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 flex-wrap">
+          <div className="text-sm text-muted-foreground text-center sm:text-left">
             Mostrando {paginatedData.length} de {totalItems} registros
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row items-center gap-2">
             <Select
               value={limitValue.toString()}
               onValueChange={handleItemsPerPageChange}
@@ -336,7 +422,7 @@ export function DataTable({
 
             {/* Controles de paginación */}
             <Pagination>
-              <PaginationContent>
+              <PaginationContent className="flex-wrap gap-1">
                 <PaginationItem>
                   <PaginationPrevious
                     onClick={handlePrevious}

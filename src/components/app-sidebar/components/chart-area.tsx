@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartConfig,
+  type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -25,9 +25,9 @@ import {
 } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useUser } from "@clerk/clerk-react";
-import { useEffect } from "react";
-import { useLazyGetProfitQuery } from "../../../store/profit/api";
+import { useAuth } from "@clerk/clerk-react";
+import { format } from "date-fns";
+import { useGetProfitQuery } from "../../../store/profit/api";
 
 const chartConfig = {
   ganancia_total: {
@@ -38,13 +38,10 @@ const chartConfig = {
 
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile();
-  const [triggerGetProfit, { data: profit }] = useLazyGetProfitQuery();
-  const { isLoaded } = useUser();
-  useEffect(() => {
-    if (isLoaded) {
-      triggerGetProfit();
-    }
-  }, [triggerGetProfit, isLoaded]);
+  const { isSignedIn } = useAuth();
+  const skip = !isSignedIn;
+  const { data: profit } = useGetProfitQuery(undefined, { skip });
+
   const [timeRange, setTimeRange] = React.useState<
     "Diario" | "semanal" | "mensual" | "anual"
   >("Diario");
@@ -62,33 +59,30 @@ export function ChartAreaInteractive() {
       ...item,
       fecha: item.createdAt, // Usar fecha_fin como punto de referencia
     }));
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
 
     switch (timeRange) {
       case "Diario":
-        return date.toLocaleDateString("es-CO", {
-          day: "numeric",
-          month: "short",
-          timeZone: "America/Bogota",
-        });
+        return format(date, "dd/MM");
       case "semanal": {
-        const week = date.toLocaleDateString("America/Bogota");
-        return `Sem ${week}`;
+        // Get the week number of the year
+        const weekNumber = Math.ceil(
+          ((date.getTime() - new Date(date.getFullYear(), 0, 1).getTime()) /
+            86400000 +
+            new Date(date.getFullYear(), 0, 1).getDay() +
+            1) /
+            7
+        );
+        return `Sem ${weekNumber}`;
       }
       case "mensual":
-        return date.toLocaleDateString("es-CO", {
-          month: "short",
-          timeZone: "America/Bogota",
-        });
+        return format(date, "MMM");
       case "anual":
-        return new Date(
-          date.toLocaleString("en-US", { timeZone: "America/Bogota" })
-        )
-          .getFullYear()
-          .toString();
+        return format(date, "yyyy");
       default:
-        return date.toLocaleDateString("es-CO", { timeZone: "America/Bogota" });
+        return format(date, "dd/MM/yyyy");
     }
   };
 
@@ -160,7 +154,7 @@ export function ChartAreaInteractive() {
             <defs>
               <linearGradient id="fillProfit" x1="0" y1="0" x2="0" y2="1">
                 <stop
-                  offset="5%"
+                  offset="4%"
                   stopColor="hsl(var(--chart-1))"
                   stopOpacity={0.8}
                 />
@@ -189,14 +183,7 @@ export function ChartAreaInteractive() {
             <ChartTooltip
               content={
                 <ChartTooltipContent
-                  labelFormatter={(value) => {
-                    const date = new Date(value);
-                    return date.toLocaleDateString("es-CO", {
-                      day: "numeric",
-                      month: "long",
-                      year: "numeric",
-                    });
-                  }}
+                  labelFormatter={(value) => formatDate(value as string)}
                   formatter={(value) => [
                     new Intl.NumberFormat("es-CO", {
                       style: "currency",

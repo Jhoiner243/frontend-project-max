@@ -5,7 +5,7 @@ import "../../app.css";
 import { DashboardCard } from "./dashboard-card";
 
 interface DataForSeccionCard {
-  resultGrowtRate: IResultRate;
+  resultGrowtRate: IResultRate | undefined;
 }
 
 export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
@@ -48,7 +48,7 @@ export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
   };
 
   return (
-    <div className="*:data-[slot=card]:shadow-xs  @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 lg:px-6">
+    <div className="*:data-[slot=card]:shadow-xs  @xl/main:grid-cols-2 @5xl/main:grid-cols-4 grid grid-cols-1 gap-4 px-4 lg:px-6 ">
       {/* Static cards with predefined data */}
       {cardsData.map((card, index) => (
         <DashboardCard
