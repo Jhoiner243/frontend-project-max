@@ -10,6 +10,7 @@ export const apiProfit = createApi({
     credentials: "include",
     prepareHeaders: usePrepareHeaders,
   }),
+
   endpoints: (builder) => ({
     getProfit: builder.query<GananciasEntity[], void>({
       query: () => ({
@@ -20,4 +21,4 @@ export const apiProfit = createApi({
   }),
 });
 
-export const { useGetProfitQuery } = apiProfit;
+export const { useGetProfitQuery, useLazyGetProfitQuery } = apiProfit;

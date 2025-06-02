@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Trash2 } from "lucide-react";
 import { useGetProductsQuery } from "../../../../store/productos/api";
+import { formatCurrency } from "../../../../utils/format-currency";
 import { useFactura } from "../../context/factura.context";
 import { ToastDemo } from "./toast-factura";
 
@@ -64,7 +65,9 @@ export function TableFactura() {
         <TableFooter>
           <TableRow>
             <TableCell colSpan={3}>Total</TableCell>
-            <TableCell className="text-right">${factura.total}</TableCell>
+            <TableCell className="text-right">
+              {formatCurrency(factura.total)}
+            </TableCell>
           </TableRow>
         </TableFooter>
       </Table>
