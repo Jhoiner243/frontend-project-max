@@ -19,16 +19,15 @@ import {
   ChevronDown,
   Clock,
   Filter,
-  Search,
   X,
 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useSearchParams } from "react-router-dom";
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import { DataTable } from "../../../components/ui/custom/table-component";
-import { Input } from "../../../components/ui/input";
+import { useUpdateParam } from "../../../utils/update-search-param";
 import { DateRangePicker } from "../components/ui/date-range-picker";
 import {
   DropEstadoInvoice,
@@ -36,7 +35,11 @@ import {
 } from "../components/ui/estado-invoice";
 import SkeletonTableFactura from "../components/ui/skeleton-table-factura";
 import { FacturaProvider } from "../context/factura.context";
-import { useGetInvoicesQuery } from "../service/api";
+import {
+  useGetAllInvoicesStatusQuery,
+  useGetInvoicesQuery,
+} from "../service/api";
+import { excelService, InvoiceExport } from "../service/excel.service";
 import { FacturaSeccion } from "../types/factura.types";
 
 // Definición de columnas para facturas
@@ -87,21 +90,49 @@ export const invoiceColumns = [
 ];
 
 export default function PageDataTableFactura() {
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
-  const [sortField, setSortField] = useState<keyof InvoiceRow | null>(null);
   const [searchParams] = useSearchParams();
+  const { updateSearchParams } = useUpdateParam();
 
   // Obtener valores de los parámetros de URL
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = Number(searchParams.get("limit")) || 10;
-
-  const { data: facturasGet, isLoading } = useGetInvoicesQuery({
+  const status: FacturaStatus = searchParams.get("status") as FacturaStatus;
+  const skip = !status;
+  const { data: facturasGetApi, isLoading } = useGetInvoicesQuery({
     page: currentPage,
     limit: itemsPerPage,
   });
+  const { data } = useGetAllInvoicesStatusQuery(
+    {
+      page: currentPage,
+      limit: itemsPerPage,
+      status: status,
+    },
+    {
+      skip,
+    }
+  );
+
+  const [facturasGet, setFacturasGet] = useState(facturasGetApi);
+
+  // Si hay un llamado a la api por estatus se establece los nuevos datos en el estado
+  useEffect(() => {
+    if (data) {
+      setFacturasGet(data);
+    } else {
+      setFacturasGet(facturasGetApi);
+    }
+  }, [data, facturasGetApi]);
+
+  //Actualizamos el estatus en la url para el llamado a la api con ese valor
+  useEffect(() => {
+    if (statusFilter) {
+      updateSearchParams({ ["status"]: statusFilter });
+    }
+  }, [updateSearchParams, statusFilter]);
 
   if (isLoading) {
     return <SkeletonTableFactura />;
@@ -157,29 +188,7 @@ export default function PageDataTableFactura() {
       );
     }
 
-    // Apply sorting
-    if (sortField) {
-      filteredInvoices.sort((a, b) => {
-        const aValue = a[sortField];
-        const bValue = b[sortField];
-        if (aValue === undefined || bValue === undefined) return 0;
-        if (aValue < bValue) return sortDirection === "asc" ? -1 : 1;
-        if (aValue > bValue) return sortDirection === "asc" ? 1 : -1;
-        return 0;
-      });
-    }
-
     return filteredInvoices;
-  };
-
-  // Transformación de datos
-  const handleSort = (field: keyof InvoiceRow) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-    } else {
-      setSortField(field);
-      setSortDirection("asc");
-    }
   };
 
   const clearFilters = () => {
@@ -189,37 +198,42 @@ export default function PageDataTableFactura() {
   };
 
   const sortedInvoices = getSortedInvoices();
+  const handleExport = () => {
+    const exportData: InvoiceExport[] = sortedInvoices.map((invoice) => ({
+      id: invoice.id,
+      cliente: invoice.client,
+      createdAt: new Date(invoice.date),
+      horaEmision: new Date(invoice.dueDate)
+        .toLocaleTimeString()
+        .split("  ")
+        .toString()
+        .toUpperCase()
+        .slice(0, 13),
+      total: invoice.amount,
+      estado: invoice.status,
+      // Agrega aquí otras propiedades requeridas por InvoiceExport si es necesario
+    }));
 
+    excelService({ data: exportData });
+  };
   const handleDelete = () => {};
   return (
     <FacturaProvider>
-      <main className="container mx-auto py-4">
-        <div className="flex flex-col space-y-4 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
-          <div></div>
-
-          <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-2">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-              <Input
-                placeholder="Buscar facturas..."
-                className="pl-9 w-full sm:w-64 border-slate-200 focus:border-slate-300 focus:ring-slate-200"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
-
+      <main className="w-full">
+        <div className="flex justify-end">
+          <div className="flex flex-col space-y-4 sm:flex-row  sm:gap-4 sm:absolute">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="border-slate-200 text-slate-700 hover:bg-slate-50"
+                  className="border-slate-200   w-[112px]"
                 >
                   <Filter className="mr-2 h-4 w-4" />
                   {statusFilter ? `Status: ${statusFilter}` : "Filtrar"}
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-40">
+              <DropdownMenuContent align="center">
                 <DropdownMenuItem onClick={() => setStatusFilter(null)}>
                   Todos los estados
                 </DropdownMenuItem>
@@ -242,7 +256,7 @@ export default function PageDataTableFactura() {
               date={dateRange}
               onDateChange={setDateRange}
               align="end"
-              className="w-full sm:w-auto"
+              className="mr-2"
             />
 
             {(searchTerm || statusFilter || dateRange) && (
@@ -260,18 +274,7 @@ export default function PageDataTableFactura() {
 
         {/* Active filters */}
         {(searchTerm || statusFilter || dateRange) && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {searchTerm && (
-              <Badge
-                variant="outline"
-                className="bg-slate-50 text-slate-700 border-slate-200"
-              >
-                Buscar: {searchTerm}
-                <button className="ml-1" onClick={() => setSearchTerm("")}>
-                  <X className="h-3 w-3" />
-                </button>
-              </Badge>
-            )}
+          <div className="flex flex-wrap gap-2">
             {statusFilter && (
               <Badge
                 variant="outline"
@@ -308,14 +311,17 @@ export default function PageDataTableFactura() {
             </Button>
           </div>
         )}
-        <DataTable
-          lastPages={facturasGet.lastPages}
-          totalItems={facturasGet.totalFact}
-          rute="/edit-data"
-          columns={invoiceColumns}
-          data={sortedInvoices}
-          onEdit={handleDelete}
-        />
+        <div className="pt-8">
+          <DataTable
+            lastPages={facturasGet.lastPages}
+            totalItems={facturasGet.totalFact}
+            rute="/edit-data"
+            columns={invoiceColumns}
+            data={sortedInvoices}
+            onEdit={handleDelete}
+            onExport={handleExport}
+          />
+        </div>
       </main>
     </FacturaProvider>
   );

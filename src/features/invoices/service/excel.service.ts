@@ -27,6 +27,7 @@ export const excelService = ({ data }: { data: InvoiceExport[] }) => {
       invoice.createdAt,
       invoice.horaEmision,
       invoice.total,
+      invoice.estado,
     ]),
   ];
 
