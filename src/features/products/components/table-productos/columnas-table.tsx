@@ -1,10 +1,16 @@
-/* eslint-disable react/react-in-jsx-scope */
-import { Checkbox } from "@radix-ui/react-checkbox"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { ColumnDef } from "@tanstack/react-table"
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import { Button } from "../../../components/ui/button"
-import { ProductEntity } from "../../types/producto.entity"
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@radix-ui/react-checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ProductEntity } from "../../product.type";
 
 export const columns: ColumnDef<ProductEntity>[] = [
   {
@@ -15,7 +21,9 @@ export const columns: ColumnDef<ProductEntity>[] = [
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
         }
-        onCheckedChange={(value: unknown) => table.toggleAllPageRowsSelected(!!value)}
+        onCheckedChange={(value: unknown) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
         aria-label="Select all"
       />
     ),
@@ -37,7 +45,7 @@ export const columns: ColumnDef<ProductEntity>[] = [
     ),
   },
   {
-    accessorKey:  "nombre",
+    accessorKey: "nombre",
     header: ({ column }) => {
       return (
         <Button
@@ -47,30 +55,32 @@ export const columns: ColumnDef<ProductEntity>[] = [
           Nombre
           <ArrowUpDown />
         </Button>
-      )
+      );
     },
-    cell: ({ row }) => <div className="lowercase ml-3">{row.getValue("nombre")}</div>,
+    cell: ({ row }) => (
+      <div className="lowercase ml-3">{row.getValue("nombre")}</div>
+    ),
   },
   {
     accessorKey: "precio_compra",
     header: () => <div className="text-right">Precio</div>,
     cell: ({ row }) => {
-      const precio_compra = parseFloat(row.getValue("precio_compra"))
+      const precio_compra = parseFloat(row.getValue("precio_compra"));
 
       // Format the precio_compra as a dollar precio_compra
       const formatted = new Intl.NumberFormat("COP", {
         style: "currency",
         currency: "COP",
-      }).format(precio_compra)
+      }).format(precio_compra);
 
-      return <div className="text-right font-medium">{formatted}</div>
+      return <div className="text-right font-medium">{formatted}</div>;
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const payment = row.original;
 
       return (
         <DropdownMenu>
@@ -92,7 +102,7 @@ export const columns: ColumnDef<ProductEntity>[] = [
             <DropdownMenuItem>View payment details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];

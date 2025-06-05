@@ -35,7 +35,7 @@ export const productsApi = createApi({
         method: "POST",
         body: newProduct,
       }),
-      invalidatesTags: (result, error, { nombre }) => [
+      invalidatesTags: (_result, _error, { nombre }) => [
         { type: "Products", nombre },
         { type: "Products", id: "LIST" },
       ],
@@ -49,7 +49,7 @@ export const productsApi = createApi({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: (result, error, { id }) => [
+      invalidatesTags: (_result, _error, { id }) => [
         { type: "Products", id },
         { type: "Products", id: "LIST" },
       ],
@@ -60,7 +60,7 @@ export const productsApi = createApi({
         url: `/productos/${id}`,
         method: "PUT",
       }),
-      invalidatesTags: (result, error, id) => [
+      invalidatesTags: (_result, _error, id) => [
         { type: "Products", id },
         { type: "Products", id: "LIST" },
       ],

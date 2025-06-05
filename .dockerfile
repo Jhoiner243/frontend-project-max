@@ -1,33 +1,27 @@
+# === Build stage ===
 FROM node:22 AS builder
 
-RUN apk update && apk add --no-cache dumb-init
+RUN apk update && apk add --no-cache dumb-init libc6-compat
 
 WORKDIR /app
-RUN apk add --no-cache libc6-compat
+
 RUN corepack enable && corepack prepare pnpm@10.5.2 --activate
 
-COPY package.json ./
-COPY tsconfig.json ./
-COPY pnpm-lock.yanl ./
+COPY package.json tsconfig.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
-RUN pnpm install --frozen-lockfile --shamefully-hoist
 COPY . .
 RUN pnpm run build
 RUN pnpm prune --prod
 
-FROM node:22-alpine AS runner
+# === Runner stage ===
+FROM nginx:alpine AS runner
 
-WORKDIR /app
+# Copia la configuración personalizada de nginx
+ADD ./config/default.conf /etc/nginx/conf.d/default.conf
 
-RUN apk add --no-cache libc6-compat dumb-init
+# Corrige la ruta
+COPY --from=builder /app/dist /var/www/app
 
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/pnpm-lock.yaml ./
-
-RUN corepack enable && corepack prepare pnpm@10.5.2 --activate
-
-EXPOSE 5437
-
-CMD ["dumb-init", "sh", "-c", "pnpm run preview"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

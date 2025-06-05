@@ -6,7 +6,7 @@ const selectedNav = createSlice({
   name: "selectedNav",
   initialState: valueInitial,
   reducers: {
-    selectItemNav: (state, action: PayloadAction<string>) => {
+    selectItemNav: (_state, action: PayloadAction<string>) => {
       return action.payload;
     },
   },

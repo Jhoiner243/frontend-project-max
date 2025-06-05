@@ -7,7 +7,7 @@ const SelectLimit = createSlice({
   name: "limit",
   initialState: initialValue,
   reducers: {
-    setLimit: (state, action: PayloadAction<number>) => {
+    setLimit: (_state, action: PayloadAction<number>) => {
       return action.payload; // reemplaza el valor actual
     },
   },

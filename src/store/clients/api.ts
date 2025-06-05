@@ -51,7 +51,7 @@ export const ApiClients = createApi({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: (result, error, arg) => [
+      invalidatesTags: (_result, _error, arg) => [
         { type: "Clients", id: arg.id },
         { type: "Clients", id: "LIST" },
       ],
@@ -61,7 +61,7 @@ export const ApiClients = createApi({
         url: `/clientes/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, id) => [
+      invalidatesTags: (_result, _error, id) => [
         { type: "Clients", id },
         { type: "Clients", id: "LIST" },
       ],

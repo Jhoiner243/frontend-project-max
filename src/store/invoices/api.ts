@@ -35,7 +35,7 @@ export const apiInvoices = createApi({
         method: "POST",
         body: newFactura,
       }),
-      invalidatesTags: (result, error, { detalles }) => [
+      invalidatesTags: (_result, _error, { detalles }) => [
         { type: "Facturas", detalles },
         { type: "Facturas", id: "LIST" },
       ],
@@ -45,7 +45,7 @@ export const apiInvoices = createApi({
         url: `/factura/${id}`,
         method: "GET",
       }),
-      providesTags: (result, error, id) => [
+      providesTags: (_result, _error, id) => [
         { type: "Facturas", id },
         { type: "Facturas", id: "LIST" },
       ],
