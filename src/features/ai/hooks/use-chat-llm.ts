@@ -1,18 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { useLocalStorage, useWindowSize } from "usehooks-ts";
 import {
   useGetToolsQuery,
   usePostMutationLLMMutation,
 } from "../../../store/ai/api";
+import { addChatMessage, addResponseChat } from "../../../store/ai/slice";
+import { formatLlmResponse } from "../../../utils/utils";
 
 export const useChatLlm = () => {
   const [input, setInput] = useState<string>("");
+  const dispatch = useDispatch();
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
   const [onSubmit, { isLoading, isError, data: documents, reset }] =
     usePostMutationLLMMutation();
   const { data } = useGetToolsQuery();
+
+  useEffect(() => {
+    if (documents) {
+      const response = formatLlmResponse(documents);
+      dispatch(addResponseChat(response));
+    }
+  }, [dispatch, documents]);
 
   useEffect(() => {
     if (textAreaRef.current) adjustHeight();
@@ -54,7 +65,7 @@ export const useChatLlm = () => {
     onSubmit({
       prompt: input,
     });
-
+    dispatch(addChatMessage(input));
     setInput("");
     setLocalStorage("");
     if (width && width > 768) {

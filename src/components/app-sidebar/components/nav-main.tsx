@@ -56,16 +56,19 @@ export function NavMain({
             <SidebarMenuItem
               className={`${
                 item.url === path.pathname &&
-                "rounded-full bg-black/20  shadow-lg shadow-slate-800/25 dark:rounded-full dark:bg-radial-[at_25%_25%] dark:from-transparent dark:via-black/75 dark:to-black/20"
+                "rounded-full bg-black/20  shadow-md shadow-slate-800/50 dark:rounded-full dark:bg-radial-[at_25%_25%] dark:from-transparent dark:via-black/75 dark:to-black/20 cursor-default"
               }`}
               key={item.title}
             >
-              <SidebarMenuButton tooltip={item.title}>
-                {item.icon && <item.icon />}
-                <Link to={item.url}>
+              <Link to={item.url}>
+                <SidebarMenuButton
+                  tooltip={item.title}
+                  className="hover:shadow-slate-800/40 hover:bg-black/40 hover:rounded-full"
+                >
+                  {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                </Link>
-              </SidebarMenuButton>
+                </SidebarMenuButton>
+              </Link>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

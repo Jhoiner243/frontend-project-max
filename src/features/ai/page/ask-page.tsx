@@ -15,7 +15,7 @@ export default function AskPage() {
     reset,
     documents,
   } = useChatLlm();
-
+  console.log("INPUT", input);
   const [messagesContainerRef, messagesEndRef] =
     useScrollToBottom<HTMLDivElement>();
   return (
@@ -32,7 +32,11 @@ export default function AskPage() {
           )}
 
           {documents && documents.messages.length > 0 && (
-            <PreviewMessage isLoading={isLoading} message={documents} />
+            <PreviewMessage
+              isLoading={isLoading}
+              message={documents}
+              chatUser={input}
+            />
           )}
           {isLoading && <ThinkingMessage />}
           <div
