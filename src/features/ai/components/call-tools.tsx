@@ -2,7 +2,6 @@
 import { motion } from "framer-motion";
 import { LlmResponse } from "../types/llm.types";
 import CallToolRequestSchemaResult from "./request-schema";
-import { CallToolResult } from "./tool-result";
 
 export function CallTools({ tools }: { tools: LlmResponse }) {
   // Extraemos solo los mensajes que contienen una llamada a función
@@ -29,14 +28,6 @@ export function CallTools({ tools }: { tools: LlmResponse }) {
           {calls.map((call, idx) => {
             // Decide qué componente renderizar según el nombre de la herramienta
             switch (call.name) {
-              case "call_tool":
-                return (
-                  <CallToolResult
-                    key={idx}
-                    result={JSON.stringify(call.args)}
-                  />
-                );
-
               case "call_tool_request_schema":
                 return (
                   <CallToolRequestSchemaResult

@@ -1,5 +1,5 @@
-import { SignUp } from "@clerk/clerk-react";
 import { GalleryVerticalEnd } from "lucide-react";
+import { Register } from "../../components/register-form";
 
 export default function RegisterPage() {
   return (
@@ -11,7 +11,7 @@ export default function RegisterPage() {
           </div>
           FillStep
         </a>
-        <SignUp />
+        <Register />
       </div>
     </div>
   );

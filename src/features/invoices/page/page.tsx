@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Badge } from "../../../components/ui/badge";
 import { Button } from "../../../components/ui/button";
 import { DataTable } from "../../../components/ui/custom/table-component";
@@ -95,6 +95,7 @@ export default function PageDataTableFactura() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [searchParams] = useSearchParams();
   const { updateSearchParams } = useUpdateParam();
+  const navigate = useNavigate();
 
   // Obtener valores de los parámetros de URL
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -131,28 +132,22 @@ export default function PageDataTableFactura() {
   useEffect(() => {
     if (statusFilter) {
       updateSearchParams({ ["status"]: statusFilter });
+    } else {
+      setFacturasGet(facturasGetApi);
     }
-  }, [updateSearchParams, statusFilter]);
+  }, [updateSearchParams, statusFilter, facturasGetApi]);
 
   if (isLoading) {
     return <SkeletonTableFactura />;
   }
 
-  if (!facturasGet || facturasGet.facturas.length === 0) {
-    return (
-      <main className="container mx-auto py-4">
-        <p className="text-center text-gray-500">
-          No hay facturas disponibles.
-        </p>
-      </main>
-    );
-  }
+  if (!facturasGet) return [];
 
   const dataFacturas: InvoiceRow[] = facturasGet.facturas.map((factura) => ({
     id: factura.id,
     client: factura.id_cliente,
     date: new Date(factura.createdAt).toISOString(),
-    dueDate: new Date(factura.updatedAt).toISOString(),
+    dueDate: new Date(factura.createdAt).toISOString(),
     amount: factura.total,
     status: factura.status as FacturaStatus,
   }));
@@ -161,10 +156,20 @@ export default function PageDataTableFactura() {
     let filteredInvoices = [...dataFacturas];
 
     //Aply status filter
-    if (statusFilter) {
+    if (data) {
       filteredInvoices = filteredInvoices.filter(
         (invoice) => invoice.status === statusFilter
       );
+    }
+    if (statusFilter === null && facturasGetApi) {
+      filteredInvoices = facturasGetApi?.facturas.map((factura) => ({
+        id: factura.id,
+        client: factura.id_cliente,
+        date: new Date(factura.createdAt).toISOString(),
+        dueDate: new Date(factura.updatedAt).toISOString(),
+        amount: factura.total,
+        status: factura.status as FacturaStatus,
+      }));
     }
 
     // Apply date range filter
@@ -203,7 +208,7 @@ export default function PageDataTableFactura() {
       id: invoice.id,
       cliente: invoice.client,
       createdAt: new Date(invoice.date),
-      horaEmision: new Date(invoice.dueDate)
+      horaEmision: new Date(invoice.date)
         .toLocaleTimeString()
         .split("  ")
         .toString()
@@ -211,12 +216,11 @@ export default function PageDataTableFactura() {
         .slice(0, 13),
       total: invoice.amount,
       estado: invoice.status,
-      // Agrega aquí otras propiedades requeridas por InvoiceExport si es necesario
     }));
 
     excelService({ data: exportData });
   };
-  const handleDelete = () => {};
+  const handleView = (id: string) => navigate(`/edit-data/${id}`);
   return (
     <FacturaProvider>
       <main className="w-full">
@@ -226,11 +230,13 @@ export default function PageDataTableFactura() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="border-slate-200   w-[112px]"
+                  className="border-slate-200   w-[112px] overflow-hidden"
                 >
-                  <Filter className="mr-2 h-4 w-4" />
-                  {statusFilter ? `Status: ${statusFilter}` : "Filtrar"}
-                  <ChevronDown className="ml-2 h-4 w-4" />
+                  {statusFilter ? null : <Filter className="mr-2 h-4 w-4" />}
+                  {statusFilter ? `${statusFilter}` : "Filtrar"}
+                  {statusFilter ? null : (
+                    <ChevronDown className="ml-2 h-4 w-4" />
+                  )}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="center">
@@ -318,7 +324,7 @@ export default function PageDataTableFactura() {
             rute="/edit-data"
             columns={invoiceColumns}
             data={sortedInvoices}
-            onEdit={handleDelete}
+            onEdit={handleView}
             onExport={handleExport}
           />
         </div>

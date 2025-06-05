@@ -1,122 +1,74 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
-import type React from "react";
-import { Link } from "react-router-dom";
-import { useRegisterHook } from "../hooks/use-register";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SignUp, SignUpButton, useAuth, useSignUp } from "@clerk/clerk-react";
+import { useState } from "react";
 
-export function RegisterForm({
-  className,
-  ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const { handleChange, handleSubmit, error } = useRegisterHook();
+export function Register() {
+  const { signUp, setActive } = useSignUp();
+  const { getToken } = useAuth(); // <-- aquí obtenés el token
+  const [error, setError] = useState<string | null>(null);
+
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      if (!signUp) throw new Error("signUp no disponible");
+
+      // Preparar verificación de correo
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+
+      // Simulación de verificación (reemplazar en producción)
+      const complete = await signUp.attemptEmailAddressVerification({
+        code: "000000", // En producción pedilo al usuario
+      });
+
+      if (complete.status === "complete") {
+        if (setActive) {
+          await setActive({ session: complete.createdSessionId });
+        }
+
+        // ✅ Obtener token JWT del usuario ya autenticado
+        const token = await getToken();
+
+        if (!token) throw new Error("No se pudo obtener el token");
+
+        // Enviar petición vacía al backend con el token en headers
+        const response = await fetch("http://localhost:3003/register", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Error al registrar en el backend");
+        }
+
+        console.log("✅ Usuario registrado correctamente en backend");
+      } else {
+        throw new Error("No se pudo activar la sesión.");
+      }
+    } catch (err: any) {
+      console.error("Error al registrar:", err);
+      setError(err.message || "Error desconocido");
+    }
+  };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Crear una cuenta</CardTitle>
-          <CardDescription>Regístrate con tu cuenta de Google</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <div className="grid gap-6">
-              <div className="flex flex-col gap-4">
-                <Button variant="outline" className="w-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                      fill="currentColor"
-                    />
-                  </svg>
-                  Registrarse con Google
-                </Button>
-              </div>
-              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                  O continuar con
-                </span>
-              </div>
-              <div className="flex flex-col gap-4 ">
-                <div className="grid gap-2">
-                  <Label htmlFor="user_name">Nombre</Label>
-                  <Input
-                    name="user_name"
-                    onChange={handleChange}
-                    id="user_name"
-                    type="text"
-                    placeholder="Juan"
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="lastname">Apellido</Label>
-                  <Input
-                    name="user_lastname"
-                    onChange={handleChange}
-                    id="lastname"
-                    type="text"
-                    placeholder="Pérez"
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="user_username">Usuario</Label>
-                  <Input
-                    name="user_username"
-                    onChange={handleChange}
-                    id="user_username"
-                    type="text"
-                    placeholder="Juan24"
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="user_email">Email</Label>
-                  <Input
-                    name="user_email"
-                    id="user_email"
-                    type="email"
-                    placeholder="m@ejemplo.com"
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="user_password">Contraseña</Label>
-                  <Input
-                    name="user_password"
-                    onChange={handleChange}
-                    id="user_password"
-                    type="password"
-                    required
-                  />
-                </div>
-                <Button type="submit" className="w-full">
-                  Registrarse
-                </Button>
-              </div>
-              <div className="text-center text-sm">
-                ¿Ya tienes una cuenta?{" "}
-                <Link to="/login" className="underline underline-offset-4">
-                  Iniciar sesión
-                </Link>
-              </div>
-            </div>
-          </form>
-          {error && (
-            <div className="text-center mt-4 text-red-500 text-sm">{error}</div>
-          )}
-        </CardContent>
-      </Card>
+    <div>
+      <form onSubmit={handleRegister}>
+        <SignUp />
+        <SignUpButton>
+          <button
+            type="submit"
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+          >
+            Registrar
+          </button>
+        </SignUpButton>
+      </form>
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
     </div>
   );
 }

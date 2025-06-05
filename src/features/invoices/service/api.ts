@@ -13,6 +13,19 @@ export const fetchApiInvoices = createApi({
   }),
   tagTypes: ["Facturas"],
   endpoints: (builder) => ({
+    getAllInvoicesStatus: builder.query<
+      {
+        facturas: FacturaSeccion[];
+        lastPages: number;
+        totalFact: number;
+      },
+      { page: number; limit: number; status: FacturaStatus }
+    >({
+      query: ({ limit, page, status }) => ({
+        url: `/factura/with-status?page=${page}&limit=${limit}&status=${status}`,
+        method: "GET",
+      }),
+    }),
     getInvoices: builder.query<
       {
         facturas: FacturaSeccion[];
@@ -54,7 +67,7 @@ export const fetchApiInvoices = createApi({
     deleteInvoice: builder.mutation({
       query: (id: string) => ({
         url: `/facturas/${id}`,
-        method: "DELETE",
+        method: "PUT",
       }),
       invalidatesTags: (_result, _error, id) => [
         { type: "Facturas", id },
@@ -80,6 +93,7 @@ export const fetchApiInvoices = createApi({
 });
 
 export const {
+  useGetAllInvoicesStatusQuery,
   useGetInvoicesQuery,
   useCreateInvoiceMutation,
   useDeleteInvoiceMutation,

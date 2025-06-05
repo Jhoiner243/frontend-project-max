@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import FacturaDialog from "@/features/invoices/components/factura-dialog";
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export function NavMain({
   items,
@@ -25,6 +25,7 @@ export function NavMain({
 }) {
   const path = useLocation();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -43,6 +44,7 @@ export function NavMain({
               size="icon"
               className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0"
               variant="outline"
+              onClick={() => navigate("/pedidos-register")}
             >
               <MailIcon />
               <span className="sr-only">Inbox</span>
@@ -52,7 +54,10 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem
-              className={`${item.url === path.pathname && "text-amber-200"}`}
+              className={`${
+                item.url === path.pathname &&
+                "rounded-full bg-black/20  shadow-lg shadow-slate-800/25 dark:rounded-full dark:bg-radial-[at_25%_25%] dark:from-transparent dark:via-black/75 dark:to-black/20"
+              }`}
               key={item.title}
             >
               <SidebarMenuButton tooltip={item.title}>

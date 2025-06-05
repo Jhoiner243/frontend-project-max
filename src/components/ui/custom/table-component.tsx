@@ -4,7 +4,7 @@
 import type React from "react";
 
 import { Download, Search, SortAsc, SortDesc, User } from "lucide-react";
-import { type ReactNode, useCallback, useMemo, useState } from "react";
+import { type ReactNode, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,8 +24,9 @@ import {
 } from "@/components/ui/table";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { setLimit } from "../../../store/pagination/slice";
+import { useUpdateParam } from "../../../utils/update-search-param";
 import { Card, CardContent } from "../card";
 import {
   Pagination,
@@ -81,25 +82,9 @@ export function DataTable({
 
   const limitValue = useSelector((state: any) => state.limit);
   const dispatch = useDispatch();
-  const [searchParams, setSearchParam] = useSearchParams();
+  const { updateSearchParams } = useUpdateParam();
 
   // Función para actualizar los parámetros de URL
-  const updateSearchParams = useCallback(
-    (updates: Record<string, string | number>) => {
-      const params = new URLSearchParams(searchParams.toString());
-
-      Object.entries(updates).forEach(([key, value]) => {
-        if (value) {
-          params.set(key, value.toString());
-        } else {
-          params.delete(key);
-        }
-      });
-
-      setSearchParam(`?${params.toString()}`);
-    },
-    [setSearchParam, searchParams]
-  );
 
   // Filter data based on search term
   const filteredData = data.filter((item) => {
@@ -256,26 +241,9 @@ export function DataTable({
   return (
     <div className="w-full space-y-4">
       {/* Header - Responsive layout */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <h2 className="text-xl sm:text-2xl font-semibold ">{title}</h2>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
-          {onExport && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onExport}
-              className="w-full sm:w-auto"
-            >
-              <Download className="mr-2 h-4 w-4" />
-              <span className="sm:inline">Exportar</span>
-            </Button>
-          )}
-          <div className="w-full sm:w-auto">{onAdd}</div>
-        </div>
-      </div>
-
-      {/* Search - Responsive layout */}
-      <div className="flex justify-start ">
+      <h2 className="text-xl sm:text-2xl font-semibold ">{title}</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-7 space-y-2 sm:space-y-0">
+        {/* Search */}
         <div className="w-full sm:w-80 md:w-64 lg:w-72">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -286,10 +254,25 @@ export function DataTable({
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value);
-                setCurrentPage(1); // Reset to first page on search
+                setCurrentPage(1);
               }}
             />
           </div>
+        </div>
+
+        {/* Botones Exportar + Agregar */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 w-full sm:w-auto">
+          {onExport && (
+            <Button
+              variant="outline"
+              onClick={onExport}
+              className="w-full sm:w-auto"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              <span className="sm:inline">Exportar</span>
+            </Button>
+          )}
+          <div className="w-full sm:w-auto">{onAdd}</div>
         </div>
       </div>
 
@@ -379,20 +362,98 @@ export function DataTable({
       </div>
 
       {/* Empty state */}
-      {paginatedData.length === 0 && (
-        <Card className="w-full items-center border-dashed bg-muted/30 border-muted-foreground/20">
-          <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="rounded-full bg-primary/10 p-3 mb-3">
-              <User className="h-6 w-6 text-primary" />
-            </div>
-            <p className="font-medium text-muted-foreground">
-              No hay datos registrados
-            </p>
-            <p className="text-sm text-muted-foreground/70 max-w-xs mt-1">
-              {`
-                    Utilice el botón "Agregar" para comenzar a registrar sus datos
-                  `}
-            </p>
+      {data.length === 0 && (
+        <Card className="w-full border-dashed bg-gradient-to-br from-muted/30 to-muted/10 border-muted-foreground/20">
+          <CardContent className="flex flex-col items-center justify-center py-16 text-center">
+            <motion.div
+              className="relative mb-6"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+            >
+              <div className="rounded-full bg-primary/10 p-4 mb-2 relative">
+                <User className="h-8 w-8 text-primary" />
+                <motion.div
+                  className="absolute -top-1 -right-1 rounded-full bg-primary/20 p-1"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  <div className="w-3 h-3 rounded-full bg-primary/60" />
+                </motion.div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              className="space-y-3 max-w-sm"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <h3 className="text-lg font-semibold text-foreground">
+                {searchTerm || data.length <= 0
+                  ? "Sin resultados"
+                  : "¡Comienza aquí!"}
+              </h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {searchTerm
+                  ? `No se encontraron resultados para "${searchTerm}". Intenta con otros términos de búsqueda.`
+                  : "Aún no tienes datos registrados. Crea tu primer registro para comenzar a organizar tu información."}
+              </p>
+            </motion.div>
+
+            {!searchTerm && onAdd && (
+              <motion.div
+                className="mt-6 flex flex-col sm:flex-row gap-3 items-center"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <div className="flex-shrink-0">{onAdd}</div>
+                {onExport && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <div className="w-1 h-1 rounded-full bg-muted-foreground/40"></div>
+                    <span>o importa datos existentes</span>
+                  </div>
+                )}
+              </motion.div>
+            )}
+
+            {searchTerm && (
+              <motion.div
+                className="mt-6"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+              >
+                <Button
+                  variant="outline"
+                  onClick={() => setSearchTerm("")}
+                  className="gap-2"
+                >
+                  Limpiar búsqueda
+                </Button>
+              </motion.div>
+            )}
+
+            <motion.div
+              className="mt-8 flex items-center justify-center gap-4 text-xs text-muted-foreground/60"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+            >
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 rounded-full bg-green-500/60"></div>
+                <span>Seguro</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 rounded-full bg-blue-500/60"></div>
+                <span>Rápido</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-2 h-2 rounded-full bg-purple-500/60"></div>
+                <span>Organizado</span>
+              </div>
+            </motion.div>
           </CardContent>
         </Card>
       )}

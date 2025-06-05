@@ -49,7 +49,7 @@ export function DropEstadoInvoice({
       <DropdownMenuTrigger asChild>
         <Badge
           variant="outline"
-          className={`${className()} flex gap-1 px-1.5  [&_svg]:size-3 hover:cursor-default`}
+          className={`${className()} flex gap-1 px-1.5  [&_svg]:size-3 hover:cursor-default w-[120px]`}
         >
           {position === "Pagada" ? (
             <>

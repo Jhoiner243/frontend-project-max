@@ -15,6 +15,12 @@ export const ApiClients = createApi({
   }),
   tagTypes: ["Clients"] as const,
   endpoints: (builder) => ({
+    getClientById: builder.query<ClientEntity, { id: string }>({
+      query: ({ id }) => ({
+        url: `/cliente-by-id/${id}`,
+        method: "GET",
+      }),
+    }),
     getClients: builder.query<ClientEntity[], void>({
       query: () => ({
         url: "/clientes",
@@ -36,6 +42,20 @@ export const ApiClients = createApi({
       }),
       invalidatesTags: [{ type: "Clients", id: "LIST" }],
     }),
+    updateClient: builder.mutation<
+      void,
+      { data: Partial<clientCreate>; id: string }
+    >({
+      query: ({ data, id }) => ({
+        url: `/clientes/${id}`,
+        method: "PUT",
+        body: data,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Clients", id: arg.id },
+        { type: "Clients", id: "LIST" },
+      ],
+    }),
     deleteClient: builder.mutation<void, string>({
       query: (id) => ({
         url: `/clientes/${id}`,
@@ -50,6 +70,8 @@ export const ApiClients = createApi({
 });
 
 export const {
+  useGetClientByIdQuery,
+  useUpdateClientMutation,
   useLazyGetClientsQuery,
   useGetClientsQuery,
   useCreateClientMutation,

@@ -42,7 +42,8 @@ export function NavDocuments({
         {items.map((item) => (
           <SidebarMenuItem
             className={`${
-              item.url === path.pathname && "text-amber-200 rounded-2xl"
+              item.url === path.pathname &&
+              "rounded-full bg-black/20  shadow-lg shadow-slate-800/20 dark:rounded-full dark:bg-radial-[at_25%_25%] dark:from-transparent dark:via-black/75 dark:to-black/20"
             }`}
             key={item.name}
           >

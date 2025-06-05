@@ -15,20 +15,24 @@ export default function FormPedido() {
   const [cantidad, setCantidad] = useState<number | undefined>(undefined);
   const [precio, setPrecio] = useState<number | undefined>(undefined);
   const { height } = useWindowSize();
-  if (!productos)
+
+  if (!productos) {
     return (
       <Link
         to={"/productos"}
         className="text-destructive rounded-full p-4 hover:bg-primary/20"
       >
         {" "}
-        !Agrega un producto para empezar¡
+        ¡Agrega un producto para empezar!
       </Link>
     );
+  }
 
+  // Manejador de cambios en los inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     const numericValue = Number(value);
+
     switch (name) {
       case "cantidad":
         setCantidad(numericValue);

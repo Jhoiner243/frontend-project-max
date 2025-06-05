@@ -5,8 +5,10 @@ import {
   useDeleteClientMutation,
   useGetClientsQuery,
   useLazyGetClientsQuery,
+  useUpdateClientMutation,
 } from "../../../store/clients/api";
 import SkeletonTableFactura from "../../invoices/components/ui/skeleton-table-factura";
+import { EditProduct } from "../../products/components/edit-product";
 import ClientCreate from "../components/ui/CreateClient";
 
 // Definición de columnas para clientes
@@ -55,9 +57,13 @@ export default function ClientesPage() {
   const { data: clients, isLoading } = useGetClientsQuery();
   const [onDeleteClient, { isSuccess, isLoading: loading }] =
     useDeleteClientMutation();
+  const [onSubmitUpdate] = useUpdateClientMutation();
   const [trigger] = useLazyGetClientsQuery();
   const [id, setId] = useState("");
+  const [ClientId, setClientId] = useState("");
   const [expand, setExpand] = useState(false);
+  const [open, setOpen] = useState(false);
+
   const clientData = (clients ?? []).map((cliente) => {
     return {
       id: cliente.id,
@@ -77,12 +83,24 @@ export default function ClientesPage() {
     setExpand(true);
   };
 
-  const handleEditClient = () => {};
+  const handleUpdate = (id: string) => {
+    setClientId(id);
+    setOpen(true);
+  };
 
   const handleExportClients = () => {};
 
   return (
     <div>
+      {open === true && (
+        <EditProduct
+          id={ClientId}
+          open={open}
+          setOpen={setOpen}
+          onSubmit={onSubmitUpdate}
+        />
+      )}
+
       <AlertDelete
         trigger={trigger}
         expand={expand}
@@ -99,7 +117,7 @@ export default function ClientesPage() {
           data={clientData}
           onAdd={<ClientCreate />}
           onDelete={handleDeleteClient}
-          onEdit={handleEditClient}
+          onEdit={handleUpdate}
           onExport={handleExportClients}
         />
       </main>

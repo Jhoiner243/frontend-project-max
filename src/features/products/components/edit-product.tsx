@@ -57,7 +57,7 @@ export const EditProduct = ({ id, onSubmit, setOpen, open }: EditDataProps) => {
         <DialogHeader>
           <DialogTitle>Editar</DialogTitle>
           <DialogDescription>
-            Modifica los campos que desees y haz clic en “Save changes”.
+            Modifica los campos que desees y haz clic en “Guardar cambios”.
           </DialogDescription>
         </DialogHeader>
 

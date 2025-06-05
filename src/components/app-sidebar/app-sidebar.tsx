@@ -61,7 +61,7 @@ const data = {
     },
     {
       title: "Pedidos",
-      url: "#",
+      url: "/pedidos-register",
       icon: FolderIcon,
     },
     {

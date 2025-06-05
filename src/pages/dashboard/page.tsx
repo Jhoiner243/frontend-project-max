@@ -1,11 +1,12 @@
 import { ChartAreaInteractive } from "@/components/app-sidebar/components/chart-area";
 import { SectionCards } from "@/components/app-sidebar/components/sections-card/sections-card";
+import { useAuth } from "@clerk/clerk-react";
 import { useGetGrowtRateQuery } from "../../features/analytics/service/api";
 
 export default function DashboardPage() {
-  const { data } = useGetGrowtRateQuery();
-
-  if (!data) return [];
+  const { isSignedIn } = useAuth();
+  const skip = !isSignedIn;
+  const { data } = useGetGrowtRateQuery(undefined, { skip });
   return (
     <div>
       <div className="mx-auto">

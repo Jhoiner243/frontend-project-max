@@ -73,10 +73,10 @@ export function DashboardCard({
       {/* Glassmorphism overlay */}
 
       <CardHeader className="relative z-10">
-        <CardDescription className="text-muted-foreground">
+        <CardDescription className="text-muted-foreground ">
           {title}
         </CardDescription>
-        <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
+        <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums ">
           {formatValue(value)}
         </CardTitle>
         <div className="absolute right-4 top-4">
@@ -86,8 +86,8 @@ export function DashboardCard({
               flex gap-1 rounded-lg text-xs backdrop-blur-sm
               ${
                 isPositive
-                  ? "bg-green-200/80 text-green-700 "
-                  : "bg-red-100/80 text-red-700 "
+                  ? "bg-background text-green-700 "
+                  : "bg-background text-red-700 "
               }
             `}
           >

@@ -1,9 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Framet } from "../features/ai/components/framet";
 import AskPage from "../features/ai/page/ask-page";
 import AnaliticaPage from "../features/analytics/page/page";
 import LoginPage from "../features/auth/page/login/page-login";
 import RegisterPage from "../features/auth/page/register/page";
 import ClientesPage from "../features/clients/page/page";
+import ProximamentePage from "../features/data/components/principal";
 import EditPageInvoices from "../features/invoices/components/ui/principal-edit";
 import { InvoiceSkeleton } from "../features/invoices/components/ui/skeleton-visualizer";
 import { FacturaProvider } from "../features/invoices/context/factura.context";
@@ -23,10 +25,15 @@ export const RoutesApp = () => {
         <ProfitProvider>
           <BrowserRouter>
             <Routes>
+              <Route path="/nada" element={<Framet />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route element={<Layout />}>
                 <Route index element={<DashboardPage />} />
+                <Route
+                  path="/pedidos-register"
+                  element={<ProximamentePage />}
+                />
                 <Route path="/productos" element={<ProductosPage />} />
                 <Route path="/analitics" element={<AnaliticaPage />} />
                 <Route path="/reportes" element={<PageDataTableFactura />}>
