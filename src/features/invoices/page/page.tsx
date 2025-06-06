@@ -141,7 +141,12 @@ export default function PageDataTableFactura() {
     return <SkeletonTableFactura />;
   }
 
-  if (!facturasGet) return [];
+  if (!facturasGet)
+    return (
+      <div className="flex justify-center items-center ">
+        No hay datos disponibles.
+      </div>
+    );
 
   const dataFacturas: InvoiceRow[] = facturasGet.facturas.map((factura) => ({
     id: factura.id,

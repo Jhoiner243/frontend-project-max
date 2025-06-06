@@ -44,7 +44,6 @@ export function ChartAreaInteractive() {
   const {
     data: profit,
     isLoading,
-    isUninitialized,
     isFetching,
   } = useGetProfitQuery(undefined, { skip });
 
@@ -59,7 +58,7 @@ export function ChartAreaInteractive() {
   }, [isMobile]);
   if (!profit) return null;
 
-  if (isLoading || isUninitialized || isFetching) return <ChartAreaSkeleton />;
+  if (isLoading || isFetching) return <ChartAreaSkeleton />;
 
   const filteredData = profit
     .filter((item) => item.tipo_periodo === timeRange)

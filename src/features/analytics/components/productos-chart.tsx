@@ -57,7 +57,7 @@ export function ProductAnaliticComponent() {
   if (isError || !data || data.length === 0) {
     return (
       <div className="p-4 text-red-500">
-        No se pudieron cargar las analíticas de productos.
+        No se pudieron cargar las analíticas.
       </div>
     );
   }
