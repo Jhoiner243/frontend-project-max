@@ -2,12 +2,15 @@ import { ChartAreaInteractive } from "@/components/app-sidebar/components/chart-
 import { SectionCards } from "@/components/app-sidebar/components/sections-card/sections-card";
 import { useAuth } from "@clerk/clerk-react";
 import { motion } from "motion/react";
+import { ChartAreaSkeleton } from "../../components/app-sidebar/components/skeleton-chart";
 import { useGetGrowtRateQuery } from "../../features/analytics/service/api";
+import { useGetProfitQuery } from "../../store/profit/api";
 
 export default function DashboardPage() {
   const { isSignedIn } = useAuth();
   const skip = !isSignedIn;
   const { data } = useGetGrowtRateQuery(undefined, { skip });
+  const { isLoading, isFetching } = useGetProfitQuery();
   return (
     <div>
       <motion.div
@@ -24,6 +27,7 @@ export default function DashboardPage() {
         animate={{ opacity: 2 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
+        {(isLoading || isFetching) && <ChartAreaSkeleton />}
         <ChartAreaInteractive />
       </motion.div>
     </div>

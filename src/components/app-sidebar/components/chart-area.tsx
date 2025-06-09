@@ -28,7 +28,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@clerk/clerk-react";
 import { format } from "date-fns";
 import { useGetProfitQuery } from "../../../store/profit/api";
-import { ChartAreaSkeleton } from "./skeleton-chart";
 
 const chartConfig = {
   ganancia_total: {
@@ -41,11 +40,7 @@ export function ChartAreaInteractive() {
   const isMobile = useIsMobile();
   const { isSignedIn } = useAuth();
   const skip = !isSignedIn;
-  const {
-    data: profit,
-    isLoading,
-    isFetching,
-  } = useGetProfitQuery(undefined, { skip });
+  const { data: profit } = useGetProfitQuery(undefined, { skip });
 
   const [timeRange, setTimeRange] = React.useState<
     "Diario" | "semanal" | "mensual" | "anual"
@@ -57,8 +52,6 @@ export function ChartAreaInteractive() {
     }
   }, [isMobile]);
   if (!profit) return null;
-
-  if (isLoading || isFetching) return <ChartAreaSkeleton />;
 
   const filteredData = profit
     .filter((item) => item.tipo_periodo === timeRange)

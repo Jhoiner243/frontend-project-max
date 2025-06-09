@@ -3,6 +3,7 @@ import { FacturaStatus } from "../components/ui/estado-invoice";
 
 export interface InvoiceExport {
   id: string;
+  idFactura: string;
   cliente: string;
   createdAt: Date;
   horaEmision: string;

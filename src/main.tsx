@@ -10,6 +10,7 @@ createRoot(document.getElementById("root")!).render(
   <ClerkProvider
     publishableKey={VITE_CLERK_PUBLISHABLE_KEY}
     afterSignOutUrl="/login"
+    signInForceRedirectUrl="/dashboard"
   >
     <Provider store={store}>
       <App />

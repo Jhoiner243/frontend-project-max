@@ -1,4 +1,3 @@
-import { ComboboxClient } from "@/features/clients/components/ui/combobox-client";
 import { Dispatch, SetStateAction } from "react";
 import { FacturaProvider } from "../context/factura.context";
 import {
@@ -32,9 +31,6 @@ export default function FacturaDialog({
             </DialogHeader>
 
             <div className="space-y-6">
-              <div className="px-[18%]">
-                <ComboboxClient />
-              </div>
               <FormFactura />
             </div>
           </div>

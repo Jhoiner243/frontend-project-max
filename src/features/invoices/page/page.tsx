@@ -21,7 +21,7 @@ import {
   Filter,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Badge } from "../../../components/ui/badge";
@@ -45,6 +45,7 @@ import { FacturaSeccion } from "../types/factura.types";
 // Definición de columnas para facturas
 export type InvoiceRow = {
   id: string;
+  idFactura: string;
   client: string;
   date: string;
   dueDate: string;
@@ -118,7 +119,6 @@ export default function PageDataTableFactura() {
   );
 
   const [facturasGet, setFacturasGet] = useState(facturasGetApi);
-
   // Si hay un llamado a la api por estatus se establece los nuevos datos en el estado
   useEffect(() => {
     if (data) {
@@ -137,27 +137,23 @@ export default function PageDataTableFactura() {
     }
   }, [updateSearchParams, statusFilter, facturasGetApi]);
 
-  if (isLoading) {
-    return <SkeletonTableFactura />;
-  }
+  const dataFacturas = useMemo<InvoiceRow[]>(
+    () =>
+      facturasGet
+        ? facturasGet.facturas.map((factura) => ({
+            id: factura.id,
+            idFactura: factura.id,
+            client: factura.id_cliente,
+            date: new Date(factura.createdAt).toISOString(),
+            dueDate: new Date(factura.createdAt).toISOString(),
+            amount: factura.total,
+            status: factura.status as FacturaStatus,
+          }))
+        : [],
+    [facturasGet]
+  );
 
-  if (!facturasGet)
-    return (
-      <div className="flex justify-center items-center ">
-        No hay datos disponibles.
-      </div>
-    );
-
-  const dataFacturas: InvoiceRow[] = facturasGet.facturas.map((factura) => ({
-    id: factura.id,
-    client: factura.id_cliente,
-    date: new Date(factura.createdAt).toISOString(),
-    dueDate: new Date(factura.createdAt).toISOString(),
-    amount: factura.total,
-    status: factura.status as FacturaStatus,
-  }));
-
-  const getSortedInvoices = () => {
+  const getSortedInvoices = useCallback(() => {
     let filteredInvoices = [...dataFacturas];
 
     //Aply status filter
@@ -168,7 +164,8 @@ export default function PageDataTableFactura() {
     }
     if (statusFilter === null && facturasGetApi) {
       filteredInvoices = facturasGetApi?.facturas.map((factura) => ({
-        id: factura.id,
+        id: factura.idFactura.toString().padStart(5, "0"),
+        idFactura: factura.id,
         client: factura.id_cliente,
         date: new Date(factura.createdAt).toISOString(),
         dueDate: new Date(factura.updatedAt).toISOString(),
@@ -193,13 +190,23 @@ export default function PageDataTableFactura() {
       const term = searchTerm.toLowerCase();
       filteredInvoices = filteredInvoices.filter(
         (invoice) =>
-          invoice.id.toLowerCase().includes(term) ||
-          invoice.client.toLowerCase().includes(term)
+          invoice.idFactura || invoice.client.toLowerCase().includes(term)
       );
     }
 
     return filteredInvoices;
-  };
+  }, [data, dataFacturas, dateRange, facturasGetApi, searchTerm, statusFilter]);
+
+  if (isLoading) {
+    return <SkeletonTableFactura />;
+  }
+
+  if (!facturasGet)
+    return (
+      <div className="flex justify-center items-center ">
+        No hay datos disponibles.
+      </div>
+    );
 
   const clearFilters = () => {
     setSearchTerm("");
@@ -211,6 +218,7 @@ export default function PageDataTableFactura() {
   const handleExport = () => {
     const exportData: InvoiceExport[] = sortedInvoices.map((invoice) => ({
       id: invoice.id,
+      idFactura: invoice.idFactura,
       cliente: invoice.client,
       createdAt: new Date(invoice.date),
       horaEmision: new Date(invoice.date)

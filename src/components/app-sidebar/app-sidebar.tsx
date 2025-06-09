@@ -1,5 +1,4 @@
 "use client";
-
 import {
   ArrowUpCircleIcon,
   BarChartIcon,
@@ -27,8 +26,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { SignedIn, UserButton } from "@clerk/clerk-react";
+import { SignedIn, UserButton, useUser } from "@clerk/clerk-react";
 import { useWindowSize } from "usehooks-ts";
+import { Card } from "../ui/card";
 import { NavDocuments } from "./components/nav-documents";
 import { NavMain } from "./components/nav-main";
 
@@ -46,7 +46,7 @@ const data = {
     },
     {
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard",
       icon: LayoutDashboardIcon,
     },
     {
@@ -145,8 +145,9 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { width } = useWindowSize();
+  const { user } = useUser();
   return (
-    <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -169,7 +170,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarFooter>
         {width > 768 && (
           <SignedIn>
-            <UserButton />
+            <Card className="p-0 dark:hover:bg-slate-800/10 border-white/25 hover:cursor-default opacity-90">
+              <div className="flex flex-row gap-1 items-center justify-center ">
+                <UserButton />
+                {user && (
+                  <div>
+                    <div className="p-2 dark:text-white/60">
+                      {user.firstName} {user.lastName}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
           </SignedIn>
         )}
       </SidebarFooter>

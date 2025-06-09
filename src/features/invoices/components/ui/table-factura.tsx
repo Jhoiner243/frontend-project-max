@@ -11,6 +11,7 @@ import {
 import { Trash2 } from "lucide-react";
 import { useGetProductsQuery } from "../../../../store/productos/api";
 import { formatCurrency } from "../../../../utils/format-currency";
+import { ComboboxClient } from "../../../clients/components/ui/combobox-client";
 import { useFactura } from "../../context/factura.context";
 import { ToastDemo } from "./toast-factura";
 
@@ -22,12 +23,15 @@ export function TableFactura() {
     <>
       <div>
         <Button
-          variant="outline"
-          className="p-1 cursor-pointer  text-red-400 "
+          variant="destructive"
+          className=" cursor-pointer  text-red-400"
           onClick={() => clearInvoice()}
         >
-          Clear
+          <Trash2 className="h-2 " />
         </Button>
+      </div>
+      <div className="flex  m-5 justify-center items-center mb-7">
+        <ComboboxClient />
       </div>
       <Table className="mt-7">
         <TableHeader>

@@ -23,7 +23,7 @@ export function RowActions({
 
   const handleEdit = () => {
     setMenuOpen(false);
-    onEdit?.(item.id);
+    onEdit?.(item.idFactura ? item.idFactura : item.id);
   };
 
   const handleDelete = () => {

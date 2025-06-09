@@ -80,7 +80,7 @@ export function DropEstadoInvoice({
             <DropdownMenuRadioItem
               onClick={() =>
                 putInvoiceStatus({
-                  id: value.id,
+                  id: value.idFactura.toString(),
                   data: { ...value, status: estado },
                 })
               }

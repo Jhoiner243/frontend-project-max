@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Framet } from "../features/ai/components/framet";
 import AskPage from "../features/ai/page/ask-page";
 import AnaliticaPage from "../features/analytics/page/page";
 import LoginPage from "../features/auth/page/login/page-login";
@@ -15,6 +14,7 @@ import ProductosPage from "../features/products/components/table-productos/table
 import { ProfitProvider } from "../features/profit/context/profit.context";
 import { SettingsProvider } from "../features/settings/context/settings-context";
 import SettingsPage from "../features/settings/page/page";
+import FillstepLanding from "../landing/page/page";
 import Layout from "../layouts/layout";
 import DashboardPage from "../pages/dashboard/page";
 
@@ -25,11 +25,11 @@ export const RoutesApp = () => {
         <ProfitProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/nada" element={<Framet />} />
+              <Route path="/" element={<FillstepLanding />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route element={<Layout />}>
-                <Route index element={<DashboardPage />} />
+                <Route path="/dashboard" index element={<DashboardPage />} />
                 <Route
                   path="/pedidos-register"
                   element={<ProximamentePage />}
@@ -40,7 +40,7 @@ export const RoutesApp = () => {
                   <Route
                     path="edit-data/:id"
                     element={<EditPageInvoices />}
-                    loader={() => InvoiceSkeleton()}
+                    loader={InvoiceSkeleton}
                   />
                 </Route>
                 <Route path="/clientes" element={<ClientesPage />} />

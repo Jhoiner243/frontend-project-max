@@ -63,7 +63,7 @@ export function Notifications() {
     refetch();
   };
   return (
-    <div className="relative">
+    <div className="relativ">
       <Button
         variant="ghost"
         size="icon"
@@ -78,7 +78,7 @@ export function Notifications() {
       </Button>
 
       {isOpen && (
-        <Card className="absolute right-0 mt-2 w-96 z-50">
+        <Card className="absolute bg-white dark:bg-black right-15 mt-2 w-96 z-50 ">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Notificaciones

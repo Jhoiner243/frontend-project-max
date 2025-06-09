@@ -9,6 +9,7 @@ import {
   facturaReducer,
   initialValues,
 } from "../hooks/use-factura";
+import { useLazyGetInvoicesQuery } from "../service/api";
 import {
   DetallesFacturasEntity,
   type FacturasEntity,
@@ -31,6 +32,7 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
   const [onSubmitInvoice] = useCreateFacturaMutation();
   const [state, dispatch] = useReducer(facturaReducer, initialValues);
   const { refetch } = useGetProductsQuery();
+  const [refresh] = useLazyGetInvoicesQuery();
   const clienteAdd = (id_cliente: string) => {
     dispatch({ type: FacturaAction.ADD_CLIENT, payload: { id_cliente } });
   };
@@ -103,6 +105,7 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
       });
     } finally {
       refetch();
+      refresh({ page: 1, limit: 10 });
     }
   };
 

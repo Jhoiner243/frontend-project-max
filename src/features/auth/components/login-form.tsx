@@ -7,8 +7,10 @@ export function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   return (
-    <div className={cn("flex flex-col gap-6 ", className)} {...props}>
-      <SignIn signUpUrl="/register" />
+    <div>
+      <div className={cn("flex flex-col gap-6 ", className)} {...props}>
+        <SignIn signUpUrl="/register" afterSignOutUrl={"/dashboard"} />
+      </div>
     </div>
   );
 }

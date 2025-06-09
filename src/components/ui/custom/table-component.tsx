@@ -324,7 +324,7 @@ export function DataTable({
                   className="border-1 hover:bg-background/20  dark:hover:bg-black/60 focus-visible:bg-background"
                   key={index}
                   variants={itemDelay}
-                  onDoubleClick={() => handleClickForLink(item.id)}
+                  onDoubleClick={() => handleClickForLink(item.idFactura)}
                 >
                   {columns.map((column) => (
                     <TableCell

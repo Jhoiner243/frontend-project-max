@@ -82,7 +82,7 @@ export default function Chat({ respuesta }: { respuesta: string }) {
               idx === conversationToRender.length - 1 ? "animate-fadeIn" : ""
             )}
           >
-            {message.type === "user" ? (
+            {message.type === "user" && (
               <div className="flex items-start gap-3 mb-6">
                 <div className="rounded-full border-1 p-2 flex-shrink-0 shadow-sm">
                   <User className="h-4 w-4" />
@@ -98,7 +98,8 @@ export default function Chat({ respuesta }: { respuesta: string }) {
                   </div>
                 </div>
               </div>
-            ) : (
+            )}{" "}
+            {message.type === "ai" && (
               <div className="flex items-start gap-3 mb-6">
                 <div className=" text-white rounded-full border-1 p-2 flex-shrink-0 shadow-sm">
                   <Sparkles className="h-4 w-4" />

@@ -9,30 +9,29 @@ interface DataForSeccionCard {
 }
 
 export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
-  // Sample data for the cards - in a real app, this would come from props or API
   const cardsData = [
     {
       title: "Total ventas",
       value: 1250.0,
       percentage: 12.5,
-      description: "Trending up this month",
-      subtitle: "Visitors for the last 6 months",
+      description: "Tendencias al alza este mes",
+      subtitle: "Visitantes de los últimos 6 meses",
       type: "currency" as const,
     },
     {
       title: "Nuevos clientes",
       value: 1234,
       percentage: -20,
-      description: "Down 20% this period",
-      subtitle: "Acquisition needs attention",
+      description: "Bajó un 20% este período",
+      subtitle: "La adquisición necesita atención.",
       type: "number" as const,
     },
     {
       title: "Cuentas activas",
       value: 45678,
       percentage: 12.5,
-      description: "Strong user retention",
-      subtitle: "Engagement exceed targets",
+      description: "Fuerte retención de usuarios",
+      subtitle: "El compromiso supera los objetivos",
       type: "number" as const,
     },
   ];
@@ -67,8 +66,8 @@ export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
         title="Índice de crecimiento"
         value={validGrowthRate.porcentaje}
         percentage={validGrowthRate.porcentaje}
-        description={`Steady performance ${validGrowthRate.fechaActual}`}
-        subtitle="Meets growth projections"
+        description={`Rendimiento constante ${validGrowthRate.fechaActual}`}
+        subtitle="Cumple con las proyecciones de crecimiento"
         type="percentage"
       />
     </div>

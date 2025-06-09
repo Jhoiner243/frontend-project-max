@@ -93,6 +93,7 @@ export const fetchApiInvoices = createApi({
 });
 
 export const {
+  useLazyGetInvoicesQuery,
   useGetAllInvoicesStatusQuery,
   useGetInvoicesQuery,
   useCreateInvoiceMutation,
