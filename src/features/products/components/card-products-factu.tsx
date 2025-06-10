@@ -30,8 +30,8 @@ export const ProductCard = memo(
         onClick={() => onClick(producto.id)}
         onKeyDown={(e) => e.key === "Enter" && onClick(producto.id)}
         className={cn(
-          "w-[90px] h-[69px] transition-all cursor-pointer mb-6 mt-4 bg-transparent",
-          selected && "ring-2 ring-primary"
+          "w-[90px] h-[69px] cursor-pointer mb-6 mt-4 bg-transparent",
+          selected && "ring-2 ring-primary "
         )}
       >
         <CardHeader className="pr-1 pl-1 px-4">

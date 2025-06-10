@@ -1,10 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { VITE_API_URL } from "../../config/config";
-import {
-  IPrompt,
-  LlmResponse,
-  ToolsForLLM,
-} from "../../features/ai/types/llm.types";
+import { IPrompt, LlmResponse } from "../../features/ai/types/llm.types";
 import { usePrepareHeaders } from "../../lib/headers";
 
 export const ApiLLM = createApi({
@@ -22,13 +18,7 @@ export const ApiLLM = createApi({
         body: body,
       }),
     }),
-    GetTools: builder.query<ToolsForLLM[], void>({
-      query: () => ({
-        url: "/tools",
-        method: "GET",
-      }),
-    }),
   }),
 });
 
-export const { usePostMutationLLMMutation, useGetToolsQuery } = ApiLLM;
+export const { usePostMutationLLMMutation } = ApiLLM;

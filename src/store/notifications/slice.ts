@@ -4,7 +4,7 @@ export interface NotificationState {
   id: string;
   is_read: boolean;
   message: string;
-  date: Date;
+  createdAt: Date;
 }
 
 export interface NotificationsEnabledState {

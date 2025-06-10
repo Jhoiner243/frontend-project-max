@@ -84,7 +84,10 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
           setTimeout(() => {
             onSubmitInvoice(invoiceToSend)
               .unwrap()
-              .then(() => resolve())
+              .then(() => {
+                resolve();
+                refresh({ page: 1, limit: 10 });
+              })
               .catch(reject);
           }, 1000);
         }),
@@ -105,7 +108,6 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
       });
     } finally {
       refetch();
-      refresh({ page: 1, limit: 10 });
     }
   };
 

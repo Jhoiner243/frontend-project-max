@@ -11,6 +11,7 @@ createRoot(document.getElementById("root")!).render(
     publishableKey={VITE_CLERK_PUBLISHABLE_KEY}
     afterSignOutUrl="/login"
     signInForceRedirectUrl="/dashboard"
+    signUpForceRedirectUrl={"/dashboard"}
   >
     <Provider store={store}>
       <App />
