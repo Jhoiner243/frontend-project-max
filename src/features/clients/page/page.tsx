@@ -8,8 +8,8 @@ import {
   useUpdateClientMutation,
 } from "../../../store/clients/api";
 import SkeletonTableFactura from "../../invoices/components/ui/skeleton-table-factura";
-import { EditProduct } from "../../products/components/edit-product";
 import ClientCreate from "../components/ui/CreateClient";
+import { EditClient } from "../components/ui/edit-client";
 
 // Definición de columnas para clientes
 const clientColumns = [
@@ -93,7 +93,7 @@ export default function ClientesPage() {
   return (
     <div>
       {open === true && (
-        <EditProduct
+        <EditClient
           id={ClientId}
           open={open}
           setOpen={setOpen}

@@ -6,9 +6,11 @@ import {
   useDeleteProductMutation,
   useGetProductsQuery,
   useLazyGetProductsQuery,
+  useUpdateProductMutation,
 } from "../../../../store/productos/api";
 import SkeletonTableFactura from "../../../invoices/components/ui/skeleton-table-factura";
 import CreateProduct from "./creat-product";
+import { EditProduct } from "./edit-product";
 import { RenderInputTable } from "./render-input-table";
 
 // Definición de columnas para productos
@@ -67,10 +69,13 @@ const productColumns = [
 ];
 
 export default function ProductosPage() {
+  const [onSubmitUpdate] = useUpdateProductMutation();
   const { data: productos, isLoading } = useGetProductsQuery();
+  const [productId, setProductId] = useState("");
   const [deleteProduct, { isSuccess, isLoading: loading }] =
     useDeleteProductMutation();
   const [trigger] = useLazyGetProductsQuery();
+  const [open, setOpen] = useState(false);
   const [expand, setExpand] = useState(false);
   const [id, setId] = useState("");
   const status = (stock: number) => {
@@ -100,8 +105,21 @@ export default function ProductosPage() {
     setExpand(true);
   };
 
+  const handleUpdate = (id: string) => {
+    setProductId(id);
+    setOpen(true);
+  };
+
   return (
     <div>
+      {open === true && (
+        <EditProduct
+          id={productId}
+          open={open}
+          setOpen={setOpen}
+          onSubmit={onSubmitUpdate}
+        />
+      )}
       <AlertDelete
         trigger={trigger}
         expand={expand}
@@ -117,6 +135,7 @@ export default function ProductosPage() {
           columns={productColumns}
           data={productosData}
           onAdd={<CreateProduct />}
+          onEdit={handleUpdate}
           onDelete={handleDeleteProduct}
         />
       </main>

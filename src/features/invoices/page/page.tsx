@@ -1,11 +1,15 @@
 /* eslint-disable react-refresh/only-export-components */
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/custom/table-component";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useUpdateParam } from "@/utils/update-search-param";
 import {
   endOfDay,
   format,
@@ -24,10 +28,6 @@ import {
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Badge } from "../../../components/ui/badge";
-import { Button } from "../../../components/ui/button";
-import { DataTable } from "../../../components/ui/custom/table-component";
-import { useUpdateParam } from "../../../utils/update-search-param";
 import { DateRangePicker } from "../components/ui/date-range-picker";
 import {
   DropEstadoInvoice,
@@ -197,16 +197,15 @@ export default function PageDataTableFactura() {
     return filteredInvoices;
   }, [data, dataFacturas, dateRange, facturasGetApi, searchTerm, statusFilter]);
 
-  if (isLoading) {
+  if (!facturasGet && isLoading) {
     return <SkeletonTableFactura />;
-  }
-
-  if (!facturasGet)
+  } else if (!facturasGet) {
     return (
       <div className="flex justify-center items-center ">
         No hay datos disponibles.
       </div>
     );
+  }
 
   const clearFilters = () => {
     setSearchTerm("");

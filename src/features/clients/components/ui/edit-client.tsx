@@ -11,8 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { useGetClientByIdQuery } from "../../../store/clients/api";
-import { ClientEntity } from "../../clients/client.types";
+import { useGetClientByIdQuery } from "../../../../store/clients/api";
+import { ClientEntity } from "../../client.types";
 
 interface EditDataProps {
   id: string;
@@ -21,7 +21,7 @@ interface EditDataProps {
   open: boolean;
 }
 
-export const EditProduct = ({ id, onSubmit, setOpen, open }: EditDataProps) => {
+export const EditClient = ({ id, onSubmit, setOpen, open }: EditDataProps) => {
   const [dataEdited, setDataEdited] = useState<Partial<ClientEntity>>({});
   const { data } = useGetClientByIdQuery({ id });
   // Inicializamos dataEdited con los valores que ya trae `data`

@@ -9,7 +9,9 @@ import { useGetProfitQuery } from "../../store/profit/api";
 export default function DashboardPage() {
   const { isSignedIn } = useAuth();
   const skip = !isSignedIn;
-  const { data } = useGetGrowtRateQuery(undefined, { skip });
+  const { data } = useGetGrowtRateQuery(undefined, {
+    skip,
+  });
   const { isLoading, isFetching } = useGetProfitQuery();
   return (
     <div>
