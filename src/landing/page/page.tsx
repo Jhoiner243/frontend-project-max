@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Button } from "../../components/ui/button";
 
 function FillstepLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -196,9 +197,11 @@ function FillstepLanding() {
               >
                 Iniciar Sesión
               </Link>
-              <button className="bg-white text-black hover:bg-white/90 transition-all duration-300 px-6 py-2 rounded-full font-medium">
-                Prueba Gratuita
-              </button>
+              <Link to="/register-entity">
+                <Button className="w-full bg-white text-black hover:bg-white/90 transition-all duration-300 py-3 rounded-full font-medium">
+                  Prueba Gratuita
+                </Button>
+              </Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -248,12 +251,14 @@ function FillstepLanding() {
                 Recursos
               </a>
               <div className="pt-6 border-t border-white/10 space-y-4">
-                <a href="#" className="block text-lg text-white/80">
+                <Link to="#" className="block text-lg text-white/80">
                   Iniciar Sesión
-                </a>
-                <button className="w-full bg-white text-black hover:bg-white/90 transition-all duration-300 py-3 rounded-full font-medium">
-                  Prueba Gratuita
-                </button>
+                </Link>
+                <Link to="/register-entity">
+                  <Button className="w-full bg-white text-black hover:bg-white/90 transition-all duration-300 py-3 rounded-full font-medium">
+                    Prueba Gratuita
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
