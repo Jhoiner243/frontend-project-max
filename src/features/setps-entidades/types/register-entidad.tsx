@@ -2,18 +2,18 @@
  * Enum for available plan types
  */
 export enum TypePlan {
-  BASIC = "basic",
-  PREMIUM = "premium",
-  ENTERPRISE = "enterprise",
+  BASIC = "Gratuito",
+  PREMIUM = "Basico",
+  ENTERPRISE = "Premium",
 }
 
 /**
  * Enum for billing cycle options
  */
 export enum BillingCycle {
-  MONTHLY = "monthly",
-  QUARTERLY = "quarterly",
-  YEARLY = "yearly",
+  MONTHLY = "Mensual",
+  QUARTERLY = "Quincenal",
+  YEARLY = "Anual",
 }
 
 /**

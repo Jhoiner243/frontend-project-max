@@ -19,7 +19,7 @@ import {
   setErrors,
   setIsSubmitting,
 } from "../../../../store/steps-entidad/slice";
-import { createEntity } from "../../api";
+import { useCreateEntidadMutation } from "../../api";
 import { validateAllSteps, validateStep } from "../../validations/validations";
 import BasicInfoStep from "./basic-info-step";
 import ContactInfoStep from "./contact-info-step";
@@ -66,6 +66,7 @@ export default function RegisterEntityManager() {
   const { formData, currentStep, isSubmitting } = useAppSelector(
     (state) => state.registration
   );
+  const [createEntity] = useCreateEntidadMutation();
 
   const [submitError, setSubmitError] = useState<string>("");
   const [animationDirection, setAnimationDirection] = useState<
@@ -126,15 +127,13 @@ export default function RegisterEntityManager() {
     setSubmitError("");
 
     try {
-      const response = await createEntity(formData);
+      const response = await createEntity(formData).unwrap();
 
-      if (response.success && response.data) {
-        dispatch(setCreatedEntity(response.data));
+      if (response && response.datos) {
+        dispatch(setCreatedEntity(response.datos));
         // Navigate to the created entity page
       } else {
-        setSubmitError(
-          response.error || "Error desconocido al crear la entidad"
-        );
+        setSubmitError("Error desconocido al crear la entidad");
       }
     } catch {
       setSubmitError("Error de conexión. Por favor, intente nuevamente.");
