@@ -12,6 +12,9 @@ import PageDataTableFactura from "../features/invoices/page/page";
 import CategoryPage from "../features/products/components/category/table-category";
 import ProductosPage from "../features/products/components/table-productos/table-productos";
 import { ProfitProvider } from "../features/profit/context/profit.context";
+import RegisterEntityManager from "../features/setps-entidades/componentes/ui/register-entity-manager";
+import EntityDetailsPage from "../features/setps-entidades/componentes/ui/successfull-regiter";
+import HomePage from "../features/setps-entidades/page/page-steps";
 import { SettingsProvider } from "../features/settings/context/settings-context";
 import SettingsPage from "../features/settings/page/page";
 import FillstepLanding from "../landing/page/page";
@@ -26,6 +29,12 @@ export const RoutesApp = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<FillstepLanding />} />
+              <Route path="/register-entity" element={<HomePage />} />
+              <Route
+                path="/registro-entidad"
+                element={<RegisterEntityManager />}
+              />
+              <Route path="/entidad/:id" element={<EntityDetailsPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route element={<Layout />}>
