@@ -12,6 +12,7 @@ export default function DashboardPage() {
   const { data } = useGetGrowtRateQuery(undefined, {
     skip,
   });
+
   const { isLoading, isFetching } = useGetProfitQuery();
   return (
     <div>

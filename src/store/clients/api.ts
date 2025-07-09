@@ -21,13 +21,16 @@ export const ApiClients = createApi({
         method: "GET",
       }),
     }),
-    getClients: builder.query<ClientEntity[], void>({
+    getClients: builder.query<
+      { clientes: ClientEntity[]; lastPage: number; total: number },
+      void
+    >({
       query: () => ({
         url: "/clientes",
         method: "GET",
       }),
       providesTags: (result) =>
-        result
+        Array.isArray(result)
           ? [
               ...result.map(({ id }) => ({ type: "Clients" as const, id })),
               { type: "Clients", id: "LIST" },

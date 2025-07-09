@@ -3,84 +3,69 @@
 
 @custom-variant dark (&:is(.dark *));
 
-:root {
-  --radius: 0.65rem;
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 1.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0.65rem;
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
+  }
 
-  /* Light theme (basado en shadcn pero con negro) */
-  --background: 0 0% 100%; /* Blanco puro */
-  --foreground: 0 0% 0%; /* Negro puro */
-
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-
-  --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 0%;
-
-  --primary: 0 0% 0%; /* Negro como color primario */
-  --primary-foreground: 0 0% 100%;
-
-  --secondary: 0 0% 96%; /* Gris muy claro */
-  --secondary-foreground: 0 0% 0%;
-
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-
-  --accent: 0 0% 96%;
-  --accent-foreground: 0 0% 0%;
-
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-
-  --border: 0 0% 90%; /* Gris claro para bordes */
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-
-  /* Colores para gráficos */
-  --chart-1: 141.9 69.2% 58%; /* Negro */
-  --chart-2: 0 0% 40%; /* Gris oscuro */
-  --chart-3: 0 0% 70%; /* Gris medio */
-  --chart-4: 0 0% 85%; /* Gris claro */
-  --chart-5: 0 0% 95%; /* Gris muy claro */
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
-
-.dark {
-  /* Dark theme - Elegante esquema negro */
-  --background: 0 0% 5%; /* Negro casi puro */
-  --foreground: 0 0% 95%; /* Casi blanco */
-
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-
-  --popover: 0 0% 8%;
-  --popover-foreground: 0 0% 95%;
-
-  --primary: 0 0% 90%; /* Blanco como primario en dark */
-  --primary-foreground: 0 0% 5%;
-
-  --secondary: 0 0% 15%;
-  --secondary-foreground: 0 0% 95%;
-
-  --muted: 0 0% 15%;
-  --muted-foreground: 0 0% 70%;
-
-  --accent: 0 0% 20%;
-  --accent-foreground: 0 0% 95%;
-
-  --destructive: 0 70% 50%;
-  --destructive-foreground: 0 0% 95%;
-
-  --border: 0 0% 32.2%;
-  --input: 0 0% 20%;
-  --ring: 0 0% 60%; /* Anillo gris medio */
-
-  /* Colores para gráficos en dark mode */
-  --chart-1: 188.7 94.5% 42.7%; /* Blanco */
-  --chart-2: 0 0% 75%; /* Gris claro */
-  --chart-3: 0 0% 50%; /* Gris medio */
-  --chart-4: 0 0% 30%; /* Gris oscuro */
-  --chart-5: 0 0% 15%; /* Gris muy oscuro */
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 100.3 10% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 11% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 210 40% 98%;
+    --chart-2: 100.2 32.6% 17.5%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+  }
 }
 
 @theme inline {
@@ -127,12 +112,75 @@
 @layer base {
   * {
     @apply border-border;
-    *:focus-visible {
-      @apply outline-ring outline-2 outline-offset-2;
-    }
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--foreground));
+}
+
+.step-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+.step-enter {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.step-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.step-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.step-exit-active {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(240 4% 16%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(240 5% 64%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(0 0% 100%);
 }

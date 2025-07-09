@@ -6,7 +6,6 @@ export const usePrepareHeaders = (headers: Headers) => {
   if (!token) {
     return headers;
   }
-
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);
   }

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ErrorPage from "../components/ui/custom/error-element";
 import AskPage from "../features/ai/page/ask-page";
 import AnaliticaPage from "../features/analytics/page/page";
 import LoginPage from "../features/auth/page/login/page-login";
@@ -28,16 +29,21 @@ export const RoutesApp = () => {
         <ProfitProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<FillstepLanding />} />
-              <Route path="/register-entity" element={<HomePage />} />
+              <Route
+                path="/"
+                element={<FillstepLanding />}
+                errorElement={<ErrorPage />}
+              />
+              <Route path="/select-step-entity" element={<HomePage />} />
               <Route
                 path="/registro-entidad"
                 element={<RegisterEntityManager />}
+                errorElement={<ErrorPage />}
               />
               <Route path="/entidad/:id" element={<EntityDetailsPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route element={<Layout />}>
+              <Route element={<Layout />} errorElement={<ErrorPage />}>
                 <Route path="/dashboard" index element={<DashboardPage />} />
                 <Route
                   path="/pedidos-register"

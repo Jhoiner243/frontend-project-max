@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { apiAnalitics } from "../features/analytics/service/api";
 import { fetchBaseAuth } from "../features/auth/services/service";
-import { fetchApiInvoices } from "../features/invoices/service/api";
+import { fetchApiInvoices } from "../features/invoices/service/api-facturas-update";
 import { fetchBaseApi } from "../features/notifications/service";
 import { entidadesApi } from "../features/setps-entidades/api";
 import { ApiLLM } from "./ai/api";

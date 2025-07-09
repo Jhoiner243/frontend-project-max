@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { useOrganizationList } from "@clerk/clerk-react";
 import {
   AlertCircle,
   ArrowLeft,
@@ -21,19 +21,19 @@ import {
   CreditCard,
   Factory,
   FileText,
-  Loader2,
+  Loader,
   Mail,
   MapPin,
   Phone,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCreateEntidadMutation } from "../../api";
 import {
   BillingCycle,
   CreatedEntity,
   TypePlan,
 } from "../../types/register-entidad";
+import { getEntityById } from "./get-by-id";
 
 /**
  * Entity Details Page Component for React
@@ -44,24 +44,19 @@ export default function EntityDetailsPage() {
   const [error, setError] = useState<string>("");
   const params = useParams();
   const id = params.id as string;
+  const { setActive } = useOrganizationList();
   const navigate = useNavigate();
-  const [_, { data }] = useCreateEntidadMutation();
 
   useEffect(() => {
     const fetchEntity = async () => {
       try {
         setLoading(true);
-        if (data) {
-          const fetchedEntity = await data;
-
-          if (fetchedEntity && fetchedEntity.datos) {
-            setEntity(fetchedEntity.datos);
-          } else {
-            setError("Entidad no encontrada");
-          }
+        if (id) {
+          const findData = await getEntityById();
+          setEntity(findData);
         }
       } catch {
-        setError("Error al cargar la información de la entidad");
+        setError(`Error al cargar la información de la entidad`);
       } finally {
         setLoading(false);
       }
@@ -70,18 +65,28 @@ export default function EntityDetailsPage() {
     if (id) {
       fetchEntity();
     }
-  }, [data, id]);
+  }, [id]);
 
   const handleNewRegistration = () => {
     navigate("/");
   };
 
-  const handleNext = () => {
-    navigate("/dashboard");
+  const handleClick = async () => {
+    try {
+      if (setActive) {
+        if (entity) {
+          await setActive({ organization: entity.organizationId });
+          navigate("/dashboard");
+          localStorage.removeItem("entities");
+        }
+      }
+    } catch (error) {
+      console.error("Error al activar organización:", error);
+    }
   };
 
   const planLabels = {
-    [TypePlan.BASIC]: "Básico",
+    [TypePlan.BASIC]: "Gratuito",
     [TypePlan.PREMIUM]: "Premium",
     [TypePlan.ENTERPRISE]: "Enterprise",
   };
@@ -108,7 +113,7 @@ export default function EntityDetailsPage() {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <Loader2 className="w-10 h-10 animate-spin text-white" />
+          <Loader className="w-10 h-10 animate-spin text-white/80" />
           <p className="text-zinc-400">Cargando información de la entidad...</p>
         </div>
       </div>
@@ -288,7 +293,7 @@ export default function EntityDetailsPage() {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
-            onClick={handleNext}
+            onClick={handleClick}
             className="bg-zinc-900 border-zinc-700 text-white hover:bg-zinc-800 flex items-center gap-2"
           >
             <ArrowRight className="w-4 h-4" />

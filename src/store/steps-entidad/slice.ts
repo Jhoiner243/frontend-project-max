@@ -16,6 +16,7 @@ const initialFormData: RegisterEntidad = {
   nombre: "",
   typePlan: TypePlan.BASIC,
   billingCycle: BillingCycle.MONTHLY,
+  createBy: "",
   industry: "",
   contactPhone: 0,
   billingEmail: "",

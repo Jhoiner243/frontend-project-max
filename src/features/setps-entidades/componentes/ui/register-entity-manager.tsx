@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useAppDispatch, useAppSelector } from "@/store/steps-entidad/hook";
+import { useAuth } from "@clerk/clerk-react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
@@ -66,6 +67,8 @@ export default function RegisterEntityManager() {
   const { formData, currentStep, isSubmitting } = useAppSelector(
     (state) => state.registration
   );
+  const { userId } = useAuth();
+
   const [createEntity] = useCreateEntidadMutation();
 
   const [submitError, setSubmitError] = useState<string>("");
@@ -127,13 +130,25 @@ export default function RegisterEntityManager() {
     setSubmitError("");
 
     try {
-      const response = await createEntity(formData).unwrap();
+      if (userId) {
+        const response = await createEntity({
+          ...formData,
+          createBy: userId,
+        })
+          .unwrap()
+          .catch((err) => setSubmitError(err));
 
-      if (response && response.datos) {
-        dispatch(setCreatedEntity(response.datos));
-        // Navigate to the created entity page
-      } else {
-        setSubmitError("Error desconocido al crear la entidad");
+        if (response && response.datos) {
+          dispatch(setCreatedEntity(response.datos));
+          localStorage.setItem("entities", JSON.stringify(response.datos));
+          navigate(`/entidad/${response.datos.id}`);
+        } else {
+          setSubmitError(
+            response && "message" in response && response.message
+              ? response.message
+              : "Error desconocido al crear la entidad"
+          );
+        }
       }
     } catch {
       setSubmitError("Error de conexión. Por favor, intente nuevamente.");
@@ -164,7 +179,7 @@ export default function RegisterEntityManager() {
   return (
     <div className="min-h-screen bg-black">
       <Button
-        onClick={() => navigate("/register-entity")}
+        onClick={() => navigate("/select-step-entity")}
         className="flex  absolute ml-[10%] mt-20  bg-black cursor-default  rounded-full p-2 font-medium   dark:bg-white/80 dark:transition dark:duration-200 dark:hover:bg-white"
       >
         <ArrowLeft className="m-1 w-5 h-5 group-hover:translate-x-3 transition-transform" />
@@ -245,7 +260,7 @@ export default function RegisterEntityManager() {
         )}
 
         {/* Step Content */}
-        <div className="mb-8 min-h-[500px]">
+        <div className=" min-h-[340px] mb-8">
           <AnimatePresence mode="wait" custom={animationDirection}>
             <motion.div
               key={currentStep}
@@ -262,7 +277,7 @@ export default function RegisterEntityManager() {
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center mt-0">
           <Button
             variant="outline"
             onClick={handlePrevStep}

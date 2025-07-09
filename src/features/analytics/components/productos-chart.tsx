@@ -54,11 +54,62 @@ export function ProductAnaliticComponent() {
     return <IsLoadingComponent />;
   }
 
-  if (isError || !data || data.length === 0) {
+  if (isError) {
     return (
-      <div className="p-4 text-red-500">
-        No se pudieron cargar las analíticas.
+      <div className="p-4 text-red-500 ">
+        Error al cargar las analíticas de productos. Intenta nuevamente más
+        tarde.
       </div>
+    );
+  }
+
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    // Renderiza la gráfica vacía
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>Productos más vendidos</CardTitle>
+          <CardDescription>Sin datos de la semana</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig}>
+            <LineChart
+              accessibilityLayer
+              data={[]}
+              margin={{ top: 24, left: 24, right: 24 }}
+            >
+              <CartesianGrid vertical={false} />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    indicator="line"
+                    nameKey="Cantidad"
+                    hideLabel
+                  />
+                }
+              />
+              <Line
+                dataKey="cantidad"
+                type="natural"
+                stroke="var(--color-visitors)"
+                strokeWidth={2}
+                dot={{ fill: "var(--color-visitors)" }}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ChartContainer>
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 font-medium leading-none">
+            Tendencia al alza del 5,2% esta semana{" "}
+            <TrendingUp className="h-4 w-4" />
+          </div>
+          <div className="leading-none text-muted-foreground">
+            Top productos vendidos en la semana
+          </div>
+        </CardFooter>
+      </Card>
     );
   }
 
@@ -75,7 +126,7 @@ export function ProductAnaliticComponent() {
   }));
 
   return (
-    <Card>
+    <Card className="min-h-[341px]">
       <CardHeader>
         <CardTitle>Productos más vendidos</CardTitle>
         <CardDescription>Semana: {latestWeek.semana}</CardDescription>
@@ -84,7 +135,7 @@ export function ProductAnaliticComponent() {
         <ChartContainer config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={dataProduct}
+            data={dataProduct ?? []}
             margin={{ top: 24, left: 24, right: 24 }}
           >
             <CartesianGrid vertical={false} />

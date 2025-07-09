@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { useGetClientByIdQuery } from "../../../../store/clients/api";
+import { useGetClientsQuery } from "../../../../store/clients/api";
 import { ClientEntity } from "../../client.types";
 
 interface EditDataProps {
@@ -23,7 +23,8 @@ interface EditDataProps {
 
 export const EditClient = ({ id, onSubmit, setOpen, open }: EditDataProps) => {
   const [dataEdited, setDataEdited] = useState<Partial<ClientEntity>>({});
-  const { data } = useGetClientByIdQuery({ id });
+  const { data: clients } = useGetClientsQuery();
+  const data = clients?.clientes?.find((client) => client.id === id);
   // Inicializamos dataEdited con los valores que ya trae `data`
 
   // Cuando el usuario escribe en un input, modificamos solo esa propiedad.

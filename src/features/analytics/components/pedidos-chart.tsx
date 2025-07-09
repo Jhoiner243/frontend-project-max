@@ -43,7 +43,7 @@ export function PedidosAnaliticaComponent({
   };
 
   return (
-    <Card>
+    <Card className="">
       <CardHeader>
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>

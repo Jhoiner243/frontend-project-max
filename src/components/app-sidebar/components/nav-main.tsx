@@ -63,7 +63,7 @@ export function NavMain({
               <Link to={item.url}>
                 <SidebarMenuButton
                   tooltip={item.title}
-                  className="hover:shadow-slate-800/40 hover:bg-black/40 hover:rounded-full"
+                  className="hover:shadow-slate-800/40 hover:bg-slate-700/20 hover:rounded-full"
                 >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

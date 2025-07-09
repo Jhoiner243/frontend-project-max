@@ -9,7 +9,7 @@ import {
   facturaReducer,
   initialValues,
 } from "../hooks/use-factura";
-import { useLazyGetInvoicesQuery } from "../service/api";
+import { useLazyGetInvoicesQuery } from "../service/api-facturas-update";
 import {
   DetallesFacturasEntity,
   type FacturasEntity,

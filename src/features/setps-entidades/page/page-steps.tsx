@@ -6,21 +6,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Building2,
-  CheckCircle,
-  Clock,
-  Shield,
-} from "lucide-react";
+import { ArrowRight, CheckCircle, Clock, Shield } from "lucide-react";
 import { motion } from "motion/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function HomePage() {
-  const navigate = useNavigate();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-black to-slate-800 relative overflow-hidden">
+    <div className="flex bg-gradient-to-br from-slate-900 via-black to-slate-800 relative overflow-hidden justify-center items-center h-screen">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-y-12"></div>
@@ -37,27 +29,6 @@ export default function HomePage() {
         transition={{ duration: 0.2, delay: 0.2, bounce: 1 }}
         className="container mx-auto px-4 py-16 relative z-10"
       >
-        <Button
-          onClick={() => navigate("/")}
-          className="flex  absolute ml-[5%] mt-20  bg-transparent cursor-default  rounded-full p-2 font-medium hover:bg-black/50   "
-        >
-          <ArrowLeft className="m-1 w-5 h-5 " />
-          Back
-        </Button>
-        {/* Header Section */}
-        <div className="text-center mb-20">
-          <div className=" inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full mb-8 backdrop-blur-sm border border-white/10">
-            <Building2 className="w-12 h-12 text-white" />
-          </div>
-          <h1 className="text-5xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-6 leading-tight">
-            Sistema de Registro
-            <br />
-            <span className="text-4xl md:text-3xl">de Entidades</span>
-          </h1>
-
-          {/* Feature Pills */}
-        </div>
-
         {/* Main Card */}
         <div className="flex justify-center items-center min-w-max">
           <Card className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 border border-zinc-700/50 hover:border-zinc-600/70 transition-all duration-500 w-full max-w-2xl backdrop-blur-xl shadow-2xl hover:shadow-lg hover:shadow-sky-500/10 group">
@@ -89,7 +60,7 @@ export default function HomePage() {
               </Link>
 
               {/* Secondary Action */}
-              <Link to="/login" className="block">
+              <Link to="/dashboard" className="block">
                 <Button
                   size="lg"
                   className="w-full h-14 bg-transparent border-2 border-zinc-600 hover:border-zinc-500 text-white hover:bg-white/5 font-semibold text-lg transition-all duration-300"
@@ -115,7 +86,7 @@ export default function HomePage() {
         </div>
 
         {/* Bottom Stats */}
-        <div className="flex flex-wrap justify-center gap-4 mb-12 mt-10">
+        <div className="flex flex-wrap justify-center gap-4 mt-10">
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 backdrop-blur-sm">
             <Shield className="w-4 h-4 text-green-400" />
             <span className="text-sm text-zinc-300">100% Seguro</span>

@@ -1,6 +1,10 @@
 "use client";
 
 import type { IResultRate } from "@/features/analytics/types/analitics.entity";
+import { useAuth, useOrganization } from "@clerk/clerk-react";
+import { useEffect, useState } from "react";
+import { useGetClientsQuery } from "../../../../store/clients/api";
+import { useGetProfitQuery } from "../../../../store/profit/api";
 import "../../app.css";
 import { DashboardCard } from "./dashboard-card";
 
@@ -8,11 +12,49 @@ interface DataForSeccionCard {
   resultGrowtRate: IResultRate | undefined;
 }
 
+interface DataForSeccion {
+  totalProfit: number;
+  members: number;
+  totalClients: number;
+}
+
 export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
+  const { data: clients } = useGetClientsQuery();
+  const { organization } = useOrganization();
+  const { data: profit } = useGetProfitQuery();
+  const { isSignedIn } = useAuth();
+  const [data, setData] = useState<DataForSeccion>({
+    totalProfit: 0,
+    members: 0,
+    totalClients: 0,
+  });
+
+  useEffect(() => {
+    if (!isSignedIn || !profit || !organization || !clients) return;
+
+    const dateActual = new Date();
+    const lastProfit = profit[profit.length - 1];
+
+    const isSameDay =
+      new Date(lastProfit.createdAt).toDateString() ===
+      dateActual.toDateString();
+
+    const totalProfit = isSameDay ? lastProfit.ganancia_total : 0;
+
+    const members = organization.membersCount;
+    const totalClients = clients.clientes.length;
+
+    setData({
+      totalProfit,
+      members,
+      totalClients,
+    });
+  }, [clients, profit, organization, isSignedIn]);
+
   const cardsData = [
     {
       title: "Total ventas",
-      value: 1250.0,
+      value: data.totalProfit ?? 0,
       percentage: 12.5,
       description: "Tendencias al alza este mes",
       subtitle: "Visitantes de los últimos 6 meses",
@@ -20,15 +62,15 @@ export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
     },
     {
       title: "Nuevos clientes",
-      value: 1234,
-      percentage: -20,
-      description: "Bajó un 20% este período",
+      value: data.totalClients,
+      percentage: -2,
+      description: "Bajó un 2% este período",
       subtitle: "La adquisición necesita atención.",
       type: "number" as const,
     },
     {
       title: "Cuentas activas",
-      value: 45678,
+      value: data.members,
       percentage: 12.5,
       description: "Fuerte retención de usuarios",
       subtitle: "El compromiso supera los objetivos",

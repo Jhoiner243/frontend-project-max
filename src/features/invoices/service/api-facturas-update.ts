@@ -47,9 +47,9 @@ export const fetchApiInvoices = createApi({
                 type: "Facturas" as const,
                 id: factura.id,
               })),
-              { type: "Facturas", id: "PARTIAL-LIST" },
+              { type: "Facturas", id: "LIST" },
             ]
-          : [{ type: "Facturas", id: "PARTIAL-LIST" }],
+          : [{ type: "Facturas", id: "LIST" }],
     }),
 
     createInvoice: builder.mutation({
@@ -58,10 +58,7 @@ export const fetchApiInvoices = createApi({
         method: "POST",
         body: newInvoice,
       }),
-      invalidatesTags: [
-        { type: "Facturas" },
-        { type: "Facturas", id: "PARTIAL-LIST" },
-      ],
+      invalidatesTags: [{ type: "Facturas", id: "LIST" }],
     }),
 
     deleteInvoice: builder.mutation({
@@ -71,7 +68,7 @@ export const fetchApiInvoices = createApi({
       }),
       invalidatesTags: (_result, _error, id) => [
         { type: "Facturas", id },
-        { type: "Facturas", id: "PARTIAL-LIST" },
+        { type: "Facturas", id: "LIST" },
       ],
     }),
 
@@ -86,7 +83,7 @@ export const fetchApiInvoices = createApi({
       }),
       invalidatesTags: (_result, _error, { id }) => [
         { type: "Facturas", id },
-        { type: "Facturas", id: "PARTIAL-LIST" },
+        { type: "Facturas", id: "LIST" },
       ],
     }),
   }),

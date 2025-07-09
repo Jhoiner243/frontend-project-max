@@ -197,7 +197,7 @@ function FillstepLanding() {
               >
                 Iniciar Sesión
               </Link>
-              <Link to="/register-entity">
+              <Link to="/home-entitys">
                 <Button className="w-full bg-white text-black hover:bg-white/90 transition-all duration-300 py-3 rounded-full font-medium">
                   Prueba Gratuita
                 </Button>
@@ -251,7 +251,7 @@ function FillstepLanding() {
                 Recursos
               </a>
               <div className="pt-6 border-t border-white/10 space-y-4">
-                <Link to="#" className="block text-lg text-white/80">
+                <Link to="/login" className="block text-lg text-white/80">
                   Iniciar Sesión
                 </Link>
                 <Link to="/register-entity">

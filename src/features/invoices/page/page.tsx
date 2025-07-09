@@ -23,6 +23,7 @@ import {
   ChevronDown,
   Clock,
   Filter,
+  Loader,
   X,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -38,7 +39,7 @@ import { FacturaProvider } from "../context/factura.context";
 import {
   useGetAllInvoicesStatusQuery,
   useGetInvoicesQuery,
-} from "../service/api";
+} from "../service/api-facturas-update";
 import { excelService, InvoiceExport } from "../service/excel.service";
 import { FacturaSeccion } from "../types/factura.types";
 
@@ -202,7 +203,8 @@ export default function PageDataTableFactura() {
   } else if (!facturasGet) {
     return (
       <div className="flex justify-center items-center ">
-        No hay datos disponibles.
+        <Loader className="w-4 h-3 animate-spin" />
+        Cargando...
       </div>
     );
   }
@@ -309,7 +311,7 @@ export default function PageDataTableFactura() {
                 variant="outline"
                 className="bg-slate-50 text-slate-700 border-slate-200"
               >
-                Date: {format(dateRange.from, "MMM d, yyyy")} -{" "}
+                Fecha: {format(dateRange.from, "MMM d, yyyy")} -{" "}
                 {format(dateRange.to, "MMM d, yyyy")}
                 <button
                   className="ml-1"

@@ -64,7 +64,7 @@ export default function ClientesPage() {
   const [expand, setExpand] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const clientData = (clients ?? []).map((cliente) => {
+  const clientData = (clients?.clientes ?? []).map((cliente) => {
     return {
       id: cliente.id,
       name: cliente.name,
@@ -72,7 +72,7 @@ export default function ClientesPage() {
       email: cliente.email,
       phone: cliente.phone,
       address: cliente.address,
-      status: "Inactivo",
+      status: "Activo",
     };
   });
   if (isLoading) {
@@ -115,6 +115,8 @@ export default function ClientesPage() {
           title="Clientes"
           columns={clientColumns}
           data={clientData}
+          lastPages={clients?.lastPage}
+          totalItems={clients?.total}
           onAdd={<ClientCreate />}
           onDelete={handleDeleteClient}
           onEdit={handleUpdate}

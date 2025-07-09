@@ -27,6 +27,7 @@ export interface RegisterEntidad {
   contactPhone: number;
   billingEmail: string;
   billingAddress: string;
+  createBy: string;
 }
 
 /**
@@ -34,6 +35,7 @@ export interface RegisterEntidad {
  */
 export interface CreatedEntity extends RegisterEntidad {
   id: string;
+  organizationId: string;
   createdAt: Date;
   status: "active" | "pending" | "inactive";
 }
@@ -44,6 +46,7 @@ export interface CreatedEntity extends RegisterEntidad {
 export interface FormErrors {
   nombre?: string;
   typePlan?: string;
+  createBy?: string;
   billingCycle?: string;
   industry?: string;
   contactPhone?: string;

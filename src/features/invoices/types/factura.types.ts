@@ -1,6 +1,7 @@
 import { FacturaStatus } from "../components/ui/estado-invoice";
 
 export interface FacturasEntity {
+  id: string;
   detalles: DetallesFacturasEntity[];
   id_cliente: string;
   total: number;

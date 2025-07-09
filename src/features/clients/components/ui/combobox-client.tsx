@@ -37,7 +37,7 @@ export function ComboboxClient() {
           className="w-[300px] "
         >
           {value
-            ? clients.find((client) => client.id === value)?.name
+            ? clients.clientes.find((client) => client.id === value)?.name
             : "Selecciona un cliente..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
@@ -48,7 +48,7 @@ export function ComboboxClient() {
           <CommandList>
             <CommandEmpty>No clients found.</CommandEmpty>
             <CommandGroup>
-              {clients.map((cliente) => (
+              {clients.clientes.map((cliente) => (
                 <CommandItem
                   key={cliente.id}
                   value={cliente.id}

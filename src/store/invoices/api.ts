@@ -35,8 +35,16 @@ export const apiInvoices = createApi({
         method: "POST",
         body: newFactura,
       }),
-      invalidatesTags: (_result, _error, { detalles }) => [
-        { type: "Facturas", detalles },
+      invalidatesTags: [{ type: "Facturas", id: "LIST" }],
+    }),
+    updateFactura: builder.mutation<void, FacturasEntity>({
+      query: (factura) => ({
+        url: `/factura/${factura.id}`,
+        method: "PUT",
+        body: factura,
+      }),
+      invalidatesTags: (_result, _error, factura) => [
+        { type: "Facturas", id: factura.id },
         { type: "Facturas", id: "LIST" },
       ],
     }),
@@ -55,6 +63,7 @@ export const apiInvoices = createApi({
 
 export const {
   useCreateFacturaMutation,
+  useUpdateFacturaMutation,
   useGetFacturasQuery,
   useGetFacturaByIdQuery,
 } = apiInvoices;
