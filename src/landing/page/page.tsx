@@ -1,207 +1,186 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  Activity,
   ArrowRight,
   BarChart3,
   Bell,
   Brain,
-  Check,
-  Lightbulb,
+  ExternalLink,
+  Globe,
+  Grip,
   Menu,
   Package,
-  Play,
   Receipt,
+  Rocket,
   Shield,
-  Target,
+  Sparkles,
   TrendingUp,
-  Users,
   X,
   Zap,
 } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "../../components/ui/button";
+import { Spotlight } from "../../features/ai/components/spotligth";
+import { SpotlightPreview } from "../components/spooligth-title";
 
-function FillstepLanding() {
+export default function FillstepLanding() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [isOpen, setIsOpen] = useState(false);
   const features = [
     {
       title: "Gestión Inteligente de Ventas",
       description:
         "Optimiza todo tu proceso de ventas con automatización inteligente e insights en tiempo real.",
       icon: <TrendingUp className="w-8 h-8" />,
+      gradient: "bg-black",
+      stats: "↗ 45% más ventas",
     },
     {
       title: "Facturación Automatizada",
       description:
         "Genera, envía y rastrea facturas profesionales con recordatorios automáticos de pago.",
       icon: <Receipt className="w-8 h-8" />,
+      gradient: "bg-black",
+      stats: "⚡ 80% menos tiempo",
     },
     {
       title: "Inventario Inteligente",
       description:
         "Gestión inteligente de productos y categorías con alertas predictivas de stock y análisis.",
       icon: <Package className="w-8 h-8" />,
+      gradient: "bg-black",
+      stats: "📦 99% precisión",
     },
     {
       title: "Asistente de IA para Datos",
       description:
         "Haz preguntas sobre tus datos empresariales en lenguaje natural y obtén insights instantáneos.",
       icon: <Brain className="w-8 h-8" />,
+      gradient: "bg-black",
+      stats: "🧠 IA Avanzada",
     },
     {
       title: "Notificaciones Inteligentes",
       description:
         "Mantente informado con alertas inteligentes sobre niveles de stock, tendencias de ventas y oportunidades.",
       icon: <Bell className="w-8 h-8" />,
+      gradient: "bg-black",
+      stats: "🔔 Tiempo real",
     },
     {
       title: "Analíticas Avanzadas",
       description:
         "Visualiza el rendimiento de tu negocio con dashboards interactivos y reportes detallados.",
       icon: <BarChart3 className="w-8 h-8" />,
+      gradient: "from-black to ",
+      stats: "📊 Insights profundos",
     },
   ];
 
-  const values = [
+  const projects = [
     {
-      title: "Innovación Primero",
-      description:
-        "Aprovechamos tecnología de vanguardia para resolver desafíos empresariales reales con soluciones elegantes.",
-      icon: <Lightbulb className="w-10 h-10" />,
-    },
-    {
-      title: "Orientados a Resultados",
-      description:
-        "Cada funcionalidad está diseñada para generar un impacto medible en el crecimiento y eficiencia de tu negocio.",
-      icon: <Target className="w-10 h-10" />,
-    },
-    {
-      title: "Nivel Empresarial",
-      description:
-        "Construido con la seguridad, escalabilidad y confiabilidad que las empresas demandan.",
-      icon: <Shield className="w-10 h-10" />,
+      id: 1,
+      name: "FillStep CRM",
+      description: "Plataforma completa para gestión de ventas y CRM",
+      status: "Beta",
+      category: "Ventas",
+      growth: "+24%",
+      icon: <TrendingUp className="w-6 h-6" />,
+      color: "bg-black",
+
+      url: "/login",
     },
   ];
 
-  const plans = [
-    {
-      name: "Inicial",
-      price: "Gratis",
-      period: "para siempre",
-      description:
-        "Perfecto para emprendedores y equipos pequeños que comienzan",
-      features: [
-        "Hasta 100 productos",
-        "50 facturas por mes",
-        "Dashboard de análisis básico",
-        "Soporte por email",
-        "1 miembro del equipo",
-        "Acceso a app móvil",
-      ],
-      cta: "Comenzar Gratis",
-      popular: false,
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
     },
-    {
-      name: "Profesional",
-      price: "$49",
-      period: "/mes",
-      description:
-        "Ideal para negocios en crecimiento listos para escalar operaciones",
-      features: [
-        "Productos y facturas ilimitados",
-        "Asistente conversacional de IA",
-        "Análisis y reportes avanzados",
-        "Notificaciones inteligentes",
-        "Hasta 10 miembros del equipo",
-        "Soporte prioritario",
-        "Acceso a API",
-        "Integraciones personalizadas",
-      ],
-      cta: "Prueba de 30 Días",
-      popular: true,
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+      },
     },
-    {
-      name: "Empresarial",
-      price: "Personalizado",
-      period: "",
-      description: "Para organizaciones grandes con requisitos específicos",
-      features: [
-        "Todo en Profesional",
-        "Miembros de equipo ilimitados",
-        "Entrenamiento personalizado de IA",
-        "Gerente de cuenta dedicado",
-        "Soporte telefónico 24/7",
-        "Garantías SLA",
-        "Implementación on-premise",
-        "Desarrollo personalizado",
-      ],
-      cta: "Contactar Ventas",
-      popular: false,
-    },
-  ];
+  };
+
+  const handleProjectStart = (project: any) => {
+    window.open(project.url, "_blank");
+  };
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
+      {/* Background Effects */}
+      <Spotlight
+        width={1000}
+        gradientFirst="radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210, 100%, 85%, .08) 0, hsla(210, 100%, 55%, .02) 50%, hsla(210, 100%, 45%, 0) 80%)"
+      />
+
       {/* Header */}
-      <header className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/10">
+      <motion.header
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="fixed top-0 w-full z-50  backdrop-blur-xl "
+      >
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+            <motion.div
+              className="flex items-center space-x-4"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-300 rounded-2xl flex items-center justify-center shadow-2xl">
                 <span className="text-black font-bold text-xl">F</span>
               </div>
               <div>
-                <div className="text-2xl font-bold">Fillstep</div>
-                <div className="text-xs text-white/60 uppercase tracking-wider">
+                <div className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                  FillStep
+                </div>
+                <div className="text-xs text-white/60 uppercase tracking-wider font-medium">
                   Software Empresarial
                 </div>
               </div>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-12">
-              <a
-                href="#soluciones"
-                className="text-white/80 hover:text-white transition-colors duration-300"
-              >
-                Soluciones
-              </a>
-              <a
-                href="#plataforma"
-                className="text-white/80 hover:text-white transition-colors duration-300"
-              >
-                Plataforma
-              </a>
-              <a
-                href="#precios"
-                className="text-white/80 hover:text-white transition-colors duration-300"
-              >
-                Precios
-              </a>
-              <a
-                href="#recursos"
-                className="text-white/80 hover:text-white transition-colors duration-300"
-              >
-                Recursos
-              </a>
-            </nav>
+            </motion.div>
 
             {/* Desktop CTA */}
             <div className="hidden md:flex items-center space-x-6">
-              <Link
-                to="/login"
-                className="text-white/80 hover:text-white transition-colors duration-300"
+              <Button
+                className="bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 py-3 px-6 rounded-2xl font-medium shadow-2xl hover:shadow-white/20 hover:scale-105"
+                onClick={() => setIsOpen(true)}
               >
-                Iniciar Sesión
-              </Link>
-              <Link to="/home-entitys">
-                <Button className="w-full bg-white text-black hover:bg-white/90 transition-all duration-300 py-3 rounded-full font-medium">
-                  Prueba Gratuita
-                </Button>
-              </Link>
+                Ver Proyectos
+              </Button>
             </div>
 
             {/* Mobile Menu Button */}
@@ -219,442 +198,457 @@ function FillstepLanding() {
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-black border-t border-white/10 animate-in slide-in-from-top duration-200">
-            <div className="px-6 py-8 space-y-6">
-              <a
-                href="#soluciones"
-                className="block text-lg text-white/80 hover:text-white transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Soluciones
-              </a>
-              <a
-                href="#plataforma"
-                className="block text-lg text-white/80 hover:text-white transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Plataforma
-              </a>
-              <a
-                href="#precios"
-                className="block text-lg text-white/80 hover:text-white transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Precios
-              </a>
-              <a
-                href="#recursos"
-                className="block text-lg text-white/80 hover:text-white transition-colors"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Recursos
-              </a>
-              <div className="pt-6 border-t border-white/10 space-y-4">
-                <Link to="/login" className="block text-lg text-white/80">
-                  Iniciar Sesión
-                </Link>
-                <Link to="/register-entity">
-                  <Button className="w-full bg-white text-black hover:bg-white/90 transition-all duration-300 py-3 rounded-full font-medium">
-                    Prueba Gratuita
-                  </Button>
-                </Link>
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10"
+            >
+              <div className="px-6 py-8 space-y-6">
+                <div className="pt-6 border-t border-white/10 space-y-4">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className="w-full bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 py-3 rounded-2xl font-medium">
+                        Ver Proyectos
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto bg-black/95 backdrop-blur-xl border border-white/20 rounded-3xl">
+                      <DialogHeader>
+                        <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                          Nuestros Proyectos
+                        </DialogTitle>
+                        <DialogDescription className="text-white/60 text-sm">
+                          Explora nuestras soluciones empresariales
+                        </DialogDescription>
+                      </DialogHeader>
+
+                      <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="grid gap-4 mt-6"
+                      >
+                        {projects.map((project) => (
+                          <motion.div key={project.id} variants={itemVariants}>
+                            <Card className="bg-white/5 backdrop-blur-xl border border-white/10">
+                              <CardHeader className="pb-3">
+                                <div className="flex items-start justify-between">
+                                  <div
+                                    className={`w-12 h-12 ${project.color} rounded-2xl flex items-center justify-center text-white shadow-lg`}
+                                  >
+                                    {project.icon}
+                                  </div>
+                                  <Badge
+                                    variant={
+                                      project.status === "Activo"
+                                        ? "default"
+                                        : project.status === "Beta"
+                                        ? "secondary"
+                                        : "outline"
+                                    }
+                                    className="text-xs"
+                                  >
+                                    {project.status}
+                                  </Badge>
+                                </div>
+                                <CardTitle className="text-white text-base">
+                                  {project.name}
+                                </CardTitle>
+                                <CardDescription className="text-white/60 text-sm">
+                                  {project.description}
+                                </CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <Button
+                                  size="sm"
+                                  onClick={() =>
+                                    handleProjectStart(project.url)
+                                  }
+                                  className="w-full bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 rounded-xl"
+                                >
+                                  <span>Iniciar Proyecto</span>
+                                  <ExternalLink className="w-3 h-3 ml-1" />
+                                </Button>
+                              </CardContent>
+                            </Card>
+                          </motion.div>
+                        ))}
+                      </motion.div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
-      </header>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 lg:pt-40 lg:pb-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center max-w-5xl mx-auto animate-in fade-in duration-1000">
-            <div className="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-6 py-3 mb-12">
-              <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
-              <span className="text-sm text-white/80">
-                Lanzando Nuestra Plataforma Revolucionaria
+      <section className="relative min-h-screen flex justify-center items-center overflow-hidden">
+        {/* Hero Background Effects */}
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              className="mb-8"
+            ></motion.div>
+
+            <SpotlightPreview />
+
+            <motion.p
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-2xl lg:text-2xl text-white max-w-4xl mx-auto leading-relaxed mb-12 font-light"
+            >
+              Transformando la forma en que las empresas{" "}
+              <span className=" from-white to-gray-500  ">
+                gestionan sus operaciones
               </span>
-            </div>
+            </motion.p>
 
-            <h1 className="text-6xl lg:text-8xl xl:text-9xl font-bold mb-8 leading-none">
-              <span className="block">Inteligencia</span>
-              <span className="block text-white/40">Empresarial</span>
-            </h1>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-20"
+            >
+              <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                <DialogTrigger asChild>
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
+                    transition={{ duration: 0.3 }}
+                    className="bg-gradient-to-r from-white to-white/80 text-black hover:from-gray-100 hover:to-white px-5 py-2 rounded-full text-lg font-semibold group flex items-center shadow-2xl hover:shadow-white/40 hover:duration-300"
+                  >
+                    <Grip className="mr-3 w-6 h-6 " />
+                    Nuestras apps
+                  </motion.button>
+                </DialogTrigger>
+                <DialogContent className="min-h-[80%] md:min-h-[10vh] overflow-y-auto   bg-black/95 backdrop-blur-xl border border-white/20 ">
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className=" lg:grid-cols-3 gap-8 mt-8 "
+                  >
+                    {projects.map((project) => (
+                      <motion.div key={project.id} variants={itemVariants}>
+                        <Card className="bg-white/5 backdrop-blur-xl border-white/4  hover:border-white/30 transition-all duration-100 group h-full  relative">
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 "></div>
+                          <CardHeader className="relative z-10">
+                            <div className="flex items-center justify-between mb-6">
+                              <div
+                                className={`w-16 h-16 ${project.color} rounded-3xl flex items-center justify-center text-white shadow-2xl bg-gradient-to-br from-white/5 `}
+                              >
+                                {project.icon}
+                              </div>
+                              <CardTitle className=" text-white text-2xl font-bold text-left">
+                                {project.name}
+                              </CardTitle>
+                              <div className="flex flex-col items-end space-y-2">
+                                <Badge
+                                  variant={
+                                    project.status === "Activo"
+                                      ? "default"
+                                      : project.status === "Beta"
+                                      ? "secondary"
+                                      : "outline"
+                                  }
+                                  className="text-xs font-medium"
+                                >
+                                  {project.status}
+                                </Badge>
+                              </div>
+                            </div>
 
-            <p className="text-xl lg:text-2xl text-white/60 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Transforma las operaciones de tu negocio con gestión de ventas
-              potenciada por IA, facturación automatizada y análisis
-              inteligentes.
-            </p>
-
-            <p className="text-lg text-white/40 mb-16 max-w-2xl mx-auto">
-              La plataforma SaaS integral que escala con tu negocio, desde
-              startup hasta empresa.
-            </p>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-20">
-              <button className="bg-white text-black hover:bg-white/90 transition-all duration-300 px-8 py-4 rounded-full text-lg font-medium group flex items-center">
-                Comenzar Prueba Gratuita
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="text-white border border-white/20 hover:bg-white/5 transition-all duration-300 px-8 py-4 rounded-full text-lg font-medium group flex items-center">
-                <Play className="mr-2 w-5 h-5" />
-                Ver Demostración
-              </button>
-            </div>
-
-            <div className="flex items-center justify-center space-x-12 text-sm text-white/40">
-              <div className="flex items-center space-x-2">
-                <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-                <span>Sin tarjeta de crédito</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-                <span>30 días gratis</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <div className="w-1 h-1 bg-white/40 rounded-full"></div>
-                <span>Configuración en minutos</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Dashboard Preview */}
-      <section className="py-20 lg:py-32">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="relative animate-in fade-in slide-in-from-bottom duration-1000 delay-300">
-            <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 blur-3xl"></div>
-            <div className="relative border border-white/10 rounded-3xl overflow-hidden">
-              <div className="h-12 bg-white/5 border-b border-white/10 flex items-center px-6">
-                <div className="flex space-x-2">
-                  <div className="w-3 h-3 bg-white/20 rounded-full"></div>
-                  <div className="w-3 h-3 bg-white/20 rounded-full"></div>
-                  <div className="w-3 h-3 bg-white/20 rounded-full"></div>
-                </div>
-              </div>
-              <div className="aspect-video bg-gradient-to-br from-white/5 to-white/10 flex items-center justify-center">
-                <div className="text-white/40 text-lg">Dashboard Preview</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Trust Indicators */}
-      <section className="py-20 border-y border-white/10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center">
-            <p className="text-sm text-white/40 uppercase tracking-wider mb-12">
-              Confiado por empresas innovadoras en todo el mundo
-            </p>
-            <div className="flex items-center justify-center space-x-16 lg:space-x-24 opacity-30">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="text-white/60 text-lg font-medium">
-                  Empresa {i}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Company Values */}
-      <section id="plataforma" className="py-32 lg:py-40">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-24 animate-in fade-in slide-in-from-bottom duration-1000">
-            <div className="inline-block text-sm text-white/40 uppercase tracking-wider mb-8">
-              Nuestra Base
-            </div>
-            <h2 className="text-5xl lg:text-6xl font-bold mb-8">
-              Construido para el Futuro
-              <br />
-              <span className="text-white/40">de los Negocios</span>
-            </h2>
-            <p className="text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
-              No solo estamos construyendo software—estamos creando la base para
-              las operaciones empresariales de próxima generación.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-16 lg:gap-24 mb-32">
-            {values.map((value, i) => (
-              <div
-                key={i}
-                className="text-center group animate-in fade-in slide-in-from-bottom duration-1000"
-                style={{ animationDelay: `${i * 200}ms` }}
-              >
-                <div className="mb-8 flex justify-center text-white/80 group-hover:text-white transition-colors duration-300">
-                  {value.icon}
-                </div>
-                <h3 className="text-2xl font-bold mb-6">{value.title}</h3>
-                <p className="text-white/60 leading-relaxed">
-                  {value.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center border border-white/10 rounded-3xl p-16 lg:p-24 animate-in fade-in slide-in-from-bottom duration-1000 delay-500">
-            <h3 className="text-3xl lg:text-4xl font-bold mb-8">
-              Nuestra Misión
-            </h3>
-            <p className="text-xl text-white/60 max-w-4xl mx-auto leading-relaxed">
-              Democratizar la tecnología de nivel empresarial y empoderar a
-              empresas de todos los tamaños para competir en igualdad de
-              condiciones. Creemos que las herramientas poderosas deben ser
-              accesibles, intuitivas y transformadoras.
-            </p>
+                            <CardDescription className="text-white/70 leading-relaxed text-base">
+                              {project.description}
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="space-y-6 relative z-10">
+                            <div className="flex items-center justify-between mb-6">
+                              <Badge
+                                variant="outline"
+                                className="text-sm border-white/20 text-white/60 px-3 py-1"
+                              >
+                                {project.category}
+                              </Badge>
+                            </div>
+                            <Button
+                              onClick={() => handleProjectStart(project)}
+                              className="w-full bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white/89 font-semibold rounded-2xl shadow-2xl py-3 text-base"
+                            >
+                              <span>Comenzar Ahora</span>
+                              <Rocket className="w-5 h-5 ml-2 group-hover:rotate-12 transition-transform" />
+                            </Button>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </DialogContent>
+              </Dialog>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section id="soluciones" className="py-32 lg:py-40">
+      <section id="soluciones" className="py-32 lg:py-40 relative">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-24 animate-in fade-in slide-in-from-bottom duration-1000">
-            <div className="inline-block text-sm text-white/40 uppercase tracking-wider mb-8">
-              Capacidades de la Plataforma
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="text-center mb-20"
+          >
+            <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-xl rounded-full px-6 py-3 border border-white/20 mb-8">
+              <Zap className="w-4 h-4 text-yellow-400" />
+              <span className="text-sm font-medium text-white/90">
+                Características Principales
+              </span>
             </div>
-            <h2 className="text-5xl lg:text-6xl font-bold mb-8">
-              Todo lo que tu Negocio
-              <br />
-              <span className="text-white/40">Necesita</span>
-            </h2>
-            <p className="text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
-              Un conjunto integral de herramientas diseñadas para optimizar
-              operaciones, impulsar productividad y acelerar el crecimiento.
-            </p>
-          </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16 mb-32">
+            <p className="text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
+              Descubre las herramientas que transformarán la manera en que
+              gestionas tu empresa
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12 mb-32"
+          >
             {features.map((feature, i) => (
-              <div
+              <motion.div
                 key={i}
-                className="group animate-in fade-in slide-in-from-bottom duration-1000"
-                style={{ animationDelay: `${i * 150}ms` }}
+                variants={itemVariants}
+                whileHover={{ scale: 1.05, y: -10 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="group relative"
               >
-                <div className="mb-8 text-white/60 group-hover:text-white transition-colors duration-300">
-                  {feature.icon}
+                <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 hover:bg-white/10 hover:border-white/20 transition-all duration-500 h-full relative overflow-hidden">
+                  {/* Background Gradient */}
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
+                  ></div>
+
+                  <div className="relative z-10">
+                    <div
+                      className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center text-white mb-6 shadow-2xl group-hover:scale-110 transition-transform duration-300`}
+                    >
+                      {feature.icon}
+                    </div>
+
+                    <div className="mb-4">
+                      <Badge
+                        variant="outline"
+                        className="text-xs border-white/20 text-white/60 mb-4"
+                      >
+                        {feature.stats}
+                      </Badge>
+                    </div>
+
+                    <h3 className="text-2xl font-bold mb-4 group-hover:text-white/90 transition-colors duration-300">
+                      {feature.title}
+                    </h3>
+                    <p className="text-white/60 leading-relaxed group-hover:text-white/70 transition-colors duration-300">
+                      {feature.description}
+                    </p>
+
+                    <div className="mt-6 flex items-center text-white/40 group-hover:text-white/60 transition-colors duration-300">
+                      <span className="text-sm font-medium">Explorar</span>
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold mb-6 group-hover:text-white/90 transition-colors duration-300">
-                  {feature.title}
-                </h3>
-                <p className="text-white/60 leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* AI Showcase */}
-          <div className="border border-white/10 rounded-3xl p-12 lg:p-16 animate-in fade-in slide-in-from-bottom duration-1000 delay-700">
-            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-              <div>
-                <div className="inline-flex items-center space-x-2 text-sm text-white/60 mb-8">
-                  <Brain className="w-4 h-4" />
-                  <span>Inteligencia Potenciada por IA</span>
-                </div>
-                <h3 className="text-3xl lg:text-4xl font-bold mb-8">
-                  Tus Datos Empresariales,
-                  <br />
-                  <span className="text-white/40">Conversacionales</span>
-                </h3>
-                <p className="text-xl text-white/60 mb-12 leading-relaxed">
-                  Haz preguntas complejas sobre tu negocio en español simple.
-                  Nuestra IA entiende el contexto, analiza patrones y entrega
-                  insights accionables al instante.
-                </p>
-                <div className="space-y-6">
-                  {[
-                    "¿Qué productos están en tendencia este trimestre?",
-                    "Muéstrame clientes en riesgo de abandono",
-                    "¿Cuál es mi tasa de rotación de inventario?",
-                    "Predice las ventas del próximo mes",
-                  ].map((question, i) => (
-                    <div key={i} className="flex items-start space-x-4">
-                      <div className="w-1 h-1 bg-white/40 rounded-full mt-3"></div>
-                      <span className="text-white/60 italic">"{question}"</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="border border-white/10 rounded-2xl p-8">
-                <div className="flex items-center space-x-4 mb-8">
-                  <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center">
-                    <Brain className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="font-semibold">Asistente IA</div>
-                    <div className="text-sm text-white/60">
-                      Siempre listo para ayudar
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                    <p className="text-white/80">
-                      "Muéstrame mis productos más vendidos este mes"
-                    </p>
-                  </div>
-                  <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                    <p className="font-medium mb-4">
-                      Aquí están tus 3 productos principales:
-                    </p>
-                    <div className="space-y-3 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-white/60">
-                          Laptop Premium Pro
-                        </span>
-                        <span className="text-white">+24% ventas</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-white/60">
-                          Audífonos Inalámbricos
-                        </span>
-                        <span className="text-white">+18% ventas</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-white/60">Serie Smart Watch</span>
-                        <span className="text-white">+15% ventas</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 lg:p-16 relative overflow-hidden">
+              {/* Background Effects */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/5 to-pink-500/5"></div>
+              <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-blue-500/10 to-transparent rounded-full blur-3xl"></div>
 
-      {/* Pricing */}
-      <section id="precios" className="py-32 lg:py-40">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-24 animate-in fade-in slide-in-from-bottom duration-1000">
-            <div className="inline-block text-sm text-white/40 uppercase tracking-wider mb-8">
-              Precios Transparentes
-            </div>
-            <h2 className="text-5xl lg:text-6xl font-bold mb-8">
-              Escala a tu Propio
-              <br />
-              <span className="text-white/40">Ritmo</span>
-            </h2>
-            <p className="text-xl text-white/60 max-w-3xl mx-auto leading-relaxed">
-              Comienza gratis y crece con confianza. Sin tarifas ocultas, sin
-              compromisos a largo plazo.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-            {plans.map((plan, i) => (
-              <div
-                key={i}
-                className={`relative p-8 lg:p-12 ${
-                  plan.popular
-                    ? "border-2 border-white bg-white/5"
-                    : "border border-white/10 hover:border-white/20"
-                } rounded-3xl transition-all duration-300 group animate-in fade-in slide-in-from-bottom`}
-                style={{
-                  animationDelay: `${i * 200}ms`,
-                  animationDuration: "1000ms",
-                }}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium">
-                      Más Popular
-                    </div>
-                  </div>
-                )}
-                <div className="text-center mb-8">
-                  <h3 className="text-2xl font-bold mb-4">{plan.name}</h3>
-                  <div className="mb-4">
-                    <span className="text-4xl lg:text-5xl font-bold">
-                      {plan.price}
+              <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
+                <div>
+                  <h3 className="text-4xl lg:text-6xl font-bold mb-8 leading-tight">
+                    <span className="bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                      Tus Datos Empresariales,
                     </span>
-                    {plan.period && (
-                      <span className="text-white/60 ml-2">{plan.period}</span>
-                    )}
-                  </div>
-                  <p className="text-white/60">{plan.description}</p>
-                </div>
-                <div className="space-y-4 mb-12">
-                  {plan.features.map((feature, j) => (
-                    <div key={j} className="flex items-center space-x-3">
-                      <Check className="w-5 h-5 text-white flex-shrink-0" />
-                      <span className="text-white/80">{feature}</span>
-                    </div>
-                  ))}
-                </div>
-                <button
-                  className={`w-full py-4 rounded-full font-medium transition-all duration-300 ${
-                    plan.popular
-                      ? "bg-black text-white hover:bg-black/80"
-                      : "bg-white/10 text-white hover:bg-white/20 border border-white/20"
-                  }`}
-                >
-                  {plan.cta}
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+                    <br />
+                    <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                      Conversacionales
+                    </span>
+                  </h3>
 
-      {/* CTA */}
-      <section className="py-32 lg:py-40">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center border border-white/10 rounded-3xl p-16 lg:p-24 animate-in fade-in slide-in-from-bottom duration-1000">
-            <h2 className="text-5xl lg:text-6xl font-bold mb-8">
-              ¿Listo para Transformar
-              <br />
-              <span className="text-white/40">tu Negocio?</span>
-            </h2>
-            <p className="text-xl text-white/60 max-w-3xl mx-auto mb-12 leading-relaxed">
-              Únete a miles de empresas visionarias que ya han revolucionado sus
-              operaciones con Fillstep. Comienza tu viaje hacia la gestión
-              empresarial inteligente hoy.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-12">
-              <button className="bg-white text-black hover:bg-white/90 transition-all duration-300 px-8 py-4 rounded-full text-lg font-medium group flex items-center">
-                Comenzar Prueba Gratuita
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="text-white border border-white/20 hover:bg-white/5 transition-all duration-300 px-8 py-4 rounded-full text-lg font-medium">
-                Agendar Demostración
-              </button>
+                  <p className="text-xl text-white/70 mb-12 leading-relaxed">
+                    Haz preguntas complejas sobre tu negocio en español simple.
+                    Nuestra IA entiende el contexto, analiza patrones y entrega
+                    insights accionables al instante.
+                  </p>
+
+                  <div className="space-y-6">
+                    {[
+                      "¿Qué productos están en tendencia este trimestre?",
+                      "Muéstrame clientes en riesgo de abandono",
+                      "¿Cuál es mi tasa de rotación de inventario?",
+                      "Predice las ventas del próximo mes",
+                    ].map((question, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: i * 0.1 }}
+                        viewport={{ once: true }}
+                        className="flex items-start space-x-4 p-4 bg-white/5 rounded-2xl backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
+                      >
+                        <div className="w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full mt-3 flex-shrink-0"></div>
+                        <span className="text-white/70 italic font-medium">
+                          "{question}"
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="relative"
+                >
+                  <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5"></div>
+
+                    <div className="flex items-center space-x-4 mb-8 relative z-10">
+                      <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-blue-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                        <Brain className="w-7 h-7 text-white" />
+                      </div>
+                      <div>
+                        <div className="font-bold text-lg text-white">
+                          Asistente IA
+                        </div>
+                        <div className="text-sm text-white/60 font-medium">
+                          Siempre listo para ayudar
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-6 relative z-10">
+                      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+                        <p className="text-white/90 font-medium">
+                          "Muéstrame mis productos más vendidos este mes"
+                        </p>
+                      </div>
+
+                      <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
+                        <p className="font-semibold mb-6 text-white">
+                          Aquí están tus 3 productos principales:
+                        </p>
+                        <div className="space-y-4">
+                          {[
+                            {
+                              name: "Laptop Premium Pro",
+                              growth: "+24% ventas",
+                              color: "from-green-400 to-emerald-400",
+                            },
+                            {
+                              name: "Audífonos Inalámbricos",
+                              growth: "+18% ventas",
+                              color: "from-blue-400 to-cyan-400",
+                            },
+                            {
+                              name: "Serie Smart Watch",
+                              growth: "+15% ventas",
+                              color: "from-purple-400 to-pink-400",
+                            },
+                          ].map((product, idx) => (
+                            <div
+                              key={idx}
+                              className="flex justify-between items-center p-3 bg-white/5 rounded-xl"
+                            >
+                              <span className="text-white/70 font-medium">
+                                {product.name}
+                              </span>
+                              <span
+                                className={`bg-gradient-to-r ${product.color} bg-clip-text text-transparent font-bold`}
+                              >
+                                {product.growth}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              <div className="flex justify-center items-center mt-12 relative z-10">
+                <Button
+                  onClick={() => handleProjectStart(projects[0].url)}
+                  className="bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 px-10 py-4 rounded-2xl text-lg font-semibold group flex items-center shadow-2xl hover:shadow-white/20 hover:scale-105"
+                >
+                  <Brain className="mr-3 w-6 h-6" />
+                  Ingresar y Probar
+                  <Sparkles className="ml-3 w-5 h-5 group-hover:rotate-12 transition-transform" />
+                </Button>
+              </div>
             </div>
-            <div className="flex items-center justify-center space-x-12 text-sm text-white/40">
-              <div className="flex items-center space-x-2">
-                <Zap className="w-4 h-4" />
-                <span>Configuración en 5 minutos</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Shield className="w-4 h-4" />
-                <span>Seguridad empresarial</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Users className="w-4 h-4" />
-                <span>Soporte 24/7</span>
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer id="recursos" className="border-t border-white/10 py-20">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-12 mb-16">
+      <footer
+        id="recursos"
+        className="relative border-t border-white/10 py-20 overflow-hidden"
+      >
+        {/* Footer Background Effects */}
+        <div className="absolute inset-0">
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="grid md:grid-cols-4 gap-12 mb-16"
+          >
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-300 rounded-2xl flex items-center justify-center shadow-2xl">
                   <span className="text-black font-bold text-xl">F</span>
                 </div>
                 <div>
-                  <div className="text-2xl font-bold">Fillstep</div>
-                  <div className="text-xs text-white/60 uppercase tracking-wider">
+                  <div className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                    Fillstep
+                  </div>
+                  <div className="text-xs text-white/60 uppercase tracking-wider font-medium">
                     Software Empresarial
                   </div>
                 </div>
@@ -663,125 +657,102 @@ function FillstepLanding() {
                 Empoderando empresas con soluciones de software inteligentes que
                 impulsan crecimiento, eficiencia e innovación.
               </p>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-lg font-bold">Plataforma</h4>
-              <div className="space-y-3">
-                <a
-                  href="#soluciones"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Características
-                </a>
-                <a
-                  href="#precios"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Precios
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Integraciones
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Documentación API
-                </a>
+              <div className="flex space-x-4">
+                {[
+                  { icon: <Globe className="w-5 h-5" />, label: "Web" },
+                  { icon: <Activity className="w-5 h-5" />, label: "Status" },
+                  { icon: <Shield className="w-5 h-5" />, label: "Security" },
+                ].map((social, idx) => (
+                  <motion.div
+                    key={idx}
+                    whileHover={{ scale: 1.1, y: -2 }}
+                    className="w-10 h-10 bg-white/10 backdrop-blur-xl rounded-xl flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-all duration-300 cursor-pointer"
+                  >
+                    {social.icon}
+                  </motion.div>
+                ))}
               </div>
             </div>
-            <div className="space-y-4">
-              <h4 className="text-lg font-bold">Empresa</h4>
-              <div className="space-y-3">
-                <a
-                  href="#plataforma"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Acerca de Nosotros
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Carreras
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Blog
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Kit de Prensa
-                </a>
+
+            {[
+              {
+                title: "Plataforma",
+                links: [
+                  { name: "Características", href: "#soluciones" },
+                  { name: "Precios", href: "#precios" },
+                  { name: "Integraciones", href: "#" },
+                  { name: "Documentación API", href: "#" },
+                ],
+              },
+              {
+                title: "Empresa",
+                links: [
+                  { name: "Acerca de Nosotros", href: "#plataforma" },
+                  { name: "Carreras", href: "#" },
+                  { name: "Blog", href: "#" },
+                  { name: "Kit de Prensa", href: "#" },
+                ],
+              },
+              {
+                title: "Soporte",
+                links: [
+                  { name: "Centro de Ayuda", href: "#" },
+                  { name: "Documentación", href: "#" },
+                  { name: "Comunidad", href: "#" },
+                  { name: "Contáctanos", href: "#" },
+                ],
+              },
+            ].map((section, idx) => (
+              <div key={idx} className="space-y-4">
+                <h4 className="text-lg font-bold text-white">
+                  {section.title}
+                </h4>
+                <div className="space-y-3">
+                  {section.links.map((link, linkIdx) => (
+                    <a
+                      key={linkIdx}
+                      href={link.href}
+                      className="block text-white/60 hover:text-white transition-colors duration-300 font-medium relative group"
+                    >
+                      {link.name}
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="space-y-4">
-              <h4 className="text-lg font-bold">Soporte</h4>
-              <div className="space-y-3">
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Centro de Ayuda
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Documentación
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Comunidad
-                </a>
-                <a
-                  href="#"
-                  className="block text-white/60 hover:text-white transition-colors"
-                >
-                  Contáctanos
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 space-y-4 md:space-y-0">
-            <p className="text-white/40">
+            ))}
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 space-y-4 md:space-y-0"
+          >
+            <p className="text-white/40 font-medium">
               &copy; {new Date().getFullYear()} Fillstep Software Empresarial.
               Todos los derechos reservados.
             </p>
             <div className="flex space-x-8">
-              <a
-                href="#"
-                className="text-white/40 hover:text-white/60 transition-colors"
-              >
-                Política de Privacidad
-              </a>
-              <a
-                href="#"
-                className="text-white/40 hover:text-white/60 transition-colors"
-              >
-                Términos de Servicio
-              </a>
-              <a
-                href="#"
-                className="text-white/40 hover:text-white/60 transition-colors"
-              >
-                Seguridad
-              </a>
+              {[
+                "Política de Privacidad",
+                "Términos de Servicio",
+                "Seguridad",
+              ].map((link, idx) => (
+                <a
+                  key={idx}
+                  href="#"
+                  className="text-white/40 hover:text-white/60 transition-colors duration-300 font-medium relative group"
+                >
+                  {link}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+              ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </footer>
     </div>
   );
 }
-
-export default FillstepLanding;

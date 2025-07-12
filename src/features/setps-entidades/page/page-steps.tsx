@@ -6,11 +6,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useOrganization } from "@clerk/clerk-react";
 import { ArrowRight, CheckCircle, Clock, Shield } from "lucide-react";
 import { motion } from "motion/react";
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
+  const { organization } = useOrganization();
+
+  const path = organization?.id ? `/dashboard` : "/registro-entidad";
   return (
     <div className="flex bg-gradient-to-br from-slate-900 via-black to-slate-800 relative overflow-hidden justify-center items-center h-screen">
       {/* Background Pattern */}
@@ -60,7 +64,7 @@ export default function HomePage() {
               </Link>
 
               {/* Secondary Action */}
-              <Link to="/dashboard" className="block">
+              <Link to={path} className="block">
                 <Button
                   size="lg"
                   className="w-full h-14 bg-transparent border-2 border-zinc-600 hover:border-zinc-500 text-white hover:bg-white/5 font-semibold text-lg transition-all duration-300"

@@ -26,7 +26,7 @@ import {
   Loader,
   X,
 } from "lucide-react";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { DateRangePicker } from "../components/ui/date-range-picker";
@@ -154,7 +154,7 @@ export default function PageDataTableFactura() {
     [facturasGet]
   );
 
-  const getSortedInvoices = useCallback(() => {
+  const getSortedInvoices = () => {
     let filteredInvoices = [...dataFacturas];
 
     //Aply status filter
@@ -196,7 +196,7 @@ export default function PageDataTableFactura() {
     }
 
     return filteredInvoices;
-  }, [data, dataFacturas, dateRange, facturasGetApi, searchTerm, statusFilter]);
+  };
 
   if (!facturasGet && isLoading) {
     return <SkeletonTableFactura />;

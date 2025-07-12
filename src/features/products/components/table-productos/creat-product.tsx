@@ -10,7 +10,7 @@ export default function CreateProduct() {
   const [onSubmitProductos] = useCreateProductMutation();
   const { data: categoryProductos } = useGetCategoriesQuery();
   // Ejemplo de campos para un formulario de clientes
-  const clientFields: FieldDefinition[] = [
+  const productsFields: FieldDefinition[] = [
     {
       name: "nombre",
       label: "Nombre",
@@ -65,7 +65,7 @@ export default function CreateProduct() {
         title="Agregar producto"
         description="Ingresa los datos del nuevo producto"
         entityName="producto"
-        fields={clientFields}
+        fields={productsFields}
         onSubmit={handleClientSubmit}
       />
     </div>

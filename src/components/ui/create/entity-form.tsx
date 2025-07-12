@@ -69,62 +69,74 @@ export function EntityForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Construir el esquema de validación dinámicamente basado en los campos
+
   const generateValidationSchema = () => {
     const schema: Record<string, any> = {};
 
     fields.forEach((field) => {
-      let fieldSchema: any = z.string();
+      let fieldSchema: z.ZodTypeAny;
 
-      if (field.required) {
-        fieldSchema = fieldSchema.min(1, `${field.label} es requerido`);
-      } else {
-        fieldSchema = fieldSchema.optional();
+      // Establecer el tipo base
+      switch (field.type) {
+        case "email":
+          fieldSchema = z.string().email("Email inválido");
+          break;
+        case "number":
+          fieldSchema = z.coerce.number();
+          break;
+        default:
+          fieldSchema = z.string();
+          break;
       }
 
-      if (field.type === "email") {
-        fieldSchema = z.string().email("Email inválido");
-        if (field.required) {
-          fieldSchema = fieldSchema.min(1, `${field.label} es requerido`);
-        } else {
-          fieldSchema = fieldSchema.optional();
-        }
-      }
-
+      // Validaciones comunes por tipo
       if (field.type === "number") {
-        fieldSchema = z.coerce.number();
         if (field.validation?.min !== undefined) {
-          fieldSchema = fieldSchema.min(
-            field.validation.min,
-            `Mínimo ${field.validation.min}`
-          );
+          fieldSchema = (fieldSchema as z.ZodNumber).min(field.validation.min, {
+            message: `Mínimo ${field.validation.min}`,
+          });
         }
         if (field.validation?.max !== undefined) {
-          fieldSchema = fieldSchema.max(
-            field.validation.max,
-            `Máximo ${field.validation.max}`
+          fieldSchema = (fieldSchema as z.ZodNumber).max(field.validation.max, {
+            message: `Máximo ${field.validation.max}`,
+          });
+        }
+      }
+
+      // Solo para strings
+      if (fieldSchema._def.typeName === "ZodString") {
+        if (typeof field.validation?.minLength === "number") {
+          fieldSchema = (fieldSchema as z.ZodString).min(
+            field.validation.minLength,
+            { message: `Mínimo ${field.validation.minLength} caracteres` }
+          );
+        }
+
+        if (typeof field.validation?.maxLength === "number") {
+          fieldSchema = (fieldSchema as z.ZodString).max(
+            field.validation.maxLength,
+            { message: `Máximo ${field.validation.maxLength} caracteres` }
+          );
+        }
+
+        if (field.validation?.pattern) {
+          fieldSchema = (fieldSchema as z.ZodString).regex(
+            field.validation.pattern,
+            { message: "Formato inválido" }
           );
         }
       }
 
-      if (field.validation?.minLength) {
-        fieldSchema = fieldSchema.min(
-          field.validation.minLength,
-          `Mínimo ${field.validation.minLength} caracteres`
-        );
-      }
-
-      if (field.validation?.maxLength) {
-        fieldSchema = fieldSchema.max(
-          field.validation.maxLength,
-          `Máximo ${field.validation.maxLength} caracteres`
-        );
-      }
-
-      if (field.validation?.pattern) {
-        fieldSchema = fieldSchema.regex(
-          field.validation.pattern,
-          "Formato inválido"
-        );
+      // Requerido u opcional
+      if (field.required) {
+        if (fieldSchema._def.typeName === "ZodString") {
+          fieldSchema = (fieldSchema as z.ZodString).min(
+            1,
+            `${field.label} es requerido`
+          );
+        }
+      } else {
+        fieldSchema = fieldSchema.optional();
       }
 
       schema[field.name] = fieldSchema;

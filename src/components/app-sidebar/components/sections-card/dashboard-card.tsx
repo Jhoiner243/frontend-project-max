@@ -63,13 +63,7 @@ export function DashboardCard({
 
   return (
     <>
-      <div
-        className={`${
-          isPositive
-            ? " shadow-[0_0_20px] shadow-emerald-700/8"
-            : "shadow-[0_0_20px]  shadow-red-200/5"
-        }`}
-      >
+      <div className={``}>
         <Card
           className={`
         ${cardClassName} 

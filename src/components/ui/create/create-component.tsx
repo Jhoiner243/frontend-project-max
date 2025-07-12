@@ -68,15 +68,15 @@ export function EntitySheet({
             : size === "sm"
             ? "sm:max-w-sm"
             : size === "full"
-            ? "w-screen"
-            : ""
+            ? "w-full"
+            : "w-screen"
         } overflow-y-auto`}
       >
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
           {description && <SheetDescription>{description}</SheetDescription>}
         </SheetHeader>
-        <div className="py-6">
+        <div className="py-6 p-4">
           <EntityForm
             title=""
             entityName={entityName}

@@ -39,7 +39,10 @@ export function PedidosAnaliticaComponent({
   if (AnaliticsPedidos?.diario === undefined) return [];
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return `${date.toISOString().slice(5, 10)}`;
+    if (AnaliticsPedidos.diario.length <= 7) {
+      return `${date.toISOString().slice(5, 10)}`;
+    }
+    return `${date.toISOString().slice(8, 10)}`;
   };
 
   return (
@@ -54,7 +57,7 @@ export function PedidosAnaliticaComponent({
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="periodo"
-              tickFormatter={formatDate} // Usamos la nueva función de formato
+              tickFormatter={formatDate}
               tickLine={false}
               tickMargin={10}
               axisLine={false}
@@ -64,7 +67,7 @@ export function PedidosAnaliticaComponent({
               content={({ active, payload }) =>
                 active && payload?.length ? (
                   <div className="bg-background p-2 border rounded">
-                    <p>{formatDate(payload[0].payload.periodo)}</p>
+                    <p>{payload[0].payload.periodo.slice(5, 10)}</p>
                     <p>Pedidos: {payload[0].value}</p>
                   </div>
                 ) : null

@@ -9,6 +9,13 @@ import {
   useLazyGetClientsQuery,
 } from "../../../../store/clients/api";
 
+// const clientValidations = z.object({
+//   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres" }),
+//   email: z.string().email({ message: "El correo electrónico no es válido" }),
+//   phone: z.string().min(10, { message: "El teléfono debe tener al menos 10 caracteres" }),
+//   address: z.string().min(2, { message: "La dirección debe tener al menos 2 caracteres" }),
+// });
+
 export default function ClientCreate() {
   const [createClient] = useCreateClientMutation();
   const { data } = useGetClientsQuery();
@@ -32,11 +39,11 @@ export default function ClientCreate() {
     {
       name: "phone",
       label: "Teléfono",
-      validation: {
-        max: 10,
-        min: 10,
-      },
       type: "text",
+      validation: {
+        minLength: 10,
+        maxLength: 15,
+      },
       placeholder: "123-456-7890",
     },
     {

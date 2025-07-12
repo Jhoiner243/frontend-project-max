@@ -33,7 +33,7 @@ export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
     if (!isSignedIn || !profit || !organization || !clients) return;
 
     const dateActual = new Date();
-    const lastProfit = profit[profit.length - 1];
+    const lastProfit = profit[0];
 
     const isSameDay =
       new Date(lastProfit.createdAt).toDateString() ===
@@ -64,7 +64,7 @@ export function SectionCards({ resultGrowtRate }: DataForSeccionCard) {
       title: "Nuevos clientes",
       value: data.totalClients,
       percentage: -2,
-      description: "Bajó un 2% este período",
+      description: "Bajó un 2% este período de 6 meses",
       subtitle: "La adquisición necesita atención.",
       type: "number" as const,
     },

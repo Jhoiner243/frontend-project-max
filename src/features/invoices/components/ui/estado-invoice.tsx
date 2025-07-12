@@ -13,6 +13,7 @@ import {
   ChevronDown,
   LoaderIcon,
   TableOfContents,
+  Trash2Icon,
 } from "lucide-react";
 import * as React from "react";
 import { Badge } from "../../../../components/ui/badge";
@@ -55,7 +56,7 @@ const STATUS_STYLES = {
     badge:
       "text-red-800 border-red-300 bg-red-50 dark:text-red-300 dark:border-red-700 dark:bg-red-950/50",
     item: "text-red-700 dark:text-red-300 hover:bg-red-50 dark:hover:bg-red-950/50 focus:bg-red-50 dark:focus:bg-red-950/50",
-    icon: null,
+    icon: Trash2Icon,
     iconClass: "text-red-600 dark:text-red-400",
   },
 } as const;
@@ -106,7 +107,7 @@ export function DropEstadoInvoice({
         </Badge>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="w-40 bg-white dark:bg-gray-950 border-gray-200 dark:border-gray-800">
+      <DropdownMenuContent className="w-40 bg-white dark:bg-black border-white/8">
         <DropdownMenuRadioGroup
           value={position}
           onValueChange={(value) => handleStatusChange(value as FacturaStatus)}

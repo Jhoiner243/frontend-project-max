@@ -12,8 +12,8 @@ createRoot(document.getElementById("root")!).render(
       baseTheme: dark,
     }}
     publishableKey={VITE_CLERK_PUBLISHABLE_KEY}
-    signInForceRedirectUrl="/select-step-entity"
     afterSignOutUrl="/login"
+    signUpForceRedirectUrl="/select-step-entity"
   >
     <Provider store={store}>
       <App />

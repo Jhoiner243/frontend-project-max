@@ -307,21 +307,7 @@ export default function SettingsPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label>Canales de notificaciones</Label>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="email-notifications"
-                      defaultChecked={settings.notifications.email}
-                      onChange={(e) =>
-                        updateNotificationSettings({
-                          ...settings.notifications,
-                          email: (e.target as HTMLInputElement).checked,
-                        })
-                      }
-                    />
-                    <Label htmlFor="email-notifications">
-                      Email Notifications
-                    </Label>
-                  </div>
+
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="push-notifications"
@@ -336,19 +322,6 @@ export default function SettingsPage() {
                     <Label htmlFor="push-notifications">
                       Push Notifications
                     </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="sms-notifications"
-                      defaultChecked={settings.notifications.sms}
-                      onChange={(e) =>
-                        updateNotificationSettings({
-                          ...settings.notifications,
-                          sms: (e.target as HTMLInputElement).checked,
-                        })
-                      }
-                    />
-                    <Label htmlFor="sms-notifications">SMS Notifications</Label>
                   </div>
                 </div>
                 <div className="space-y-2">
