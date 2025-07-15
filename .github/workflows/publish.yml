@@ -1,51 +1,35 @@
-name: publish
+name: Deploy Frontend with Docker to S3
 
 on:
   push:
-    branches: ["master"]
+    branches: [main]
   pull_request:
-    branches: ["master"]
+    branches: [main]
 
 jobs:
-  create-docker-image:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # 1. Clonás tu repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2. Preparás QEMU para builds multiplataforma (opcional)
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+      - name: Build Docker image
+        run: docker build -t frontend-app .
 
-      # 3. Instalás Buildx para Docker
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-
-      # 4. Login al GitHub Container Registry
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.TOKEN_CD }}
-
-      # 5. Build y push de la imagen Docker
-      - name: Build and push Docker image
+      - name: Extract static files from Docker container
         run: |
-          docker build . --tag ghcr.io/Jhoiner243/implements-back:latest
-          docker push ghcr.io/Jhoiner243/implements-back:latest
+          CONTAINER_ID=$(docker create frontend-app)
+          docker cp $CONTAINER_ID:/usr/share/nginx/html ./dist
+          docker rm $CONTAINER_ID
 
-  deploy:
-    needs: create-docker-image
-    runs-on: ubuntu-latest
-    steps:
-      # 6. Instalás Firebase CLI
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
-      # 7. Deploy a Firebase Hosting
-      - name: Deploy to Firebase Hosting
+      - name: Deploy to S3
+        uses: jakejarvis/s3-sync-action@v0.5.1
+        with:
+          args: --acl public-read --delete
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: firebase deploy --only hosting --token "$FIREBASE_TOKEN"
+          AWS_S3_BUCKET: ${{ secrets.S3_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          SOURCE_DIR: "./dist"
