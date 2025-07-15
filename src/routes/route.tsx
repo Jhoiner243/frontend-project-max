@@ -4,7 +4,6 @@ import AskPage from "../features/ai/page/ask-page";
 import AnaliticaPage from "../features/analytics/page/page";
 import LoginPage from "../features/auth/page/login/page-login";
 import RegisterPage from "../features/auth/page/register/page";
-import TableData from "../features/book-data/components/table-data";
 import ClientesPage from "../features/clients/page/page";
 import ProximamentePage from "../features/data/components/principal";
 import EditPageInvoices from "../features/invoices/components/ui/principal-edit";
@@ -51,7 +50,6 @@ export const RoutesApp = () => {
                   path="/pedidos-register"
                   element={<ProximamentePage />}
                 />
-                <Route path="/libreria-datos" element={<TableData />} />
                 <Route path="/productos" element={<ProductosPage />} />
                 <Route path="/analitics" element={<AnaliticaPage />} />
                 <Route path="/reportes" element={<PageDataTableFactura />}>
