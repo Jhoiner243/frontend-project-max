@@ -27,9 +27,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { SignedIn, UserButton, useUser } from "@clerk/clerk-react";
-import { useLocation } from "react-router-dom";
 import { useWindowSize } from "usehooks-ts";
-import SidebarSecondary from "../../features/book-data/components/sidebar-secondary";
 import { Card } from "../ui/card";
 import { NavDocuments } from "./components/nav-documents";
 import { NavMain } from "./components/nav-main";
@@ -148,57 +146,45 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { width } = useWindowSize();
   const { user } = useUser();
-  const path = useLocation();
   return (
-    <Sidebar collapsible="offcanvas">
-      <Sidebar collapsible="offcanvas" {...props}>
-        <SidebarHeader>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                asChild
-                className="data-[slot=sidebar-menu-button]:!p-1.5"
-              >
-                <a href="#">
-                  <ArrowUpCircleIcon className="h-5 w-5" />
-                  <span className="text-base font-semibold">FillStep.</span>
-                </a>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarHeader>
-        <SidebarContent>
-          <NavMain items={data.navMain} />
-          <NavDocuments items={data.documents} />
-        </SidebarContent>
-        <SidebarFooter>
-          {width > 768 && (
-            <SignedIn>
-              <Card className="p-0 dark:hover:bg-slate-800/10 border-white/25 hover:cursor-default opacity-90">
-                <div className="flex flex-row gap-1 items-center justify-center ">
-                  <UserButton />
-                  {user && (
-                    <div>
-                      <div className="p-2 dark:text-white/60">
-                        {user.firstName} {user.lastName}
-                      </div>
+    <Sidebar collapsible="offcanvas" {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
+              <a href="#">
+                <ArrowUpCircleIcon className="h-5 w-5" />
+                <span className="text-base font-semibold">FillStep.</span>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+        <NavDocuments items={data.documents} />
+      </SidebarContent>
+      <SidebarFooter>
+        {width > 768 && (
+          <SignedIn>
+            <Card className="p-0 dark:hover:bg-slate-800/10 border-white/25 hover:cursor-default opacity-90">
+              <div className="flex flex-row gap-1 items-center justify-center ">
+                <UserButton />
+                {user && (
+                  <div>
+                    <div className="p-2 dark:text-white/60">
+                      {user.firstName} {user.lastName}
                     </div>
-                  )}
-                </div>
-              </Card>
-            </SignedIn>
-          )}
-        </SidebarFooter>
-      </Sidebar>
-      {path.pathname === "/libreria-datos" && (
-        <Sidebar
-          side="right"
-          collapsible="offcanvas"
-          className="flex justify-center items-center h-[80%] top-20 border-1"
-        >
-          <SidebarSecondary />
-        </Sidebar>
-      )}
+                  </div>
+                )}
+              </div>
+            </Card>
+          </SignedIn>
+        )}
+      </SidebarFooter>
     </Sidebar>
   );
 }
