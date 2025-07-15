@@ -35,12 +35,14 @@ import { Laptop, Smartphone, Tablet } from "lucide-react";
 import { toast } from "sonner";
 import { Skeleton } from "../../../components/ui/skeleton";
 import useNotificationsHook from "../../notifications/hook/use-notifications";
+import { useGetEnabledNotificationsQuery } from "../../notifications/service";
 
 export default function SettingsPage() {
   const { settings, updateNotificationSettings, updatePrivacySettings } =
     useSettings();
   const { handleEnableNotification } = useNotificationsHook();
-
+  const { data: enabledNotifications } = useGetEnabledNotificationsQuery();
+  console.log("enabledNotifications", enabledNotifications);
   const handleSaveNotifications = () => {
     updateNotificationSettings(settings.notifications);
     toast.success("Notification settings saved successfully");
@@ -311,7 +313,7 @@ export default function SettingsPage() {
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="push-notifications"
-                      defaultChecked={settings.notifications.push}
+                      defaultChecked={enabledNotifications}
                       onChange={(e) =>
                         updateNotificationSettings({
                           ...settings.notifications,

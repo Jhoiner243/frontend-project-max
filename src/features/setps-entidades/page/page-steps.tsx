@@ -9,17 +9,43 @@ import {
 import { useOrganization } from "@clerk/clerk-react";
 import { ArrowRight, CheckCircle, Clock, Shield } from "lucide-react";
 import { motion } from "motion/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast, Toaster } from "sonner";
 
 export default function HomePage() {
   const { organization } = useOrganization();
+  const navigate = useNavigate();
 
-  const path = organization?.id ? `/dashboard` : "/registro-entidad";
+  const redirectToRegisterEntity = () => {
+    if (!organization?.id) {
+      toast.promise(
+        new Promise((resolve) => {
+          setTimeout(
+            () => resolve("No tienes una organización asignada"),
+            1500
+          );
+        }),
+        {
+          loading: "Verificando...",
+          success: {
+            message: "No tienes una organización asignada.",
+            description: "Por favor, crea una organización",
+            icon: null,
+          },
+          error: "No tienes una organización asignada",
+        }
+      );
+      setTimeout(() => navigate("/registro-entidad"), 1200);
+    } else {
+      navigate("/dashboard");
+    }
+  };
   return (
     <div className="flex bg-gradient-to-br from-slate-900 via-black to-slate-800 relative overflow-hidden justify-center items-center h-screen">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-y-12"></div>
+        <Toaster className="z-50" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/3 to-transparent transform skew-x-12"></div>
       </div>
 
@@ -64,14 +90,14 @@ export default function HomePage() {
               </Link>
 
               {/* Secondary Action */}
-              <Link to={path} className="block">
-                <Button
-                  size="lg"
-                  className="w-full h-14 bg-transparent border-2 border-zinc-600 hover:border-zinc-500 text-white hover:bg-white/5 font-semibold text-lg transition-all duration-300"
-                >
-                  Ya tengo una cuenta - Ingresar
-                </Button>
-              </Link>
+
+              <Button
+                size="lg"
+                className="w-full h-14 bg-transparent border-2 border-zinc-600 hover:border-zinc-500 text-white hover:bg-white/5 font-semibold text-lg transition-all duration-300"
+                onClick={() => redirectToRegisterEntity()}
+              >
+                Ya tengo una cuenta - Ingresar
+              </Button>
 
               {/* Help Text */}
               <div className="text-center pt-4">

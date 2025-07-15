@@ -16,6 +16,7 @@ export type FacturaActionType =
   | { type: FacturaAction.ADD_CLIENT; payload: { id_cliente: string } };
 
 export const initialValues: FacturasEntity = {
+  id: "",
   id_cliente: "",
   total: 0,
   detalles: [],

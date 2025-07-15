@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Toaster } from "sonner";
 import {
   setCreatedEntity,
   setCurrentStep,
@@ -178,6 +179,7 @@ export default function RegisterEntityManager() {
 
   return (
     <div className="min-h-screen bg-black">
+      <Toaster position="top-center" className="absolute" />
       <Button
         onClick={() => navigate("/select-step-entity")}
         className="flex  absolute ml-[10%] mt-20  bg-black cursor-default  rounded-full p-2 font-medium   dark:bg-white/80 dark:transition dark:duration-200 dark:hover:bg-white"

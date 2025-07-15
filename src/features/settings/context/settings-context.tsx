@@ -92,10 +92,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     }
     return defaultSettings;
   });
-
   // Save settings to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem("userSettings", JSON.stringify(settings));
+    localStorage.setItem("userSettings", JSON.stringify({ ...settings }));
   }, [settings]);
 
   const updateSettings = (newSettings: Partial<UserSettings>) => {

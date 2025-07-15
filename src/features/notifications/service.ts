@@ -45,6 +45,10 @@ export const fetchBaseApi = createApi({
         body: newNotification,
       }),
     }),
+
+    getEnabledNotifications: build.query<boolean, void>({
+      query: () => "/notifications-enable",
+    }),
   }),
 });
 
@@ -52,4 +56,5 @@ export const {
   useGetNotificationsQuery,
   useCreateNotificationMutation,
   useDeleteNotificationMutation,
+  useGetEnabledNotificationsQuery,
 } = fetchBaseApi;

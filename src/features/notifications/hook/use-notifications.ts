@@ -1,4 +1,5 @@
 import { getToken, messaging } from "@/firebase/firebase";
+import { toast } from "sonner";
 import { VITE_VAPID_KEY } from "../../../config/config";
 import { useCreateNotificationMutation } from "../service";
 
@@ -19,10 +20,10 @@ export default function useNotificationsHook() {
             token: currentToken,
           }).unwrap();
         } else {
-          console.warn("⚠️ No se pudo obtener el token");
+          toast.error("No se pudo obtener el token");
         }
       } else {
-        console.warn("❌ Permiso denegado para notificaciones");
+        toast.info("❌ Permiso denegado para notificaciones");
       }
     } catch (err) {
       console.error("🔥 Error obteniendo token:", err);

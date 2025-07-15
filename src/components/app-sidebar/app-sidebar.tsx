@@ -150,8 +150,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { user } = useUser();
   const path = useLocation();
   return (
-    <Sidebar>
-      <Sidebar collapsible="icon" {...props}>
+    <Sidebar collapsible="offcanvas">
+      <Sidebar collapsible="offcanvas" {...props}>
         <SidebarHeader>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -194,7 +194,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Sidebar
           side="right"
           collapsible="offcanvas"
-          className="flex justify-center items-center   h-[90%] top-10"
+          className="flex justify-center items-center h-[80%] top-20 border-1"
         >
           <SidebarSecondary />
         </Sidebar>

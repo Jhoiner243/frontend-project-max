@@ -90,6 +90,10 @@ export default function ClientesPage() {
 
   const handleExportClients = () => {};
 
+  const handleAddClient = () => {
+    return <ClientCreate />;
+  };
+
   return (
     <div>
       {open === true && (
@@ -117,7 +121,7 @@ export default function ClientesPage() {
           data={clientData}
           lastPages={clients?.lastPage}
           totalItems={clients?.total}
-          onAdd={<ClientCreate />}
+          onAdd={handleAddClient()}
           onDelete={handleDeleteClient}
           onEdit={handleUpdate}
           onExport={handleExportClients}
