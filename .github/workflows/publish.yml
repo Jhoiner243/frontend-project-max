@@ -12,13 +12,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Create .env file with Vite secrets
-        run: |
-          echo "VITE_VAPID_KEY=${{ secrets.VITE_VAPID_KEY }}" >> .env
-          echo "VITE_CLERK_PUBLISHABLE_KEY=${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }}" >> .env
-
       - name: Build Docker image
-        run: docker build -t frontend-app .
+        run: docker build --build-arg VITE_VAPID_KEY=${{ secrets.VITE_VAPID_KEY }} --build-arg VITE_CLERK_PUBLISHABLE_KEY=${{ secrets.VITE_CLERK_PUBLISHABLE_KEY }} -t frontend-app .
 
       - name: Extract static files from Docker container
         run: |

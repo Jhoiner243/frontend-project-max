@@ -15,6 +15,10 @@ RUN pnpm install --frozen-lockfile
 
 # Copiar todo el resto del código fuente
 COPY . .
+ARG CLERK_PUBLIC_KEY
+ENV VITE_CLERK_PUBLISHABLE_KEY=$CLERK_PUBLIC_KEY
+ARG VITE_VAPID_KEY
+ENV VITE_VAPID_KEY=$VITE_VAPID_KEY
 
 # Compilar la aplicación de Vite
 RUN pnpm run build
