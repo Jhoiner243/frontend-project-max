@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { Badge } from "@/components/ui/badge";
@@ -133,8 +132,8 @@ export default function FillstepLanding() {
     },
   };
 
-  const handleProjectStart = (project: any) => {
-    window.open(project.url, "_blank");
+  const handleProjectStart = (project: string) => {
+    window.open(project, "_blank");
   };
 
   return (
@@ -381,7 +380,7 @@ export default function FillstepLanding() {
                               </Badge>
                             </div>
                             <Button
-                              onClick={() => handleProjectStart(project)}
+                              onClick={() => handleProjectStart(project.url)}
                               className="w-full bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white/89 font-semibold rounded-2xl shadow-2xl py-3 text-base"
                             >
                               <span>Comenzar Ahora</span>
@@ -605,16 +604,18 @@ export default function FillstepLanding() {
                 </motion.div>
               </div>
 
-              <div className="flex justify-center items-center mt-12 relative z-10">
-                <Button
-                  onClick={() => handleProjectStart(projects[0].url)}
-                  className="bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 px-10 py-4 rounded-2xl text-lg font-semibold group flex items-center shadow-2xl hover:shadow-white/20 hover:scale-105"
-                >
-                  <Brain className="mr-3 w-6 h-6" />
-                  Ingresar y Probar
-                  <Sparkles className="ml-3 w-5 h-5 group-hover:rotate-12 transition-transform" />
-                </Button>
-              </div>
+              {projects.map((project) => (
+                <div className="flex justify-center items-center mt-12 relative z-10">
+                  <Button
+                    onClick={() => handleProjectStart(project.url)}
+                    className="bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 px-10 py-4 rounded-2xl text-lg font-semibold group flex items-center shadow-2xl hover:shadow-white/20 hover:scale-105"
+                  >
+                    <Brain className="mr-3 w-6 h-6" />
+                    Ingresar y Probar
+                    <Sparkles className="ml-3 w-5 h-5 group-hover:rotate-12 transition-transform" />
+                  </Button>
+                </div>
+              ))}
             </div>
           </motion.div>
         </div>
