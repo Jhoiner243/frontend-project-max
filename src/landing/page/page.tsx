@@ -166,9 +166,6 @@ export default function FillstepLanding() {
                 <div className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                   FillStep
                 </div>
-                <div className="text-xs text-white/60 uppercase tracking-wider font-medium">
-                  Software Empresarial
-                </div>
               </div>
             </motion.div>
 
