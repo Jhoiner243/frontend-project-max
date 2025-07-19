@@ -14,5 +14,4 @@ export const VITE_VAPID_KEY =
 export const VITE_CLERK_PUBLISHABLE_KEY =
   window.__APP_CONFIG__?.CLERK_PUBLISHABLE_KEY ||
   "pk_test_cmFwaWQtbW9yYXktODcuY2xlcmsuYWNjb3VudHMuZGV2JA";
-export const VITE_API_URL =
-  window.__APP_CONFIG__?.API_URL || "http://13.220.255.36:3000";
+export const VITE_API_URL = "https://server.fillstep.site";
