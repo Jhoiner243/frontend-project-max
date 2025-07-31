@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { FileEdit, MoreHorizontal, Trash2 } from "lucide-react";
+import { Eye, MoreHorizontal, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../button";
 import {
@@ -44,8 +44,8 @@ export function RowActions({
       <DropdownMenuContent align="end">
         {onEdit && (
           <DropdownMenuItem onClick={handleEdit}>
-            <FileEdit className="mr-2 h-4 w-4" />
-            Editar
+            <Eye className="mr-2 h-4 w-4" />
+            Ver datos
           </DropdownMenuItem>
         )}
         {onDelete && (

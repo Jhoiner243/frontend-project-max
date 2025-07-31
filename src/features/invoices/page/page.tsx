@@ -34,6 +34,7 @@ import {
   DropEstadoInvoice,
   FacturaStatus,
 } from "../components/ui/estado-invoice";
+import QrDialog from "../components/ui/qr-dialog";
 import SkeletonTableFactura from "../components/ui/skeleton-table-factura";
 import { FacturaProvider } from "../context/factura.context";
 import {
@@ -80,6 +81,16 @@ export const invoiceColumns = [
     label: "Importe",
     sortable: true,
     render: (value: number) => `$${value.toFixed(2)}`,
+  },
+  {
+    id: "qr",
+    label: "QR code",
+    sortable: false,
+    render: (value: string) => (
+      <div>
+        <QrDialog qrs={value} />
+      </div>
+    ),
   },
   {
     id: "status",
@@ -148,6 +159,7 @@ export default function PageDataTableFactura() {
             date: new Date(factura.createdAt).toISOString(),
             dueDate: new Date(factura.createdAt).toISOString(),
             amount: factura.total,
+            qr: factura.qr,
             status: factura.status as FacturaStatus,
           }))
         : [],
@@ -167,6 +179,7 @@ export default function PageDataTableFactura() {
       filteredInvoices = facturasGetApi?.facturas.map((factura) => ({
         id: factura.idFactura.toString().padStart(5, "0"),
         idFactura: factura.id,
+        qr: factura.qr,
         client: factura.id_cliente,
         date: new Date(factura.createdAt).toISOString(),
         dueDate: new Date(factura.updatedAt).toISOString(),
@@ -203,7 +216,7 @@ export default function PageDataTableFactura() {
   } else if (!facturasGet) {
     return (
       <div className="flex justify-center items-center ">
-        <Loader className="w-4 h-3 animate-spin" />
+        <Loader className="w-5 h-5 animate-spin" />
         Cargando...
       </div>
     );

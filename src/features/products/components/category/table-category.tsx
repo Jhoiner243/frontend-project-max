@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DataTable } from "@/components/ui/custom/table-component";
 import { useGetCategoriesQuery } from "../../../../store/categories/api";
 import CreateCategory from "../category/create-category";
@@ -26,17 +25,6 @@ export default function CategoryPage() {
       name: category.name,
     };
   });
-  const handleEditProduct = (product: any) => {
-    console.log("Editar producto:", product);
-  };
-
-  const handleDeleteProduct = (product: any) => {
-    console.log("Eliminar producto:", product);
-  };
-
-  const handleExportProducts = () => {
-    console.log("Exportar productos");
-  };
 
   return (
     <main className="container mx-auto py-4">
@@ -45,9 +33,6 @@ export default function CategoryPage() {
         columns={productColumns}
         data={category}
         onAdd={<CreateCategory />}
-        onEdit={handleEditProduct}
-        onDelete={handleDeleteProduct}
-        onExport={handleExportProducts}
       />
     </main>
   );

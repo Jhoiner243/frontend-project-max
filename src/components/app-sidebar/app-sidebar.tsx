@@ -126,7 +126,7 @@ const data = {
       icon: DatabaseIcon,
     },
     {
-      name: "Reportes",
+      name: "Facturas",
       url: "/reportes",
       icon: ClipboardListIcon,
     },

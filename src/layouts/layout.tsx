@@ -8,7 +8,7 @@ import { ThemeProvider } from "../components/ui/theme-provider";
 
 export default function Layout() {
   return (
-    <ThemeProvider defaultTheme="dark">
+    <ThemeProvider   defaultTheme="dark">
       <ToastProvider>
         <SidebarProvider>
           <AppSidebar variant="inset" />

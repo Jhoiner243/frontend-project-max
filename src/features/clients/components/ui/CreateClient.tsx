@@ -37,6 +37,17 @@ export default function ClientCreate() {
       required: true,
     },
     {
+      name: "identification",
+      label: "Número de cedula",
+      type: "text",
+      placeholder: "1029320392",
+      validation: {
+        minLength: 10,
+        maxLength: 10,
+      },
+      required: true,
+    },
+    {
       name: "phone",
       label: "Teléfono",
       type: "text",

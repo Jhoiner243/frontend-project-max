@@ -15,6 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useOrganization } from "@clerk/clerk-react";
 import { Separator } from "@radix-ui/react-select";
 import {
   Building,
@@ -31,15 +32,21 @@ import {
   Phone,
   User,
 } from "lucide-react";
-import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { UseFacturaViewer } from "../../hooks/use-dowloand";
 import { EditDataFactProps } from "../../types/factura.types";
 
 export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
   const { id } = useParams();
-  const [selectedInvoice] = useState<{ pdfUrl: string; number: string } | null>(
-    null
-  );
+  const { downloadPdf, credentials } = UseFacturaViewer();
+  const { organization } = useOrganization();
+
+  const handleDownload = () => {
+    if (data.number) {
+      downloadPdf(data.number);
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "Pagada":
@@ -88,20 +95,6 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
       .join("")
       .slice(0, 2)
       .toUpperCase();
-  };
-  console.log(data);
-  const handleDownloadPDF = () => {
-    // Simular descarga
-    const link = document.createElement("a");
-    if (selectedInvoice) {
-      link.href = selectedInvoice.pdfUrl;
-      link.download = `factura-${selectedInvoice.number}.pdf`;
-    } else {
-      console.error("No invoice selected for download.");
-    }
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   return (
@@ -153,11 +146,11 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <p className="font-bold text-lg ">FillStep</p>
+                  <p className="font-bold text-lg ">FillStep CRM</p>
                   <div className="space-y-1">
                     <p className="text-sm  flex items-center gap-2">
                       <Mail className="h-4 w-4" />
-                      {data.cliente.email}
+                      {organization?.name}
                     </p>
                     <p className="text-sm  flex items-center gap-2">
                       <Phone className="h-4 w-4" />
@@ -469,12 +462,13 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
               </div>
 
               <Button
-                onClick={handleDownloadPDF}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 mt-4"
+                onClick={handleDownload}
+                disabled={!credentials}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 size="lg"
               >
                 <Download className="h-4 w-4 mr-2" />
-                Descargar PDF
+                {credentials ? "Descargar PDF" : "Cargando credenciales..."}
               </Button>
             </CardContent>
           </Card>

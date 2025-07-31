@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Spotlight } from "../../features/ai/components/spotligth";
+import { FillStepIcon } from "../components/icon";
 import { SpotlightPreview } from "../components/spooligth-title";
 
 export default function FillstepLanding() {
@@ -159,13 +160,8 @@ export default function FillstepLanding() {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
-              <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-300 rounded-2xl flex items-center justify-center shadow-2xl">
-                <span className="text-black font-bold text-xl">F</span>
-              </div>
-              <div>
-                <div className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                  FillStep
-                </div>
+              <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-500 rounded-2xl flex items-center justify-center shadow-2xl">
+                <FillStepIcon heigth={35} width={35} />
               </div>
             </motion.div>
 
@@ -744,7 +740,7 @@ export default function FillstepLanding() {
                   className="text-white/40 hover:text-white/60 transition-colors duration-300 font-medium relative group"
                 >
                   {link}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
+                  <span className=" absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-1000"></span>
                 </a>
               ))}
             </div>

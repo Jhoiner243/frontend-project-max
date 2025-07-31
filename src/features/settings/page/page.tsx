@@ -42,7 +42,6 @@ export default function SettingsPage() {
     useSettings();
   const { handleEnableNotification } = useNotificationsHook();
   const { data: enabledNotifications } = useGetEnabledNotificationsQuery();
-  console.log("enabledNotifications", enabledNotifications);
   const handleSaveNotifications = () => {
     updateNotificationSettings(settings.notifications);
     toast.success("Notification settings saved successfully");

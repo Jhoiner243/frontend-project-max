@@ -1,5 +1,6 @@
 export interface ClientEntity {
   id: string;
+  indentification: string;
   name: string;
   email: string;
   phone: string;
