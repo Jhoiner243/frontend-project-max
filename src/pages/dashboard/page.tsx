@@ -13,7 +13,7 @@ export default function DashboardPage() {
     skip,
   });
 
-  const { isLoading, isFetching } = useGetProfitQuery();
+  const { isLoading } = useGetProfitQuery();
   return (
     <div>
       <motion.div
@@ -30,7 +30,7 @@ export default function DashboardPage() {
         animate={{ opacity: 2 }}
         transition={{ duration: 0.4, delay: 0.1 }}
       >
-        {(isLoading || isFetching) && <ChartAreaSkeleton />}
+        {isLoading && <ChartAreaSkeleton />}
         <ChartAreaInteractive />
       </motion.div>
     </div>
