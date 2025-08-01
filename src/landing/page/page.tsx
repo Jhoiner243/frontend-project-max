@@ -19,19 +19,15 @@ import {
 } from "@/components/ui/dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  Activity,
-  ArrowRight,
   BarChart3,
   Bell,
   Brain,
   ExternalLink,
-  Globe,
   Grip,
   Menu,
   Package,
   Receipt,
   Rocket,
-  Shield,
   Sparkles,
   TrendingUp,
   X,
@@ -47,7 +43,7 @@ export default function FillstepLanding() {
   const [isOpen, setIsOpen] = useState(false);
   const features = [
     {
-      title: "Gestión Inteligente de Ventas",
+      title: "Ventas inteligentes",
       description:
         "Optimiza todo tu proceso de ventas con automatización inteligente e insights en tiempo real.",
       icon: <TrendingUp className="w-8 h-8" />,
@@ -436,19 +432,21 @@ export default function FillstepLanding() {
                   ></div>
 
                   <div className="relative z-10">
-                    <div
-                      className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center text-white mb-6 shadow-2xl group-hover:scale-110 transition-transform duration-300`}
-                    >
-                      {feature.icon}
-                    </div>
-
-                    <div className="mb-4">
-                      <Badge
-                        variant="outline"
-                        className="text-xs border-white/20 text-white/60 mb-4"
+                    <div className="flex items-center justify-between">
+                      <div
+                        className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center text-white mb-6 shadow-2xl group-hover:scale-110 transition-transform duration-300`}
                       >
-                        {feature.stats}
-                      </Badge>
+                        {feature.icon}
+                      </div>
+
+                      <div className="mb-4">
+                        <Badge
+                          variant="default"
+                          className="text-xs  text-white/60 mb-4"
+                        >
+                          {feature.stats}
+                        </Badge>
+                      </div>
                     </div>
 
                     <h3 className="text-2xl font-bold mb-4 group-hover:text-white/90 transition-colors duration-300">
@@ -457,11 +455,6 @@ export default function FillstepLanding() {
                     <p className="text-white/60 leading-relaxed group-hover:text-white/70 transition-colors duration-300">
                       {feature.description}
                     </p>
-
-                    <div className="mt-6 flex items-center text-white/40 group-hover:text-white/60 transition-colors duration-300">
-                      <span className="text-sm font-medium">Explorar</span>
-                      <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -615,10 +608,7 @@ export default function FillstepLanding() {
       </section>
 
       {/* Footer */}
-      <footer
-        id="recursos"
-        className="relative border-t border-white/10 py-20 overflow-hidden"
-      >
+      <footer id="recursos" className="relative  py-20 overflow-hidden">
         {/* Footer Background Effects */}
         <div className="absolute inset-0">
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -626,97 +616,6 @@ export default function FillstepLanding() {
         </div>
 
         <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="grid md:grid-cols-4 gap-12 mb-16"
-          >
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-gradient-to-br from-white to-gray-300 rounded-2xl flex items-center justify-center shadow-2xl">
-                  <span className="text-black font-bold text-xl">F</span>
-                </div>
-                <div>
-                  <div className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                    Fillstep
-                  </div>
-                  <div className="text-xs text-white/60 uppercase tracking-wider font-medium">
-                    Software Empresarial
-                  </div>
-                </div>
-              </div>
-              <p className="text-white/60 leading-relaxed">
-                Empoderando empresas con soluciones de software inteligentes que
-                impulsan crecimiento, eficiencia e innovación.
-              </p>
-              <div className="flex space-x-4">
-                {[
-                  { icon: <Globe className="w-5 h-5" />, label: "Web" },
-                  { icon: <Activity className="w-5 h-5" />, label: "Status" },
-                  { icon: <Shield className="w-5 h-5" />, label: "Security" },
-                ].map((social, idx) => (
-                  <motion.div
-                    key={idx}
-                    whileHover={{ scale: 1.1, y: -2 }}
-                    className="w-10 h-10 bg-white/10 backdrop-blur-xl rounded-xl flex items-center justify-center text-white/60 hover:text-white hover:bg-white/20 transition-all duration-300 cursor-pointer"
-                  >
-                    {social.icon}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
-            {[
-              {
-                title: "Plataforma",
-                links: [
-                  { name: "Características", href: "#soluciones" },
-                  { name: "Precios", href: "#precios" },
-                  { name: "Integraciones", href: "#" },
-                  { name: "Documentación API", href: "#" },
-                ],
-              },
-              {
-                title: "Empresa",
-                links: [
-                  { name: "Acerca de Nosotros", href: "#plataforma" },
-                  { name: "Carreras", href: "#" },
-                  { name: "Blog", href: "#" },
-                  { name: "Kit de Prensa", href: "#" },
-                ],
-              },
-              {
-                title: "Soporte",
-                links: [
-                  { name: "Centro de Ayuda", href: "#" },
-                  { name: "Documentación", href: "#" },
-                  { name: "Comunidad", href: "#" },
-                  { name: "Contáctanos", href: "#" },
-                ],
-              },
-            ].map((section, idx) => (
-              <div key={idx} className="space-y-4">
-                <h4 className="text-lg font-bold text-white">
-                  {section.title}
-                </h4>
-                <div className="space-y-3">
-                  {section.links.map((link, linkIdx) => (
-                    <a
-                      key={linkIdx}
-                      href={link.href}
-                      className="block text-white/60 hover:text-white transition-colors duration-300 font-medium relative group"
-                    >
-                      {link.name}
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-full transition-all duration-300"></span>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
