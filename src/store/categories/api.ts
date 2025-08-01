@@ -38,6 +38,7 @@ export const fetchApiCategories = createApi({
 
 export const {
   useGetCategoriesQuery,
+  useLazyGetCategoriesQuery,
   useCreateCategoryMutation,
   useDeleteCategoryMutation,
 } = fetchApiCategories;

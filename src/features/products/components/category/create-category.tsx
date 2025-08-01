@@ -3,10 +3,14 @@
 
 import { EntitySheet } from "@/components/ui/create/create-component";
 import { type FieldDefinition } from "@/components/ui/create/entity-form";
-import { useCreateCategoryMutation } from "../../../../store/categories/api";
+import {
+  useCreateCategoryMutation,
+  useLazyGetCategoriesQuery,
+} from "../../../../store/categories/api";
 
 export default function CreateCategory() {
   const [onSubmitCategory] = useCreateCategoryMutation();
+  const [refresh] = useLazyGetCategoriesQuery();
   // Ejemplo de campos para un formulario de clientes
   const clientFields: FieldDefinition[] = [
     {
@@ -28,6 +32,8 @@ export default function CreateCategory() {
         success: false,
         message: error.message || "Error al crear el categoria",
       };
+    } finally {
+      refresh();
     }
   };
 

@@ -89,7 +89,7 @@ export const FacturaProvider = ({ children }: { children: ReactNode }) => {
                 refresh({ page: 1, limit: 10 });
               })
               .catch(reject);
-          }, 1000);
+          }, 20);
         }),
         {
           loading: "Creando factura...",
