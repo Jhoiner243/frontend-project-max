@@ -47,15 +47,17 @@ export function ChartAreaInteractive() {
 
   const filteredData = React.useMemo(() => {
     if (!profit) return [];
-    const filtered = profit
-      .filter((item) => item.tipo_periodo === timeRange)
+
+    return profit
+      .filter((item) => {
+        const date = new Date(item.createdAt);
+        return item.tipo_periodo === timeRange && !isNaN(date.getTime());
+      })
       .map((item) => ({
         ...item,
         fecha: item.createdAt,
         dateObj: new Date(item.createdAt),
       }));
-
-    return filtered;
   }, [profit, timeRange]);
 
   React.useEffect(() => {
@@ -66,6 +68,8 @@ export function ChartAreaInteractive() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "Fecha inválida";
+
     switch (timeRange) {
       case "Diario":
         return format(date, "dd/MM");
