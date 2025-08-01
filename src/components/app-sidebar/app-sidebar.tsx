@@ -2,12 +2,10 @@
 import {
   ArrowUpCircleIcon,
   BarChartIcon,
-  CameraIcon,
   ClipboardListIcon,
   DatabaseIcon,
-  FileCodeIcon,
   FileIcon,
-  FileTextIcon,
+  FilesIcon,
   FolderIcon,
   LayoutDashboardIcon,
   ListIcon,
@@ -38,100 +36,42 @@ const data = {
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   },
+
+  // ————— Operaciones & Análisis —————
   navMain: [
-    {
-      title: "Ask AI",
-      url: "/ask-llm",
-      icon: Sparkles,
-    },
-    {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: LayoutDashboardIcon,
-    },
-    {
-      title: "Productos",
-      url: "/productos",
-      icon: ListIcon,
-    },
-    {
-      title: "Analiticas",
-      url: "/analitics",
-      icon: BarChartIcon,
-    },
-    {
-      title: "Pedidos",
-      url: "/pedidos-register",
-      icon: FolderIcon,
-    },
-    {
-      title: "Clientes",
-      url: "/clientes",
-      icon: UsersIcon,
-    },
+    { title: "Ask AI", url: "/ask-llm", icon: Sparkles },
+    { title: "Dashboard", url: "/dashboard", icon: LayoutDashboardIcon },
+    { title: "Productos", url: "/productos", icon: ListIcon },
+    { title: "Facturas", url: "/reportes", icon: ClipboardListIcon },
+    { title: "Pedidos", url: "/pedidos-register", icon: FolderIcon },
+    { title: "Clientes", url: "/clientes", icon: UsersIcon },
+    { title: "Analíticas", url: "/analiticas", icon: BarChartIcon },
   ],
+
+  // ————— “Más…” (submenú colapsable) —————
   navClouds: [
     {
-      title: "Capture",
-      icon: CameraIcon,
+      title: "Más…",
+      icon: FilesIcon, // un icono genérico de menú
       isActive: true,
       url: "#",
       items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: FileTextIcon,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: FileCodeIcon,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
+        { title: "Capture", url: "#", items: [] },
+        { title: "Proposal", url: "#", items: [] },
+        { title: "Prompts", url: "#", items: [] },
       ],
     },
   ],
 
+  // ————— Administración & Datos maestros —————
   documents: [
     {
-      name: "Librería de datos",
-      url: "/libreria-datos",
+      name: "Biblioteca de datos",
+      url: "#",
       icon: DatabaseIcon,
     },
     {
-      name: "Facturas",
-      url: "/reportes",
-      icon: ClipboardListIcon,
-    },
-    {
-      name: "Categorias",
+      name: "Categorías",
       url: "/categorias",
       icon: FileIcon,
     },
