@@ -45,7 +45,7 @@ const data = {
     { title: "Facturas", url: "/reportes", icon: ClipboardListIcon },
     { title: "Pedidos", url: "/pedidos-register", icon: FolderIcon },
     { title: "Clientes", url: "/clientes", icon: UsersIcon },
-    { title: "Analíticas", url: "/analiticas", icon: BarChartIcon },
+    { title: "Analíticas", url: "/analitics", icon: BarChartIcon },
   ],
 
   // ————— “Más…” (submenú colapsable) —————
