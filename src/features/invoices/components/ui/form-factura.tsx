@@ -106,7 +106,7 @@ export default function FormPedido() {
   return (
     <form className="grid grid-cols-1 gap-4" onSubmit={handleSubmit}>
       {/* Selección de productos */}
-      <div className="flex flex-1 items-center gap-3 overflow-x-auto pb-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
         {productos.map((producto) => (
           <ProductCard
             key={producto.id}
@@ -118,7 +118,7 @@ export default function FormPedido() {
       </div>
 
       {/* Formulario de cantidad y precio */}
-      <div className="w-full" style={{ height: getContainerHeight() }}>
+      <div className="w-full mt-8" style={{ height: getContainerHeight() }}>
         <div className="m-4 space-y-4">
           {/* Input Cantidad */}
           <div className="space-y-2">

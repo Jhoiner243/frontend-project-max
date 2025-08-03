@@ -36,6 +36,7 @@ import {
 } from "../components/ui/estado-invoice";
 import QrDialog from "../components/ui/qr-dialog";
 import SkeletonTableFactura from "../components/ui/skeleton-table-factura";
+import UploadImageFactura from "../components/ui/upload-image-factura";
 import { FacturaProvider } from "../context/factura.context";
 import {
   useGetAllInvoicesStatusQuery,
@@ -345,6 +346,8 @@ export default function PageDataTableFactura() {
           </div>
         )}
         <div className="pt-8">
+          <UploadImageFactura />
+
           <DataTable
             lastPages={facturasGet.lastPages}
             totalItems={facturasGet.totalFact}

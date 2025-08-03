@@ -21,19 +21,19 @@ export function TableFactura() {
   if (!productos) return [];
   return (
     <>
-      <div>
-        <Button
-          variant="destructive"
-          className=" cursor-pointer  text-red-400"
-          onClick={() => clearInvoice()}
-        >
-          <Trash2 className="h-2 " />
-        </Button>
-      </div>
       <div className="flex  m-5 justify-center items-center mb-7">
+        <div className="mr-4">
+          <Button
+            variant="destructive"
+            className=" cursor-pointer  text-red-400"
+            onClick={() => clearInvoice()}
+          >
+            <Trash2 className="h-2 " />
+          </Button>
+        </div>
         <ComboboxClient />
       </div>
-      <Table className="mt-7">
+      <Table className="mt-20">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">Producto</TableHead>
@@ -75,7 +75,7 @@ export function TableFactura() {
           </TableRow>
         </TableFooter>
       </Table>
-      <div className="flex gap-4 m-4 ml-[35%]  mt-10">
+      <div className="flex gap-4 m-4 ml-[35%]  py-[30%]">
         <ToastDemo className="p-2 items-start" />
       </div>
     </>

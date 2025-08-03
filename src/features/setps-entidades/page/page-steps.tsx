@@ -104,7 +104,7 @@ export default function HomePage() {
                 <p className="text-sm text-zinc-400">
                   ¿Necesita ayuda?{" "}
                   <Link
-                    to="/ayuda"
+                    to="#"
                     className="text-blue-400 hover:text-blue-300 underline underline-offset-2"
                   >
                     Consulte nuestra guía

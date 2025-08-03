@@ -65,5 +65,6 @@ export const {
   useCreateFacturaMutation,
   useUpdateFacturaMutation,
   useGetFacturasQuery,
+  useLazyGetFacturasQuery,
   useGetFacturaByIdQuery,
 } = apiInvoices;
