@@ -10,6 +10,7 @@ export interface FacturasEntity {
 export interface DetallesFacturasEntity {
   id_producto: string;
   cantidad: number;
+  porcentage_descuento: number;
   precio_venta: number;
 }
 
