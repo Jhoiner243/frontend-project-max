@@ -6,6 +6,7 @@ import LoginPage from "../features/auth/page/login/page-login";
 import RegisterPage from "../features/auth/page/register/page";
 import ClientesPage from "../features/clients/page/page";
 import ProximamentePage from "../features/data/components/principal";
+import FacturasSecondPage from "../features/invoices/components/factura-page-second";
 import EditPageInvoices from "../features/invoices/components/ui/principal-edit";
 import { InvoiceSkeleton } from "../features/invoices/components/ui/skeleton-visualizer";
 import { FacturaProvider } from "../features/invoices/context/factura.context";
@@ -49,6 +50,10 @@ export const RoutesApp = () => {
                 <Route
                   path="/pedidos-register"
                   element={<ProximamentePage />}
+                />
+                <Route
+                  path="second-page-facts"
+                  element={<FacturasSecondPage />}
                 />
                 <Route path="/productos" element={<ProductosPage />} />
                 <Route path="/analitics" element={<AnaliticaPage />} />

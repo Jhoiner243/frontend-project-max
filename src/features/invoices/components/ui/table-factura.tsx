@@ -12,6 +12,7 @@ import { Trash2 } from "lucide-react";
 import { useGetProductsQuery } from "../../../../store/productos/api";
 import { formatCurrency } from "../../../../utils/format-currency";
 import { ComboboxClient } from "../../../clients/components/ui/combobox-client";
+import ClientCreateDialog from "../../../clients/components/ui/DialogCreateClient";
 import { useFactura } from "../../context/factura.context";
 import { ToastDemo } from "./toast-factura";
 
@@ -32,17 +33,22 @@ export function TableFactura() {
           </Button>
         </div>
         <ComboboxClient />
+
+        <div className="">
+          <ClientCreateDialog isSecondDialog={true} />
+        </div>
       </div>
-      <Table className="mt-20">
-        <TableHeader>
+      <Table className="mt-20  justify-items-center">
+        <TableHeader className=" items-center">
           <TableRow>
             <TableHead className="w-[100px]">Producto</TableHead>
             <TableHead>Cantidad</TableHead>
             <TableHead>Monto</TableHead>
+            <TableHead>Descuento</TableHead>
             <TableHead className="text-red-400 text-right">Eliminar</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="text-center">
           {factura.detalles.map((detalle) => {
             const product = productos.find((p) => p.id === detalle.id_producto);
             return (
@@ -53,6 +59,11 @@ export function TableFactura() {
                 <TableCell>{detalle.cantidad}</TableCell>
                 <TableCell>
                   ${detalle.cantidad * detalle.precio_venta}
+                </TableCell>
+                <TableCell>
+                  {detalle.porcentage_descuento
+                    ? detalle.porcentage_descuento
+                    : "0"}
                 </TableCell>
                 <TableCell className="justify-items-center rounded-ss-lg hover:bg-red-400 w-0.5 ">
                   <button
@@ -66,9 +77,9 @@ export function TableFactura() {
             );
           })}
         </TableBody>
-        <TableFooter>
+        <TableFooter className="">
           <TableRow>
-            <TableCell colSpan={3}>Total</TableCell>
+            <TableCell colSpan={4}>Total</TableCell>
             <TableCell className="text-right">
               {formatCurrency(factura.total)}
             </TableCell>
