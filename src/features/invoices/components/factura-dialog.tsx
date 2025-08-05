@@ -17,10 +17,10 @@ export default function FacturaDialog({
   return (
     <FacturaProvider>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="flex max-h-[85vh] max-w-6xl border-0 p-0 shadow-2x">
+        <DialogContent className="flex max-h-[88vh]  max-w-7xl border-0 p-0 shadow-2x">
           {/* Left Panel - Form */}
           <div className="flex flex-1 flex-col bg-background">
-            <div className="border-b bg-muted/30 px-8 py-6">
+            <div className="border-b bg-muted/30 px-8 py-2">
               <DialogHeader className="space-y-3">
                 <div className="flex items-center gap-3">
                   <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
@@ -42,7 +42,7 @@ export default function FacturaDialog({
             </div>
 
             <div className="flex-1  px-8 py-6">
-              <div className="space-y-8">
+              <div className="space-y-3">
                 <FormFactura />
               </div>
             </div>
