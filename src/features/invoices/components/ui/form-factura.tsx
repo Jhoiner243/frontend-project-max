@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ProductCard } from "@/features/products/components/card-products-factu";
+import { useAuth } from "@clerk/clerk-react";
 import { useDebounce } from "@uidotdev/usehooks";
 import type React from "react";
 import { useEffect, useMemo, useState } from "react";
@@ -33,7 +34,17 @@ export default function FormPedido() {
     porcentage_descuento: "",
   });
   const { height } = useWindowSize();
-  const [productsState, setProductState] = useState(productos || []);
+  const [productsState, setProductState] = useState(productos);
+  const [token, setToken] = useState<string | null>(null);
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    getToken()
+      .then(setToken)
+      .catch((err) => {
+        console.error("Error obteniendo token:", err);
+      });
+  }, [getToken]);
 
   // Update URL query param as user types
   useEffect(() => {
@@ -52,7 +63,12 @@ export default function FormPedido() {
           `${VITE_API_URL}/productos-debounced?query=${encodeURIComponent(
             debouncedTerm
           )}`,
-          { credentials: "include" }
+          {
+            credentials: "include",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         if (!response.ok) throw new Error("Error en la API");
         const data = await response.json();
@@ -63,7 +79,7 @@ export default function FormPedido() {
       }
     }
     fetchProductos();
-  }, [debouncedTerm, productos]);
+  }, [debouncedTerm, productos, token]);
 
   // Filtrar productos basado en término actual
   const filteredProducts = useMemo(() => {
