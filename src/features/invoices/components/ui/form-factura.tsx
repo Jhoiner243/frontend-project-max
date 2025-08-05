@@ -72,7 +72,7 @@ export default function FormPedido() {
     );
   }, [searchTerm, productsState]);
 
-  const displayedProducts = filteredProducts.slice(0, 11);
+  const displayedProducts = filteredProducts.slice(0, 10);
 
   if (!productos) {
     return (
@@ -145,7 +145,7 @@ export default function FormPedido() {
           className="w-full"
         />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 ">
         {displayedProducts.map((producto, index) => (
           <ProductCard
             key={producto.id}
