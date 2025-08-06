@@ -234,7 +234,7 @@ export default function UploadImageFactura({
                 <CardContent className="p-4">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-semibold text-lg">Tomar Foto</h3>
+                      <h3 className="font-semibold text-lg">Tomar foto</h3>
                       <Button variant="ghost" size="sm" onClick={stopCamera}>
                         <X className="w-4 h-4" />
                       </Button>
@@ -256,7 +256,7 @@ export default function UploadImageFactura({
                         className="bg-blue-600 hover:bg-blue-700"
                       >
                         <Camera className="w-4 h-4 mr-2" />
-                        Capturar Foto
+                        Capturar foto
                       </Button>
                       <Button variant="outline" onClick={stopCamera}>
                         Cancelar
@@ -279,7 +279,7 @@ export default function UploadImageFactura({
                 >
                   <CardContent className="p-6 text-center">
                     <Upload className="w-12 h-12 mx-auto mb-4 text-slate-400" />
-                    <h3 className="font-semibold mb-2">Subir Imagen</h3>
+                    <h3 className="font-semibold mb-2">Subir imagen</h3>
                     <p className="text-sm text-slate-600 mb-4">
                       Arrastra una imagen aquí o haz clic para seleccionar
                     </p>
@@ -294,7 +294,7 @@ export default function UploadImageFactura({
                 >
                   <CardContent className="p-6 text-center">
                     <Camera className="w-12 h-12 mx-auto mb-4 text-slate-400" />
-                    <h3 className="font-semibold mb-2">Tomar Foto</h3>
+                    <h3 className="font-semibold mb-2">Tomar foto</h3>
                     <p className="text-sm text-slate-600 mb-4">
                       Usa la cámara para tomar una foto
                     </p>
@@ -319,7 +319,7 @@ export default function UploadImageFactura({
                 <CardContent className="p-4">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-semibold">Vista Previa</h3>
+                      <h3 className="font-semibold">Vista previa</h3>
                       <Button variant="ghost" size="sm" onClick={resetState}>
                         <RotateCcw className="w-4 h-4" />
                       </Button>
@@ -370,7 +370,7 @@ export default function UploadImageFactura({
                       ) : (
                         <>
                           <Upload className="w-4 h-4 mr-2" />
-                          Procesar Imagen
+                          Procesar imagen
                         </>
                       )}
                     </Button>
