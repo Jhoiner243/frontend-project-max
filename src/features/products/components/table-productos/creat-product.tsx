@@ -3,11 +3,41 @@
 
 import { EntitySheet } from "@/components/ui/create/create-component";
 import { type FieldDefinition } from "@/components/ui/create/entity-form";
+import { toast } from "sonner";
 import { useGetCategoriesQuery } from "../../../../store/categories/api";
 import { useCreateProductMutation } from "../../../../store/productos/api";
+import { unidadesMedida } from "../../product.type";
+
+interface Unidades {
+  id: number;
+  name: unidadesMedida;
+}
+
+const undidadMedida: Unidades[] = [
+  {
+    id: 70,
+    name: unidadesMedida.Kilogramo,
+  },
+  {
+    id: 414,
+    name: unidadesMedida.Galón,
+  },
+  {
+    id: 449,
+    name: unidadesMedida.Libra,
+  },
+  {
+    id: 512,
+    name: unidadesMedida.Unidad,
+  },
+  {
+    id: 874,
+    name: unidadesMedida.Metro,
+  },
+];
 
 export default function CreateProduct() {
-  const [onSubmitProductos] = useCreateProductMutation();
+  const [onSubmitProductos, { error }] = useCreateProductMutation();
   const { data: categoryProductos } = useGetCategoriesQuery();
   // Ejemplo de campos para un formulario de clientes
   const productsFields: FieldDefinition[] = [
@@ -44,11 +74,26 @@ export default function CreateProduct() {
           }))
         : [],
     },
+    {
+      name: "unidadMedida",
+      label: "Medida",
+      type: "select",
+      required: true,
+      options: undidadMedida.map((unidad) => ({
+        value: unidad.name,
+        label: unidad.name,
+      })),
+    },
   ];
+
+  if (error) {
+    toast.error("Hubo error al crear el producto");
+  }
 
   // Función para manejar el envío del formulario de clientes
   const handleClientSubmit = async (data: any) => {
     try {
+      console.log("DATA", data);
       onSubmitProductos(data);
       return { success: true };
     } catch (error: any) {

@@ -211,7 +211,7 @@ export function EntityForm({
                         onValueChange={formField.onChange}
                         defaultValue={formField.value}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger className="w-[70%]">
                           <SelectValue
                             placeholder={
                               field.placeholder || `Seleccionar ${field.label}`

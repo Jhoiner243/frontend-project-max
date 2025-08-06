@@ -54,8 +54,9 @@ export const ProductCard = memo(
             <CardTitle className="text-sm  truncate ">
               {producto.nombre}
             </CardTitle>
-            <CardDescription className="flex items-center gap-1 text-xs pl-2">
+            <CardDescription className="flex items-center justify-center gap-1 text-center text-[10px] pl-1 mt-1">
               <span>{producto.stock}</span>
+              <span className="text-[9px]">{producto.unidadMedida}</span>
               <span
                 className={cn(
                   "h-2 w-2 rounded-full",
