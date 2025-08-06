@@ -119,15 +119,15 @@ export default function HomePage() {
         <div className="flex flex-wrap justify-center gap-4 mt-10">
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 backdrop-blur-sm">
             <Shield className="w-4 h-4 text-green-400" />
-            <span className="text-sm text-zinc-300">100% Seguro</span>
+            <span className="text-sm text-zinc-300">100% seguro</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 backdrop-blur-sm">
             <Clock className="w-4 h-4 text-blue-400" />
-            <span className="text-sm text-zinc-300">Proceso Rápido</span>
+            <span className="text-sm text-zinc-300">Proceso rápido</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-full border border-white/10 backdrop-blur-sm">
             <CheckCircle className="w-4 h-4 text-purple-400" />
-            <span className="text-sm text-zinc-300">Guía Paso a Paso</span>
+            <span className="text-sm text-zinc-300">Guía paso a paso</span>
           </div>
         </div>
       </motion.div>
