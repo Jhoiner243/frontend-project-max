@@ -1,4 +1,4 @@
-import { FileText, Plus, Receipt } from "lucide-react";
+import { Receipt } from "lucide-react";
 import type { Dispatch, SetStateAction } from "react";
 import { Badge } from "../../../components/ui/badge";
 import { Separator } from "../../../components/ui/separator";
@@ -23,18 +23,14 @@ export default function FacturaDialog({
             <div className="border-b bg-muted/30 px-8 py-2">
               <DialogHeader className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-                    <Plus className="h-5 w-5 text-primary" />
-                  </div>
                   <div>
                     <DialogTitle className="text-2xl font-semibold tracking-tight">
-                      Crear Nuevo Pedido
+                      Crear nuevo pedido
                     </DialogTitle>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge variant="secondary" className="gap-1.5">
-                    <FileText className="h-3 w-3" />
                     Proceso de pedido requerido
                   </Badge>
                 </div>
@@ -60,7 +56,7 @@ export default function FacturaDialog({
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground">
-                    Resumen del Pedido
+                    Resumen del pedido
                   </h3>
                   <p className="text-sm text-muted-foreground">
                     Detalles y totales

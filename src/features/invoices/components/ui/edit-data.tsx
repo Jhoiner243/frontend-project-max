@@ -26,20 +26,20 @@ import {
   DollarSign,
   Download,
   Eye,
-  FileText,
   Mail,
   MapPin,
   Phone,
   User,
 } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useScrollToBottom } from "../../../ai/hooks/use-scroll-to-bottom";
 import { UseFacturaViewer } from "../../hooks/use-dowloand";
 import { EditDataFactProps } from "../../types/factura.types";
 
 export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
-  const { id } = useParams();
   const { downloadPdf, credentials } = UseFacturaViewer();
   const { organization } = useOrganization();
+  const [messagesContainerRef, messagesEndRef] =
+    useScrollToBottom<HTMLDivElement>();
 
   const handleDownload = () => {
     if (data.number) {
@@ -98,26 +98,15 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
   };
 
   return (
-    <div>
+    <div ref={messagesContainerRef}>
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div className="space-y-3">
-          <div className="flex items-center gap-4 mb-2">
-            <FileText className="h-7 w-7" />
-            <div>
-              <h1 className="text-2xl lg:text-3xl font-bold ">
-                Factura {id?.slice(5, 12).concat("- INV")}
-              </h1>
-              <p className=" flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                Emitida el {formatDate(data.createdAt.toString())}
-              </p>
-            </div>
-          </div>
+          <div className="flex items-center gap-4 mb-2"></div>
         </div>
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
           {getStatusBadge(data.status)}
           <div className="text-left lg:text-right">
-            <p className="text-sm ">Importe Total</p>
+            <p className="text-sm ">Importe total</p>
             <p className="text-2xl lg:text-3xl font-bold">
               {formatCurrency(data.total)}
             </p>
@@ -136,17 +125,17 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-3 ">
                   <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-                    <Building className="h-5 w-5 text-blue-600" />
+                    <Building className="h-5 w-5 " />
                   </div>
                   <div>
-                    <span>Empresa Emisora</span>
+                    <span>Empresa emisora</span>
                     <p className="text-sm font-normal ">Datos del emisor</p>
                   </div>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-2">
-                  <p className="font-bold text-lg ">FillStep CRM</p>
+                  <p className="font-bold text-lg ">FillStep</p>
                   <div className="space-y-1">
                     <p className="text-sm  flex items-center gap-2">
                       <Mail className="h-4 w-4" />
@@ -170,7 +159,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
               <CardHeader className="pb-4">
                 <CardTitle className="flex items-center gap-3 ">
                   <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
-                    <User className="h-5 w-5 text-emerald-600" />
+                    <User className="h-5 w-5 text-emerald-600/89" />
                   </div>
                   <div>
                     <span>Cliente</span>
@@ -180,7 +169,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-emerald-100 rounded-full flex items-center justify-center">
+                  <div className="w-11 h-11 bg-emerald-100 rounded-full flex items-center justify-center">
                     <span className="text-emerald-700 font-bold text-sm">
                       {getInitials(data.cliente.name)}
                     </span>
@@ -213,27 +202,27 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
             <CardHeader>
               <CardTitle className="flex items-center gap-3 ">
                 <div className="w-10 h-10  rounded-lg flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-indigo-600" />
+                  <Calendar className="h-5 w-5 " />
                 </div>
-                Detalles de Facturación
+                Detalles de facturación
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                  <p className="text-sm font-medium ">Fecha de Emisión</p>
+                  <p className="text-sm font-medium ">Fecha de emisión</p>
                   <p className="font-bold ">
                     {formatDate(data.createdAt.toString())}
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium ">Fecha de Vencimiento</p>
+                  <p className="text-sm font-medium ">Fecha de vencimiento</p>
                   <p className="font-bold ">
                     {formatDate(data.createdAt.toString())}
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <p className="text-sm font-medium ">Método de Pago</p>
+                  <p className="text-sm font-medium ">Método de pago</p>
                   <p className="font-bold  flex items-center gap-2">
                     <CreditCard className="h-4 w-4" />
                     Efectivo
@@ -246,7 +235,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
           {/* Detalles de los artículos */}
           <Card className="border-0">
             <CardHeader>
-              <CardTitle className="">Detalles de Facturación</CardTitle>
+              <CardTitle className="">Detalles de facturación</CardTitle>
               <CardDescription>
                 Servicios y productos incluidos en esta factura
               </CardDescription>
@@ -263,7 +252,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
                         Cantidad
                       </TableHead>
                       <TableHead className="text-right font-bold ">
-                        Precio Unitario
+                        Precio unitario
                       </TableHead>
                       <TableHead className="text-right font-bold ">
                         Total
@@ -322,10 +311,10 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
           <Card className="border-0">
             <CardHeader>
               <CardTitle className="flex items-center gap-3 ">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Eye className="h-4 w-4 text-purple-600" />
+                <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
+                  <Eye className="h-4 w-4 text-black" />
                 </div>
-                Vista Previa
+                Vista previa
               </CardTitle>
               <CardDescription>
                 Previsualización del documento PDF
@@ -340,7 +329,12 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
                       {/* Header del documento */}
                       <div className="flex justify-between items-start mb-6">
                         <div>
-                          <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl mb-3 shadow-lg"></div>
+                          <img
+                            src="/with_padding.svg"
+                            width={15}
+                            height={15}
+                            className="flex justify-center"
+                          />
                           <p className="font-bold text-slate-900 text-sm">
                             FillStep
                           </p>
@@ -443,9 +437,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
                           </div>
                           <div className="flex justify-between font-bold text-sm pt-1 border-t border-slate-300">
                             <span>Total:</span>
-                            <span className="text-blue-700">
-                              {formatCurrency(data.total)}
-                            </span>
+                            <span>{formatCurrency(data.total)}</span>
                           </div>
                         </div>
                       </div>
@@ -464,7 +456,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
               <Button
                 onClick={handleDownload}
                 disabled={!credentials}
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-white to-white/80 text-black hover:from-gray-100 hover:to-white px-5 py-2 rounded-full mt-4  shadow-2xl hover:shadow-white/40 hover:duration-300"
                 size="lg"
               >
                 <Download className="h-4 w-4 mr-2" />
@@ -474,6 +466,7 @@ export const EditDataFact = ({ data }: { data: EditDataFactProps }) => {
           </Card>
         </div>
       </div>
+      <div className="shrink-0 min-w-[24px] min-h-[0px]" ref={messagesEndRef} />
     </div>
   );
 };
