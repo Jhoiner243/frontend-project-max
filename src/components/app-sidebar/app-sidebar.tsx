@@ -1,6 +1,5 @@
 "use client";
 import {
-  ArrowUpCircleIcon,
   BarChartIcon,
   ClipboardListIcon,
   DatabaseIcon,
@@ -24,7 +23,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { SignedIn, UserButton, useUser } from "@clerk/clerk-react";
+import {
+  SignedIn,
+  useOrganization,
+  UserButton,
+  useUser,
+} from "@clerk/clerk-react";
 import { useWindowSize } from "usehooks-ts";
 import { Card } from "../ui/card";
 import { NavDocuments } from "./components/nav-documents";
@@ -86,6 +90,9 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { width } = useWindowSize();
   const { user } = useUser();
+  const { organization } = useOrganization();
+
+  const name = organization?.name;
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -96,8 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                <ArrowUpCircleIcon className="h-5 w-5" />
-                <span className="text-base font-semibold">FillStep.</span>
+                <span className="text-base font-semibold">{name}.</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

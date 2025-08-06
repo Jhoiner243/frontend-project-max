@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from "../../../../components/ui/dialog";
+import { ScanTextIcon } from "./icon";
 
 export default function QrDialog({ qrs }: { qrs: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +52,7 @@ export default function QrDialog({ qrs }: { qrs: string }) {
           size="sm"
           className="h-8 w-8 p-0 hover:bg-blue-50 hover:border-blue-200"
         >
-          <ScanQrCode className="w-4 h-4 " />
+          <ScanTextIcon className="w-4 h-4 " />
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-md gap-5">
