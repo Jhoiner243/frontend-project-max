@@ -20,6 +20,7 @@ import {
 } from "../../../../components/ui/dialog";
 import { VITE_API_URL } from "../../../../config/config";
 import { useLazyGetInvoicesQuery } from "../../service/api-facturas-update";
+import { UploadIcon } from "./icon-subir";
 
 interface UploadImageFacturaProps {
   onImageProcessed?: (result: unknown) => void;
@@ -213,8 +214,8 @@ export default function UploadImageFactura({
         className={`flex border-none gap-2 ${className} w-[288px]`}
         onClick={() => setIsOpen(true)}
       >
-        <Upload className="w-4 h-4" />
-        Subir Imagen
+        <UploadIcon className="w-4 h-4" />
+        Subir imagen
       </Button>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>

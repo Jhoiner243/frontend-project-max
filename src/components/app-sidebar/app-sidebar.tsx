@@ -29,6 +29,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
+import { motion } from "motion/react";
 import { useWindowSize } from "usehooks-ts";
 import { Card } from "../ui/card";
 import { NavDocuments } from "./components/nav-documents";
@@ -102,9 +103,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
+              <motion.a
+                href="#"
+                initial="hidden"
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.4 }}
+              >
                 <span className="text-base font-semibold">{name}.</span>
-              </a>
+              </motion.a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
