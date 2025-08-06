@@ -94,7 +94,7 @@ export default function PlanSelectionStep() {
               <CreditCard className="w-5 h-5 text-white" />
             </div>
             <div>
-              <CardTitle className="text-white">Selección de Plan</CardTitle>
+              <CardTitle className="text-white">Selección de plan</CardTitle>
               <CardDescription className="text-zinc-400">
                 Elija el plan que mejor se adapte a las necesidades de su
                 entidad
@@ -105,7 +105,7 @@ export default function PlanSelectionStep() {
         <CardContent>
           <div className="space-y-2">
             <Label className="text-white font-medium">
-              Tipo de Plan <span className="text-red-400">*</span>
+              Tipo de plan <span className="text-red-400">*</span>
             </Label>
             <RadioGroup
               value={formData.typePlan}
@@ -192,7 +192,7 @@ export default function PlanSelectionStep() {
               <Calendar className="w-5 h-5 text-white" />
             </div>
             <div>
-              <CardTitle className="text-white">Ciclo de Facturación</CardTitle>
+              <CardTitle className="text-white">Ciclo de facturación</CardTitle>
               <CardDescription className="text-zinc-400">
                 Seleccione la frecuencia de facturación que prefiera
               </CardDescription>
@@ -202,7 +202,7 @@ export default function PlanSelectionStep() {
         <CardContent>
           <div className="space-y-2">
             <Label className="text-white font-medium">
-              Frecuencia de Pago <span className="text-red-400">*</span>
+              Frecuencia de pago <span className="text-red-400">*</span>
             </Label>
             <RadioGroup
               value={formData.billingCycle}

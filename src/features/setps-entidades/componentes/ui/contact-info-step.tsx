@@ -35,7 +35,7 @@ export default function ContactInfoStep() {
           </div>
           <div>
             <CardTitle className="text-white">
-              Información de Contacto
+              Información de contacto
             </CardTitle>
             <CardDescription className="text-zinc-400">
               Proporcione los datos de contacto y facturación de la entidad
@@ -51,7 +51,7 @@ export default function ContactInfoStep() {
             className="text-white font-medium flex items-center gap-2"
           >
             <Phone className="w-4 h-4" />
-            Teléfono de Contacto <span className="text-red-400">*</span>
+            Teléfono de contacto <span className="text-red-400">*</span>
           </Label>
           <Input
             id="contactPhone"
@@ -91,7 +91,7 @@ export default function ContactInfoStep() {
             className="text-white font-medium flex items-center gap-2"
           >
             <Mail className="w-4 h-4" />
-            Email de Facturación <span className="text-red-400">*</span>
+            Email de facturación <span className="text-red-400">*</span>
           </Label>
           <Input
             id="billingEmail"
@@ -131,7 +131,7 @@ export default function ContactInfoStep() {
             className="text-white font-medium flex items-center gap-2"
           >
             <MapPin className="w-4 h-4" />
-            Dirección de Facturación <span className="text-red-400">*</span>
+            Dirección de facturación <span className="text-red-400">*</span>
           </Label>
           <Textarea
             id="billingAddress"

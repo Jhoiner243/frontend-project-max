@@ -136,7 +136,7 @@ export default function EntityDetailsPage() {
               className="bg-zinc-900 border-zinc-700 text-white hover:bg-zinc-800"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Volver al Inicio
+              Volver al inicio
             </Button>
           </div>
         </div>
@@ -153,7 +153,7 @@ export default function EntityDetailsPage() {
             <CheckCircle className="w-8 h-8 text-green-400" />
           </div>
           <h1 className="text-3xl font-bold text-green-400 mb-2">
-            ¡Registro Completado!
+            ¡Registro completado!
           </h1>
           <p className="text-zinc-400">
             La entidad ha sido registrada exitosamente en el sistema
@@ -170,7 +170,7 @@ export default function EntityDetailsPage() {
                 </div>
                 <div>
                   <CardTitle className="text-white">
-                    Información de la Entidad
+                    Información de la entidad
                   </CardTitle>
                   <CardDescription className="flex items-center gap-2 text-zinc-400">
                     <FileText className="w-4 h-4" />
@@ -199,7 +199,7 @@ export default function EntityDetailsPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-6">
                 <div>
-                  <p className="text-sm text-zinc-400">Nombre de la Entidad</p>
+                  <p className="text-sm text-zinc-400">Nombre de la entidad</p>
                   <p className="font-medium text-lg text-white">
                     {entity.nombre}
                   </p>
@@ -224,13 +224,13 @@ export default function EntityDetailsPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-6">
                 <div>
-                  <p className="text-sm text-zinc-400">Tipo de Plan</p>
+                  <p className="text-sm text-zinc-400">Tipo de plan</p>
                   <Badge className="bg-zinc-800 text-white border-zinc-700 text-base px-3 py-1">
                     {planLabels[entity.typePlan]}
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-400">Ciclo de Facturación</p>
+                  <p className="text-sm text-zinc-400">Ciclo de facturación</p>
                   <div className="flex items-center gap-2">
                     <Calendar className="w-4 h-4 text-zinc-400" />
                     <p className="font-medium text-white">
@@ -253,7 +253,7 @@ export default function EntityDetailsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-zinc-400">
-                      Teléfono de Contacto
+                      Teléfono de contacto
                     </p>
                     <div className="flex items-center gap-2">
                       <Phone className="w-4 h-4 text-zinc-400" />
@@ -264,7 +264,7 @@ export default function EntityDetailsPage() {
                   </div>
                   <div>
                     <p className="text-sm text-zinc-400">
-                      Email de Facturación
+                      Email de facturación
                     </p>
                     <div className="flex items-center gap-2">
                       <Mail className="w-4 h-4 text-zinc-400" />
@@ -276,7 +276,7 @@ export default function EntityDetailsPage() {
                 </div>
                 <div>
                   <p className="text-sm text-zinc-400">
-                    Dirección de Facturación
+                    Dirección de facturación
                   </p>
                   <div className="flex items-start gap-2 mt-1">
                     <MapPin className="w-4 h-4 text-zinc-400 mt-0.5 flex-shrink-0" />
@@ -304,7 +304,7 @@ export default function EntityDetailsPage() {
             className="bg-white text-black hover:bg-zinc-200 flex items-center gap-2"
           >
             <Building2 className="w-4 h-4" />
-            Registrar Nueva Entidad
+            Registrar nueva entidad
           </Button>
         </div>
       </div>

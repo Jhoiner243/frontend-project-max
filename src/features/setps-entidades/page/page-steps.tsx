@@ -64,7 +64,7 @@ export default function HomePage() {
           <Card className="bg-gradient-to-br from-zinc-900/80 to-slate-900/80 border border-zinc-700/50 hover:border-zinc-600/70 transition-all duration-500 w-full max-w-2xl backdrop-blur-xl shadow-2xl hover:shadow-lg hover:shadow-sky-500/10 group">
             <CardHeader className="text-center pb-8">
               <CardTitle className="text-2xl font-bold text-white mb-3">
-                Registro de Entidad
+                Registro de entidad
               </CardTitle>
               <CardDescription className="text-lg text-zinc-300 max-w-md mx-auto">
                 Complete el proceso de registro en 4 simples pasos y obtenga su
@@ -83,7 +83,7 @@ export default function HomePage() {
                   className="w-full h-14 bg-gradient-to-r from-black-600 to-purple-950  hover:to- text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 group/btn"
                 >
                   <span className="flex items-center gap-3">
-                    Comenzar Registro
+                    Comenzar registro
                     <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform duration-200" />
                   </span>
                 </Button>

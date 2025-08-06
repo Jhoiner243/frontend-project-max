@@ -167,7 +167,7 @@ export default function FillstepLanding() {
                 className="bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 py-3 px-6 rounded-2xl font-medium shadow-2xl hover:shadow-white/20 hover:scale-105"
                 onClick={() => setIsOpen(true)}
               >
-                Ver Proyectos
+                Ver proyectos
               </Button>
             </div>
 
@@ -200,13 +200,13 @@ export default function FillstepLanding() {
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button className="w-full bg-gradient-to-r from-white to-gray-200 text-black hover:from-gray-100 hover:to-white transition-all duration-300 py-3 rounded-2xl font-medium">
-                        Ver Proyectos
+                        Ver proyectos
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto bg-black/95 backdrop-blur-xl border border-white/20 rounded-3xl">
                       <DialogHeader>
                         <DialogTitle className="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                          Nuestros Proyectos
+                          Nuestros proyectos
                         </DialogTitle>
                         <DialogDescription className="text-white/60 text-sm">
                           Explora nuestras soluciones empresariales

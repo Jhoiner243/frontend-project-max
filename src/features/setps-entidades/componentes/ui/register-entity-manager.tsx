@@ -34,25 +34,25 @@ import ReviewStep from "./review-step";
 const steps = [
   {
     id: 1,
-    title: "Información Básica",
+    title: "Información básica",
     description: "Datos generales de la entidad",
     component: BasicInfoStep,
   },
   {
     id: 2,
-    title: "Plan y Facturación",
+    title: "Plan y facturación",
     description: "Selección de plan y ciclo",
     component: PlanSelectionStep,
   },
   {
     id: 3,
-    title: "Información de Contacto",
+    title: "Información de contacto",
     description: "Datos de contacto y facturación",
     component: ContactInfoStep,
   },
   {
     id: 4,
-    title: "Revisar y Confirmar",
+    title: "Revisar y confirmar",
     description: "Verificación final de datos",
     component: ReviewStep,
   },
@@ -185,14 +185,14 @@ export default function RegisterEntityManager() {
         className="flex  absolute ml-[10%] mt-20  bg-black cursor-default  rounded-full p-2 font-medium   dark:bg-white/80 dark:transition dark:duration-200 dark:hover:bg-white"
       >
         <ArrowLeft className="m-1 w-5 h-5 group-hover:translate-x-3 transition-transform" />
-        Back
+        Atrás
       </Button>
       <div className="max-w-4xl mx-auto p-4 md:p-6">
         {/* Header */}
 
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-white mb-2">
-            Registro de Entidad
+            Registro de entidad
           </h1>
           <p className="text-zinc-400">
             Complete el proceso de registro siguiendo los pasos indicados
@@ -317,7 +317,7 @@ export default function RegisterEntityManager() {
               ) : (
                 <>
                   <CheckCircle className="w-4 h-4" />
-                  Completar Registro
+                  Completar registro
                 </>
               )}
             </Button>

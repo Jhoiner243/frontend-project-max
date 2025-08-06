@@ -50,7 +50,7 @@ export default function ReviewStep() {
               <CheckCircle className="w-5 h-5 text-green-400" />
             </div>
             <div>
-              <CardTitle className="text-white">Revisar Información</CardTitle>
+              <CardTitle className="text-white">Revisar información</CardTitle>
               <CardDescription className="text-zinc-400">
                 Verifique que todos los datos sean correctos antes de proceder
                 con el registro
@@ -67,7 +67,7 @@ export default function ReviewStep() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-6">
               <div>
-                <p className="text-sm text-zinc-400">Nombre de la Entidad</p>
+                <p className="text-sm text-zinc-400">Nombre de la entidad</p>
                 <p className="font-medium text-white">{formData.nombre}</p>
               </div>
               <div>
@@ -90,7 +90,7 @@ export default function ReviewStep() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pl-6">
               <div>
-                <p className="text-sm text-zinc-400">Tipo de Plan</p>
+                <p className="text-sm text-zinc-400">Tipo de plan</p>
                 <div className="flex items-center gap-2">
                   <Badge className="bg-zinc-800 text-white border-zinc-700 capitalize">
                     {planLabels[formData.typePlan]}
@@ -98,7 +98,7 @@ export default function ReviewStep() {
                 </div>
               </div>
               <div>
-                <p className="text-sm text-zinc-400">Ciclo de Facturación</p>
+                <p className="text-sm text-zinc-400">Ciclo de facturación</p>
                 <div className="flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-zinc-400" />
                   <p className="font-medium text-white">
@@ -120,7 +120,7 @@ export default function ReviewStep() {
             <div className="space-y-4 pl-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-zinc-400">Teléfono de Contacto</p>
+                  <p className="text-sm text-zinc-400">Teléfono de contacto</p>
                   <div className="flex items-center gap-2">
                     <Phone className="w-4 h-4 text-zinc-400" />
                     <p className="font-medium text-white">
@@ -129,7 +129,7 @@ export default function ReviewStep() {
                   </div>
                 </div>
                 <div>
-                  <p className="text-sm text-zinc-400">Email de Facturación</p>
+                  <p className="text-sm text-zinc-400">Email de facturación</p>
                   <div className="flex items-center gap-2">
                     <Mail className="w-4 h-4 text-zinc-400" />
                     <p className="font-medium text-white">
@@ -140,7 +140,7 @@ export default function ReviewStep() {
               </div>
               <div>
                 <p className="text-sm text-zinc-400">
-                  Dirección de Facturación
+                  Dirección de facturación
                 </p>
                 <div className="flex items-start gap-2 mt-1">
                   <MapPin className="w-4 h-4 text-zinc-400 mt-0.5 flex-shrink-0" />
